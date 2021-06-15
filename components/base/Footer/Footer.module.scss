@@ -1,0 +1,23 @@
+.Footer{
+    margin-top: auto;
+    @media (min-width: 768px) {
+        padding: 0px 120px;
+    }
+    background-color: #00001e;
+}
+
+.SocialLogo{
+    width: 22px;
+    cursor: pointer;
+    fill: white;
+    margin-right: 15px;
+}
+
+.FooterLink{
+    margin: 0px 15px;
+    font-size: 12px;
+}
+
+.FooterCopyright{
+    font-size: 10px;
+}

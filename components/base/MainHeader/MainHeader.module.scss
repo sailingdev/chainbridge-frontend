@@ -1,0 +1,76 @@
+.Header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 12px;
+    @media (min-width: 768px) {
+        padding: 36px 36px;
+    }
+    background-color: #00001e;
+}
+
+.Logo{
+    width: 70%;
+    @media (min-width: 768px) {
+        width: 100%;
+    }
+}
+
+.Hamburger{
+    fill: white;
+    &:hover {
+        fill: #14FFC6;
+    }
+}
+
+.CapsContainer{
+    background: #14142E;
+    border-radius: 100px;
+    padding: 0px 30px;
+}
+
+.CapsAmount{
+    font-size: 14px;
+    font-family: "Airbnb Cereal App Bold";
+    background: linear-gradient(90deg, #FF8500 0%, #FF0062 32.78%, #CB06ED 67.12%, #004FFF 99.9%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    vertical-align: middle;
+}
+
+.CapsAvailable{
+    font-style: normal;
+    font-size: 10px;
+    color: rgba(242, 236, 236, 0.6);
+    margin-left: 10px;
+    vertical-align: middle;
+    display: none;
+    @media (min-width: 992px) {
+        display:block
+    }
+}
+
+.ProviderContainer{
+    padding: 0px 30px;
+}
+
+.Address{
+    font-family: "Airbnb Cereal App Bold";
+    font-size: 14px;
+    color: #9C9CBA;
+}
+
+.Network{
+    font-family: "Airbnb Cereal App Book";
+    font-size: 10px;
+}
+
+.SettingContainer{
+    background: #14142E;
+    border-radius: 100px;
+}
+
+.SettingIcon{
+    vertical-align: middle;
+    cursor: pointer;
+}

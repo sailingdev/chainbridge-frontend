@@ -1,0 +1,18 @@
+.ModalContainer{
+    position: absolute;
+    width: 250px;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    padding: 24px 24px;
+    background-color: #14142E;
+    display:flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+        display: none;
+    }
+}
+
+.CloseButton{
+    float: right;
+}
