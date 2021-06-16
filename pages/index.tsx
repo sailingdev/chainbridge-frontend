@@ -3,6 +3,7 @@ import Head from 'next/head'
 import MainHeader from 'components/base/MainHeader'
 import Footer from 'components/base/Footer'
 import HomeNotConnected from 'components/pages/HomeNotConnected'
+import HomeConnected from 'components/pages/HomeConnected'
 import Stars from 'components/assets/Stars'
 import { ethers } from "ethers";
 
@@ -32,7 +33,11 @@ export default function Home() {
       </Head>
       <div className={"mainContainer"}>
         <MainHeader user={user} setUser={setUser}/>
-        {!user && <HomeNotConnected setUser={setUser}/>}
+        {!user ? 
+          <HomeNotConnected setUser={setUser}/>
+        :
+          <HomeConnected user={user}/>
+        }
         <Footer/>
         <Stars className={"stars"}/>
       </div>

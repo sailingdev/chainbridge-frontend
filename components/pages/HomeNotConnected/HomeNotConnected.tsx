@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import style from './HomeNotConnected.module.scss';
 import Metamask from 'components/assets/Providers/Metamask'
 import WalletConnect from 'components/assets/Providers/WalletConnect'

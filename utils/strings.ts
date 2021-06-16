@@ -42,3 +42,6 @@ function toFixed(num: Number, fixed: number) {
     return start + '...' + end;
   }
   
+  export function formatCaps(n: number): string {
+    return new Intl.NumberFormat('en-US').format(n)
+  }

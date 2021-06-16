@@ -9,6 +9,18 @@
 $body-bg: #00001e;
 $body-color: white;
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 // Include all of Bootstrap
 // After this line you can custom all boostrap classes
 @import "~bootstrap/scss/bootstrap.scss";
@@ -27,7 +39,6 @@ $body-color: white;
 			background-origin: border-box;
 			background-clip: content-box, border-box;
 			box-shadow: 2px 1000px 1px #00001e inset;
-
 			&:hover {
 				box-shadow: none;
 				border: solid 2px transparent;

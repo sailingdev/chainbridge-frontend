@@ -7,7 +7,7 @@ import Setting from 'components/assets/Setting';
 import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
 import ModalMenu from 'components/base/ModalMenu'
-import { middleEllipsis } from 'utils/strings';
+import { middleEllipsis, formatCaps } from 'utils/strings';
 import { UserType } from 'interfaces/index';
 
 export interface HeaderProps {
@@ -37,7 +37,7 @@ const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
                         <div className={"d-flex"}>
                             <div className={style.CapsContainer}>
                                 <div className={"d-flex py-2 px-3 align-items-center"}>
-                                    <div className={style.CapsAmount}>{new Intl.NumberFormat('en-US').format(user.capsAmount) + " Caps"}</div>
+                                    <div className={style.CapsAmount}>{formatCaps(user.capsAmount) + " Caps"}</div>
                                     <div className={style.CapsAvailable}>{"Available"}</div>
                                 </div>
                             </div>

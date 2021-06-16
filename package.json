@@ -1,5 +1,5 @@
 {
-  "name": "aze",
+  "name": "bsc-eth-bridge-front",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.0.0-beta3",
+    "bootstrap-select": "^1.13.18",
     "eslint": "^7.28.0",
     "ethers": "^5.3.1",
     "next": "10.2.3",
