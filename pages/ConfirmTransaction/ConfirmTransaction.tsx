@@ -61,19 +61,13 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                                 <span className={style.capsAmount}>{`${formatCaps(capsToSwap)} CAPS`}</span>
                             </div>
                         </div>
-                        <div className={"row"}>
-                            <div className={"col-1"}>aze</div>
-                            <div className={"col-10"}>
-                                <div className={"row px-4 pt-md-4 pt-2"}>
-                                    <span className={style.networkTitle}>From</span>
-                                    {NetworkRow(from, user)}
-                                </div>
-                                <div className={"row px-4 pt-md-4 pt-2"}>
-                                    <span className={style.networkTitle}>To</span>
-                                    {NetworkRow(to, user)}
-                                </div>
-                            </div>
-                            <div className={"col-1"}>aze</div>
+                        <div className={"row px-4 pt-md-4 pt-2"}>
+                            <span className={style.networkTitle}>From</span>
+                            {NetworkRow(from, user)}
+                        </div>
+                        <div className={"row px-4 pt-md-4 pt-2"}>
+                            <span className={style.networkTitle}>To</span>
+                            {NetworkRow(to, user)}
                         </div>
 
 
