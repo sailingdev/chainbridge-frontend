@@ -28,8 +28,6 @@ const ModalConnect: React.FC<ModalConnectProps> = ({ isOpen, setOpen, network })
                     </div>
                 </div>
             </div>
-
-            {network == 'metamask' && Metamask || WalletConnect}
             <div className={style.ClosePanel} onClick={() => setOpen(false)}>
                 <Close className={style.CloseButton} />
             </div>
