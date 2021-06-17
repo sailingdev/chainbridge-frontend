@@ -5,25 +5,9 @@ import Footer from 'components/base/Footer'
 import HomeNotConnected from './home-not-connected'
 import HomeConnected from './home-connected'
 import Stars from 'components/assets/Stars'
-import { ethers } from "ethers";
 
 export default function Home() {
   const [user, setUser] = useState(null)
-  /*const [signer, setSigner] = useState()
-  let provider:any;
-  
-  useEffect(()=>{
-    if (window && (window as any).ethereum) {
-        provider = new ethers.providers.Web3Provider((window as any).ethereum, 'any')
-        const signer = provider.getSigner()
-    }
-  }, [])
-  
-  const connect = async () => {
-    await provider.send("eth_requestAccounts", []);
-    setSigner(provider.getSigner())
-  }*/
-
   return (
     <>
       <Head>
@@ -32,14 +16,14 @@ export default function Home() {
         <meta name="description" content="BSC ETH Bridge, by Ternoa." />
       </Head>
       <div className={"mainContainer"}>
-        <MainHeader user={user} setUser={setUser}/>
-        {!user ? 
-          <HomeNotConnected setUser={setUser}/>
-        :
-          <HomeConnected user={user}/>
+        <MainHeader user={user} setUser={setUser} />
+        {!user ?
+          <HomeNotConnected setUser={setUser} />
+          :
+          <HomeConnected user={user} />
         }
-        <Footer/>
-        <Stars className={"stars"}/>
+        <Footer />
+        <Stars className={"stars"} />
       </div>
     </>
   )

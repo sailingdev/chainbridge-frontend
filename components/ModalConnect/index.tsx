@@ -4,6 +4,7 @@ import Close from 'components/assets/Close'
 import { NetworkType } from 'interfaces/index';
 import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
+import { connectMetaMask, connectWalletConnect } from 'actions/connect';
 export interface ModalConnectProps {
     isOpen: boolean;
     setOpen: Function;
@@ -13,6 +14,14 @@ export interface ModalConnectProps {
 const ModalConnect: React.FC<ModalConnectProps> = ({ isOpen, setOpen, network }) => {
     const handleConnect = (network: NetworkType) => {
         console.log('handleConnect', network);
+        switch (network) {
+            case 'metamask':
+                connectMetaMask();
+                break
+            case 'walletconnect':
+                connectWalletConnect();
+                break
+        }
     }
     return (<>
         { isOpen && <div className={style.ModalContainer}>

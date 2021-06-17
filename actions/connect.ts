@@ -1,11 +1,16 @@
+import { connect as triggerConnectMetaMask } from "helpers/metamask.helper";
+import { connect as triggerConnectWalletConnect } from "helpers/wallet-connect.helper";
+
 export const connectMetaMask = () => {
-  const walletId = '00'
-  const capsAmount = 1000
-  return { walletId, capsAmount, type: 'metamask' };
+  triggerConnectMetaMask();
+  // const walletId = '00'
+  // const capsAmount = 1000
+  // return { walletId, capsAmount, type: 'metamask' };
 };
 export const connectWalletConnect = () => {
-  const walletId = '00'
-  const capsAmount = 1000
-  return { walletId, capsAmount, type: 'walletconnect' };
+  triggerConnectWalletConnect();
+  // const walletId = '00'
+  // const capsAmount = 1000
+  // return { walletId, capsAmount, type: 'walletconnect' };
 };
 

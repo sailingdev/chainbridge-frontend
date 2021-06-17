@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@walletconnect/web3-provider": "^1.4.1",
     "bootstrap": "^5.0.0-beta3",
     "bootstrap-select": "^1.13.18",
     "eslint": "^7.28.0",
