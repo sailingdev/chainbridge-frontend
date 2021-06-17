@@ -4,7 +4,7 @@
     text-align: center;
     padding: 10px;
     @media (min-width: 768px) {
-        padding: 30px 0px;
+        padding: 25px 0px;
         font-size: 30px;
     }
 }
@@ -31,6 +31,20 @@
         padding: 0px 24px;
         font-size: 20px;
     }
+}
+
+.middleArrow{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top:20px;
+    @media (min-width: 768px) {
+        padding-left: 10px;
+        padding-right: 0px;
+        padding-top: 40px;
+        padding-bottom: 0px;
+    }
+    
 }
 
 .addNetwork{
@@ -63,8 +77,8 @@
 
 .amountContainer{
     width: 100%;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     border: solid 2px transparent;
     background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
                 linear-gradient(101deg,#004fff, #cb06ed, #ff0062, #ff8500 );
@@ -73,8 +87,8 @@
     box-shadow: 2px 1000px 1px #00001e inset;
     border-radius: 8px;
     @media (min-width: 768px) {
-        width: 70%;
-        margin-top: 50px;
+        width: 65%;
+        margin-top: 30px;
     }
 }
 
@@ -105,11 +119,6 @@
 .sliderContainer{
     padding: 25px 15px;
 }
-
-/*.sliderBubble{
-    position: relative;
-    width:120px;
-}*/
 
 .slider {
     -webkit-appearance: none; 

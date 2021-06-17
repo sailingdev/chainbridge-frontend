@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ClickAwayListener from 'react-click-away-listener';
 import style from './NetworkSelect.module.scss'
 import SelectArrows from 'components/assets/SelectArrows';
 import Check from 'components/assets/Check';
@@ -55,16 +56,19 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ options, selected, handle
                     </div>
                 </div>
                 <div className={selectOpen ? style.optionContainer : "d-none"} onClick={() => handleSelectChange()}>
-                    <div className="col-10 px-2">
-                        <div className={style.selectColumnRow + " row"}>
-                            <div className={"col-10 col-md-8 d-flex align-items-center"}>
-                                <div>{notSelected.value === 0 ? <Ethereum className={"mx-1"}/> : <Binance className={"mx-1"}/>}</div>
-                                <div>{notSelected.label}</div>
-                            </div>
+                    <ClickAwayListener onClickAway={()=>selectOpen && setSelectOpen(false)}>
+                        <div className={"col-10 px-2"}>
+                                <div className={style.selectColumnRow + " row"}>
+                                    <div className={"col-10 col-md-8 d-flex align-items-center"}>
+                                        <div>{notSelected.value === 0 ? <Ethereum className={"mx-1"}/> : <Binance className={"mx-1"}/>}</div>
+                                        <div>{notSelected.label}</div>
+                                    </div>
+                                </div>
                         </div>
-                    </div>
+                    </ClickAwayListener>
                 </div>
             </div>
+                
         </>
     )
 }

@@ -3,6 +3,7 @@ import style from './HomeConnected.module.scss';
 import ArrowRight from 'components/assets/ArrowRight';
 import ArrowDown from 'components/assets/ArrowDown';
 import NetworkSelect from 'components/base/Select/NetworkSelect';
+import ConfirmTransaction from '../ConfirmTransaction';
 import { UserType } from 'interfaces/index';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import { Option } from 'components/base/Select/NetworkSelect'
@@ -12,6 +13,7 @@ export interface HeaderProps {
 
 const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
     const [capsToSwap, setCapsToSwap] = useState(user.capsAmount)
+    const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const options = [
         {value:0, label:"Ethereum network (ERC20)"},
         {value:1, label:"Binance Smart Chain (BEP20)"}
@@ -24,15 +26,15 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
             setSelectedOptionFrom(options.filter(x=> x.value !== option.value)[0])
         }
     }
+    const isAbleToSwap = capsToSwap > 0 && capsToSwap <= user.capsAmount
     return (
         <div className={"container py-md-6 py-4 d-flex flex-column align-items-center"}>
             <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
             <div className={style.swapAddressLabel}>The swap will occur on your same adress</div>
             <div className={style.address}>{middleEllipsis(user.walletId,24)}</div>
-            <div className={"container py-2 pt-md-5 pb-md-3"}>
-                <div>
-                    <div className={"row"}>
-                        <div className={"col-12 col-md-5 px-0"}>
+            <div className={"container py-2 pt-md-4 pb-md-3"}>
+                    <div className={"row d-flex justify-content-center"}>
+                        <div className={"col-12 col-md-auto px-0"}>
                             <span className={style.networkLabel}>From</span>
                             <NetworkSelect
                                 options={options}
@@ -41,13 +43,13 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
                                 isFrom={true}
                             />
                         </div>
-                        <div className={"col-12 col-md-2 d-flex flex-column justify-content-center px-0 pt-4 py-md-0"}>
-                            <div className={"align-self-center"}>
+                        <div className={style.middleArrow + " col-12 col-md-1"}>
+                            <div className={"align-self-center "}>
                                 <ArrowRight className={"d-none d-md-block"}/>
                                 <ArrowDown className={"d-block d-md-none"}/>
                             </div>
                         </div>
-                        <div className={"col-12 col-md-5  px-0"}>
+                        <div className={"col-12 col-md-auto px-0"}>
                             <span className={style.networkLabel}>To</span>
                             <NetworkSelect
                                 options={options}
@@ -57,7 +59,6 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
                             />
                         </div>
                     </div>
-                </div>
             </div>
             <div className={style.addNetwork}>
                 <span className={style.addNetworkLabel}>{"If you have not add Binance Smart Chain network in your MetaMask yet, please click "}</span>
@@ -71,7 +72,6 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
                 </a>
                 <span className={style.addNetworkLabel}>{" and continue."}</span>
             </div>
-
             <div className={"container d-flex justify-content-center px-0"}>
                 <div className={style.amountContainer}>
                     <div className={"px-2 pt-2 px-md-3 pt-md-3"}>Amount</div>
@@ -88,11 +88,6 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
                     <div className={"d-none d-md-block"}>
                         <hr className={style.divider}/>
                         <div className={style.sliderContainer}>
-                            {/*<div className={style.sliderBubble} style={{
-                                left: "calc("+((capsToSwap / user.capsAmount)*100)+"% - 60px)"
-                            }}>
-                                {formatCaps(capsToSwap) + " CAPS"}
-                            </div>*/}
                             <div className={"row d-flex align-items-center"}>
                                 <div className={"col " + style.rangeLegend}>
                                     0 CAPS
@@ -121,9 +116,19 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
                     </div>
                 </div>
             </div>
-
-
-
+            <div className={"pt-3"}>
+                <div className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : "disabled"}`} onClick={(()=>setPopupConfirmationOpen(true))}>
+                    <div className={"d-flex align-items-center px-5 mx-5"}>
+                        <span className={style.buttonLabel}>Next</span>
+                    </div>
+                </div>
+            </div>
+            <ConfirmTransaction
+                open={popupConfirmationOpen}
+                setOpen={setPopupConfirmationOpen}
+                user={user}
+                capsToSwap={capsToSwap}
+            />
         </div>
     )
 }
