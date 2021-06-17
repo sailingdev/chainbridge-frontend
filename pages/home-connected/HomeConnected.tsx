@@ -12,53 +12,54 @@ export interface HeaderProps {
 }
 
 const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
-    const [capsToSwap, setCapsToSwap] = useState(user.capsAmount)
+    const capsAmount = user?.capsAmount || 0;
+    const [capsToSwap, setCapsToSwap] = useState(capsAmount)
     const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const options = [
-        {value:0, label:"Ethereum network (ERC20)"},
-        {value:1, label:"Binance Smart Chain (BEP20)"}
+        { value: 0, label: "Ethereum network (ERC20)" },
+        { value: 1, label: "Binance Smart Chain (BEP20)" }
     ]
     const [selectedOptionFrom, setSelectedOptionFrom] = useState(options[0])
-    const handleChange = (option:Option, isFrom: boolean) => {
-        if (isFrom){
+    const handleChange = (option: Option, isFrom: boolean) => {
+        if (isFrom) {
             setSelectedOptionFrom(option)
-        }else{
-            setSelectedOptionFrom(options.filter(x=> x.value !== option.value)[0])
+        } else {
+            setSelectedOptionFrom(options.filter(x => x.value !== option.value)[0])
         }
     }
-    const isAbleToSwap = capsToSwap > 0 && capsToSwap <= user.capsAmount
+    const isAbleToSwap = capsToSwap && capsAmount && capsToSwap > 0 && capsToSwap <= capsAmount
     return (
         <div className={"container py-md-6 py-4 d-flex flex-column align-items-center"}>
             <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
             <div className={style.swapAddressLabel}>The swap will occur on your same adress</div>
-            <div className={style.address}>{middleEllipsis(user.walletId,24)}</div>
+            <div className={style.address}>{user?.walletId && middleEllipsis(user?.walletId, 24)}</div>
             <div className={"container py-2 pt-md-4 pb-md-3"}>
-                    <div className={"row d-flex justify-content-center"}>
-                        <div className={"col-12 col-md-auto px-0"}>
-                            <span className={style.networkLabel}>From</span>
-                            <NetworkSelect
-                                options={options}
-                                selected={selectedOptionFrom}
-                                handleChange={handleChange}
-                                isFrom={true}
-                            />
-                        </div>
-                        <div className={style.middleArrow + " col-12 col-md-1"}>
-                            <div className={"align-self-center "}>
-                                <ArrowRight className={"d-none d-md-block"}/>
-                                <ArrowDown className={"d-block d-md-none"}/>
-                            </div>
-                        </div>
-                        <div className={"col-12 col-md-auto px-0"}>
-                            <span className={style.networkLabel}>To</span>
-                            <NetworkSelect
-                                options={options}
-                                selected={options.filter(x=> x.value !== selectedOptionFrom.value)[0]}
-                                handleChange={handleChange}
-                                isFrom={false}
-                            />
+                <div className={"row d-flex justify-content-center"}>
+                    <div className={"col-12 col-md-auto px-0"}>
+                        <span className={style.networkLabel}>From</span>
+                        <NetworkSelect
+                            options={options}
+                            selected={selectedOptionFrom}
+                            handleChange={handleChange}
+                            isFrom={true}
+                        />
+                    </div>
+                    <div className={style.middleArrow + " col-12 col-md-1"}>
+                        <div className={"align-self-center "}>
+                            <ArrowRight className={"d-none d-md-block"} />
+                            <ArrowDown className={"d-block d-md-none"} />
                         </div>
                     </div>
+                    <div className={"col-12 col-md-auto px-0"}>
+                        <span className={style.networkLabel}>To</span>
+                        <NetworkSelect
+                            options={options}
+                            selected={options.filter(x => x.value !== selectedOptionFrom.value)[0]}
+                            handleChange={handleChange}
+                            isFrom={false}
+                        />
+                    </div>
+                </div>
             </div>
             <div className={style.addNetwork}>
                 <span className={style.addNetworkLabel}>{"If you have not add Binance Smart Chain network in your MetaMask yet, please click "}</span>
@@ -79,28 +80,28 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
                         <div className={"col-10"}>
                             <span className={style.capsAmount}>{formatCaps(capsToSwap) + " CAPS"}</span>
                         </div>
-                        <div className={"col-2"}  onClick={()=>setCapsToSwap(user.capsAmount)}>
+                        <div className={"col-2"} onClick={() => setCapsToSwap(capsAmount)}>
                             <div className={"badge badge-pill " + style.maxButton}>
                                 Max
                             </div>
                         </div>
                     </div>
                     <div className={"d-none d-md-block"}>
-                        <hr className={style.divider}/>
+                        <hr className={style.divider} />
                         <div className={style.sliderContainer}>
                             <div className={"row d-flex align-items-center"}>
                                 <div className={"col " + style.rangeLegend}>
                                     0 CAPS
                                 </div>
                                 <div className={"col " + style.rangeLegendRight}>
-                                    {formatCaps(user.capsAmount) + " CAPS"}
+                                    {formatCaps(capsAmount) + " CAPS"}
                                 </div>
                             </div>
-                            <input 
-                                type="range" 
+                            <input
+                                type="range"
                                 className={style.slider}
                                 min={0}
-                                max={user.capsAmount}
+                                max={capsAmount}
                                 value={capsToSwap}
                                 onChange={(event) => setCapsToSwap(Number(event.target.value))}
                             />
@@ -117,7 +118,7 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
                 </div>
             </div>
             <div className={"pt-3"}>
-                <div className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : "disabled"}`} onClick={(()=>setPopupConfirmationOpen(true))}>
+                <div className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : "disabled"}`} onClick={(() => setPopupConfirmationOpen(true))}>
                     <div className={"d-flex align-items-center px-5 mx-5"}>
                         <span className={style.buttonLabel}>Next</span>
                     </div>
