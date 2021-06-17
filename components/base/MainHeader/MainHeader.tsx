@@ -6,7 +6,6 @@ import Hamburger from 'components/assets/Hamburger';
 import Setting from 'components/assets/Setting';
 import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
-import ModalConnect from 'components/ModalConnect'
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import { UserType } from 'interfaces/index';
 import { useRouter } from 'next/router'
@@ -17,11 +16,9 @@ export interface HeaderProps {
 }
 
 const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
-    const [iModalConnectOpen, setModalConnectOpen] = useState(false)
     let isNetworkEth = true
     let isMetamaskConnection = true
     const router = useRouter();
-    console.log('iModalConnectOpen', iModalConnectOpen);
     const handleMenuClick = () => {
 
     }
