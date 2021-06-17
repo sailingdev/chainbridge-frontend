@@ -133,7 +133,7 @@ const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
                 <ConfirmTransaction
                     open={popupConfirmationOpen}
                     setOpen={setPopupConfirmationOpen}
-                    user={{address:"123456789", capsAmount:3000000, networkType:"metamask", chainType:0}}
+                    user={{address:"123456789", balance:3000000, networkType:"metamask", chainType:0}}
                     capsToSwap={250000}
                     from={selectedOptionFrom}
                 />
