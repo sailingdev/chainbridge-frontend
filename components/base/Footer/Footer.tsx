@@ -39,7 +39,7 @@ const Footer: React.FC<{}> = () => {
                         <Instagram className={style.SocialLogo}/>
                     </a>
                 </div>
-                <div className="col-md-6 col-sm-12 col-12 mb-3 d-flex flex-row align-items-center justify-content-center justify-content-md-end">
+                <div className={"col-md-6 col-sm-12 col-12 mb-3 d-flex flex-row align-items-center justify-content-center justify-content-md-end"}>
                     <a
                         href="https://intercom.help/ternoa/fr/collections/2774679-legal"
                         target="_blank"
@@ -57,10 +57,10 @@ const Footer: React.FC<{}> = () => {
                         Privacy
                     </a>
                 </div>
-                <div className="d-none d-md-block col-md-6 mb-3 d-flex flex-row align-items-center justify-content-left">
+                <div className={"d-none d-md-block col-md-6 mb-3 d-flex flex-row align-items-center justify-content-left"}>
                     <p className={style.FooterCopyright}>© 2021 Ternoa Bridge developed and designed by ternoa.com. All rights reserved.</p>
                 </div>
-                <div className="d-md-none col-sm-12 col-12 mb-3 d-flex flex-row align-items-center justify-content-center">
+                <div className={"d-md-none col-sm-12 col-12 mb-3 d-flex flex-row align-items-center justify-content-center"}>
                     <p className={style.FooterCopyright}>© 2021 Ternoa Bridge. All rights reserved.</p>
                 </div>
             </div>

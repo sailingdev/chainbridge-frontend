@@ -3,6 +3,7 @@ import style from './HomeConnected.module.scss';
 import ArrowRight from 'components/assets/ArrowRight';
 import ArrowDown from 'components/assets/ArrowDown';
 import NetworkSelect from 'components/base/Select/NetworkSelect';
+import ConfirmTransaction from '../ConfirmTransaction';
 import { UserType } from 'interfaces/index';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import { Option } from 'components/base/Select/NetworkSelect'
@@ -12,6 +13,7 @@ export interface HeaderProps {
 
 const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
     const [capsToSwap, setCapsToSwap] = useState(user.capsAmount)
+    const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const options = [
         {value:0, label:"Ethereum network (ERC20)"},
         {value:1, label:"Binance Smart Chain (BEP20)"}
@@ -24,6 +26,7 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
             setSelectedOptionFrom(options.filter(x=> x.value !== option.value)[0])
         }
     }
+    const isAbleToSwap = capsToSwap > 0 && capsToSwap <= user.capsAmount
     return (
         <div className={"container py-md-6 py-4 d-flex flex-column align-items-center"}>
             <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
@@ -69,7 +72,6 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
                 </a>
                 <span className={style.addNetworkLabel}>{" and continue."}</span>
             </div>
-
             <div className={"container d-flex justify-content-center px-0"}>
                 <div className={style.amountContainer}>
                     <div className={"px-2 pt-2 px-md-3 pt-md-3"}>Amount</div>
@@ -115,14 +117,18 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
                 </div>
             </div>
             <div className={"pt-3"}>
-                <a className={"btn btn-primary rounded-pill"}>
+                <div className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : "disabled"}`} onClick={(()=>setPopupConfirmationOpen(true))}>
                     <div className={"d-flex align-items-center px-5 mx-5"}>
                         <span className={style.buttonLabel}>Next</span>
                     </div>
-                </a>
+                </div>
             </div>
-
-
+            <ConfirmTransaction
+                open={popupConfirmationOpen}
+                setOpen={setPopupConfirmationOpen}
+                user={user}
+                capsToSwap={capsToSwap}
+            />
         </div>
     )
 }

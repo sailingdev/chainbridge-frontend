@@ -57,7 +57,7 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ options, selected, handle
                 </div>
                 <div className={selectOpen ? style.optionContainer : "d-none"} onClick={() => handleSelectChange()}>
                     <ClickAwayListener onClickAway={()=>selectOpen && setSelectOpen(false)}>
-                        <div className="col-10 px-2">
+                        <div className={"col-10 px-2"}>
                                 <div className={style.selectColumnRow + " row"}>
                                     <div className={"col-10 col-md-8 d-flex align-items-center"}>
                                         <div>{notSelected.value === 0 ? <Ethereum className={"mx-1"}/> : <Binance className={"mx-1"}/>}</div>
