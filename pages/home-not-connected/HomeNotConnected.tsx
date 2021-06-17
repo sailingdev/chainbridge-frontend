@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import style from './HomeNotConnected.module.scss';
 import Metamask from 'components/assets/Providers/Metamask'
 import WalletConnect from 'components/assets/Providers/WalletConnect'
-import { NextPageContext } from 'next';
 import ModalConnect from 'components/ModalConnect';
 import { NetworkType } from 'interfaces';
 
@@ -14,12 +13,10 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ setUser }) => {
     const [isConnectModalOpen, setConnectModalOpen] = useState(false);
     const [network, setNetwork] = useState<NetworkType>(null);
     const connectWithMetaMask = () => {
-        console.log('connectWithMetaMask');
         setNetwork('metamask');
         setConnectModalOpen(true);
     }
     const connectWithWalletConnect = () => {
-        console.log('connectWithWalletConnect');
         setNetwork('walletconnect');
         setConnectModalOpen(true);
     }
@@ -45,15 +42,9 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ setUser }) => {
                 </div>
 
             </div>
-            <ModalConnect isOpen={isConnectModalOpen} setOpen={setConnectModalOpen} network={network} />
+            <ModalConnect isOpen={isConnectModalOpen} setOpen={setConnectModalOpen} network={network} setUserWallet={setUser}/>
         </>
     )
 }
 
-export async function getServerSideProps(ctx: NextPageContext) {
-    return {
-        props: {
-        }
-    }
-}
 export default HomeNotConnected;

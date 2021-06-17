@@ -7,6 +7,5 @@ export const mapSignerAsWallet = async (signer: Signer) => {
         chainId: await signer.getChainId(),
         gasPrice: ethers.utils.formatEther(await signer.getGasPrice()),
         transactionCount: await signer.getTransactionCount(),
-        _signer: signer
     }
 }

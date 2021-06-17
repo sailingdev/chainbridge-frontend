@@ -6,22 +6,19 @@ import Hamburger from 'components/assets/Hamburger';
 import Setting from 'components/assets/Setting';
 import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
-import ModalConnect from 'components/ModalConnect'
 import { middleEllipsis, formatCaps } from 'utils/strings';
-import { UserType } from 'interfaces/index';
 import { useRouter } from 'next/router'
+import { UserWallet } from 'interfaces';
 
 export interface HeaderProps {
-    user: UserType | null;
+    user: UserWallet | null;
     setUser: Function;
 }
 
 const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
-    const [iModalConnectOpen, setModalConnectOpen] = useState(false)
     let isNetworkEth = true
     let isMetamaskConnection = true
     const router = useRouter();
-    console.log('iModalConnectOpen', iModalConnectOpen);
     const handleMenuClick = () => {
 
     }
@@ -42,7 +39,7 @@ const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
                         <div className={"d-flex"}>
                             <div className={style.CapsContainer}>
                                 <div className={"d-flex py-2 px-3 align-items-center"}>
-                                    <div className={style.CapsAmount}>{formatCaps(user.capsAmount) + " Caps"}</div>
+                                    <div className={style.CapsAmount}>{formatCaps(user.balance) + " Caps"}</div>
                                     <div className={style.CapsAvailable}>{"Available"}</div>
                                 </div>
                             </div>
@@ -53,7 +50,7 @@ const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
                                     </div>
                                     <div className={"col"}>
                                         <div className={"row"}>
-                                            <span className={style.Address}>{middleEllipsis(user.walletId)}</span>
+                                            <span className={style.Address}>{middleEllipsis(user.balance)}</span>
                                         </div>
                                         <div className={"row"}>
                                             <span className={style.Network}>{`${isNetworkEth ? "Ethereum" : "Binance"} Network`}</span>
@@ -62,7 +59,7 @@ const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
                                 </div>
                             </div>
                             <div className={style.SettingContainer}>
-                                <div className={"d-flex py-2 px-3 align-items-center"} onClick={() => setUser(null)}>
+                                <div className={"d-flex py-2 px-3 align-items-center"}>
                                     <Setting className={style.SettingIcon} />
                                 </div>
                             </div>

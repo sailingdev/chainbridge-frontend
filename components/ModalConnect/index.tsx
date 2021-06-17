@@ -9,17 +9,20 @@ export interface ModalConnectProps {
     isOpen: boolean;
     setOpen: Function;
     network: NetworkType;
+    setUserWallet: Function
 }
 
-const ModalConnect: React.FC<ModalConnectProps> = ({ isOpen, setOpen, network }) => {
-    const handleConnect = (network: NetworkType) => {
-        console.log('handleConnect', network);
+const ModalConnect: React.FC<ModalConnectProps> = ({ isOpen, setOpen, network, setUserWallet }) => {
+    const handleConnect = async (network: NetworkType) => {
         switch (network) {
             case 'metamask':
-                connectMetaMask();
+                const metaMaskUserWallet = await connectMetaMask();
+                console.log('metaMaskUserWallet',metaMaskUserWallet);                
+                setUserWallet(metaMaskUserWallet)
                 break
             case 'walletconnect':
-                connectWalletConnect();
+                const walletconnectUserWallet = await connectWalletConnect()
+                setUserWallet(walletconnectUserWallet)
                 break
         }
     }

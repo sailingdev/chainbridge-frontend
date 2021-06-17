@@ -5,9 +5,24 @@ import Footer from 'components/base/Footer'
 import HomeNotConnected from './home-not-connected'
 import HomeConnected from './home-connected'
 import Stars from 'components/assets/Stars'
+import { UserWallet } from 'interfaces'
+import { USER_WALLET_STORAGE_KEY } from 'const'
+import { NextPage } from 'next'
 
-export default function Home() {
-  const [user, setUser] = useState(null)
+export interface HomeProps {
+}
+const Home: NextPage<HomeProps> = () => {
+  const [user, setUser] = useState<UserWallet | null>(null)
+  const setUserWallet = (userWallet: UserWallet) => {
+    setUser(userWallet);
+    localStorage.setItem(USER_WALLET_STORAGE_KEY, JSON.stringify(userWallet));
+  }
+  useEffect(() => {
+    const userStorage = localStorage.getItem(USER_WALLET_STORAGE_KEY);
+    if (userStorage) {
+      setUser(JSON.parse(userStorage));
+    }
+  }, []);
   return (
     <>
       <Head>
@@ -16,11 +31,11 @@ export default function Home() {
         <meta name="description" content="BSC ETH Bridge, by Ternoa." />
       </Head>
       <div className={"mainContainer"}>
-        <MainHeader user={user} setUser={setUser} />
+        <MainHeader user={user} setUser={setUserWallet} />
         {!user ?
-          <HomeNotConnected setUser={setUser} />
+          <HomeNotConnected setUser={setUserWallet} />
           :
-          <HomeConnected user={user} />
+          <HomeConnected user={user} setUser={setUserWallet} />
         }
         <Footer />
         <Stars className={"stars"} />
@@ -28,3 +43,6 @@ export default function Home() {
     </>
   )
 }
+
+
+export default Home;

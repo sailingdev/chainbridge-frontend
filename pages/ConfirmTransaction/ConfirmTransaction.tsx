@@ -1,16 +1,14 @@
 import React from 'react';
 import style from './ConfirmTransaction.module.scss';
 import Close from 'components/assets/Close';
-import Metamask from 'components/assets/Providers/Metamask'
-import WalletConnect from 'components/assets/Providers/WalletConnect'
-import { UserType } from 'interfaces';
+import { UserWallet } from 'interfaces';
 import { formatCaps } from 'utils/strings';
 
 export interface ConfirmTransactionProps {
     open: boolean;
     setOpen: Function;
-    user: UserType;
-    capsToSwap: number;
+    user: UserWallet;
+    capsToSwap: number|string;
 }
 
 const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, user, capsToSwap }) => {

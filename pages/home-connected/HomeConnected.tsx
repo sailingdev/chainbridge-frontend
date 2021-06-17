@@ -4,15 +4,16 @@ import ArrowRight from 'components/assets/ArrowRight';
 import ArrowDown from 'components/assets/ArrowDown';
 import NetworkSelect from 'components/base/Select/NetworkSelect';
 import ConfirmTransaction from '../ConfirmTransaction';
-import { UserType } from 'interfaces/index';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import { Option } from 'components/base/Select/NetworkSelect'
+import { UserWallet } from 'interfaces';
 export interface HeaderProps {
-    user: UserType;
+    user: UserWallet;
+    setUser: Function;
 }
 
 const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
-    const capsAmount = user?.capsAmount || 0;
+    const capsAmount = user?.balance || 0;
     const [capsToSwap, setCapsToSwap] = useState(capsAmount)
     const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const options = [
@@ -32,7 +33,7 @@ const HomeNotConnected: React.FC<HeaderProps> = ({ user }) => {
         <div className={"container py-md-6 py-4 d-flex flex-column align-items-center"}>
             <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
             <div className={style.swapAddressLabel}>The swap will occur on your same adress</div>
-            <div className={style.address}>{user?.walletId && middleEllipsis(user?.walletId, 24)}</div>
+            <div className={style.address}>{user?.address && middleEllipsis(user?.address, 24)}</div>
             <div className={"container py-2 pt-md-4 pb-md-3"}>
                 <div className={"row d-flex justify-content-center"}>
                     <div className={"col-12 col-md-auto px-0"}>
