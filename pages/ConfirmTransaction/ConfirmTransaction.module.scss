@@ -27,9 +27,6 @@
     @media (min-width: 576px) {
         width: 500px;
     }
-    @media (min-width: 768px) {
-        width: 600px;
-    }
 }
 
 
@@ -68,4 +65,113 @@
     @media (min-width: 768px) {
         font-size: 30px;
     }
+}
+
+.networkTitle{
+    font-size: 18px;
+    padding-left: 15px;
+    font-weight: 700;
+}
+
+.networkContainer{
+    border: 2px solid rgba(101, 95, 95, 0.5);
+    border-radius: 12px;
+    min-height: 62px;
+    padding: 10px;
+    @media (min-width: 768px) {
+        min-height: 72px;
+    }
+}
+
+.networkRow{
+    height: 100%;
+}
+
+.connectedLabel{
+    margin: 0px 4px;
+    font-family: "Airbnb Cereal App Bold";
+    color: #14FFC6;
+    font-size: 10px;
+    display: none;
+    @media (min-width: 768px) {
+        display:block;
+        font-size: 14px;
+    }
+}
+
+.connectedIcon{
+    width: 20px;
+}
+
+.connectedCheck{
+    margin: 0px 4px;
+}
+
+.leftLabel{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.rightLabel{
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: right;
+}
+
+.gridIcon{
+    margin-right:5px
+}
+
+.feeWarningLabel{
+    color:#9C9CBA;
+    font-size: 10px;
+    padding:0px;
+}
+
+.termsLabel{
+    color:#fff;
+    font-size: 10px;
+    padding-left: 10px;
+    @media (min-width: 768px) {
+        font-size: 14px;
+    }
+}
+
+.capsAddressLabel{
+    color:#9C9CBA;
+    opacity: 0.7;
+    font-size: 10px;
+    text-align: center;
+    width: 70%;
+}
+
+.buttonLabel{
+    font-family: "Airbnb Cereal App Bold";
+    font-size: 20px;
+}
+
+.radioButton{
+    cursor: pointer;
+    border-radius: 15px;
+    padding: 0px;
+    width:16px;
+    height:16px;
+    transition: all 0.2s;
+    box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
+    border: solid 1px transparent;
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
+        linear-gradient(101deg,  #ff8500, #ff0062, #cb06ed, #004fff);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 2px 1000px 1px #00001e inset;
+    @media (min-width: 768px) {
+        width:25px;
+        height:25px;
+        border-width: 2px;
+    }
+}
+
+.radioButtonChecked{
+    box-shadow: none;
+    border: solid 2px transparent;
 }

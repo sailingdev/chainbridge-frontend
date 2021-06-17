@@ -14,15 +14,19 @@ export interface Option{
     label:string;
 }
 
+export const options = [
+    { value: 0, label: "Ethereum network (ERC20)" },
+    { value: 1, label: "Binance Smart Chain (BEP20)" }
+]
+
 export interface NetworkSelectProps {
-    options: Option[];
     selected: Option;
     handleChange: Function;
     isFrom: boolean;
     networkConnected?: string;
 }
 
-const NetworkSelect: React.FC<NetworkSelectProps> = ({ options, selected, handleChange, isFrom, networkConnected }) => {
+const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, isFrom, networkConnected }) => {
     const [selectOpen, setSelectOpen] = useState(false)
     const notSelected = options.filter(x => x.value !== selected.value)[0]
     const handleSelectChange = () => {
@@ -43,7 +47,7 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ options, selected, handle
                                 <div className={"col-2 col-md-4 px-0 d-flex justify-content-center justify-content-md-left align-items-center"}>
                                     {networkConnected==="walletconnect"  ? <WalletConnect className={style.connectedIcon}/> : <Metamask className={style.connectedIcon}/>}
                                     <span className={style.connectedLabel}>{"Connected"}</span>
-                                    <Check className={style.connectedCheck}/>
+                                    <Check />
                                 </div>
                             }
                         </div>
