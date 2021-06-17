@@ -1,14 +1,15 @@
 import React from 'react';
 
 interface WalletConnectProps {
-  className?: string;
+    className?: string;
+    width?: number;
 }
 
-const WalletConnect: React.FC<WalletConnectProps> = ({ className }) => (
+const WalletConnect: React.FC<WalletConnectProps> = ({ className, width }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         className={className}
-        width="30"
+        width={width || "30"}
         viewBox="0 0 300 185"
     >
         <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">

@@ -6,9 +6,10 @@ import Hamburger from 'components/assets/Hamburger';
 import Setting from 'components/assets/Setting';
 import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
-import ModalMenu from 'components/base/ModalMenu'
+import ModalConnect from 'components/ModalConnect'
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import { UserType } from 'interfaces/index';
+import { useRouter } from 'next/router'
 
 export interface HeaderProps {
     user: UserType | null;
@@ -16,24 +17,28 @@ export interface HeaderProps {
 }
 
 const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
-    const [modalMenuOpen, setModalMenuOpen] = useState(false)
+    const [iModalConnectOpen, setModalConnectOpen] = useState(false)
     let isNetworkEth = true
     let isMetamaskConnection = true
+    const router = useRouter();
+    console.log('iModalConnectOpen', iModalConnectOpen);
+    const handleMenuClick = () => {
 
+    }
     return (
         <>
             <div className={style.Header}>
                 <Link href="/">
                     <a>
-                        <LogoTernoaBridge className={style.Logo}/>
+                        <LogoTernoaBridge className={style.Logo} />
                     </a>
                 </Link>
                 <div className={"d-none d-md-block"}>
                     {!user ?
-                        <a className={"btn btn-outline-primary rounded-pill"} onClick={()=>setUser({walletId:"0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7", capsAmount: 350000})}>
+                        <a className={"btn btn-outline-primary rounded-pill"} onClick={() => router.push('home-not-connected')}>
                             Connect wallet
                         </a>
-                    :
+                        :
                         <div className={"d-flex"}>
                             <div className={style.CapsContainer}>
                                 <div className={"d-flex py-2 px-3 align-items-center"}>
@@ -57,21 +62,16 @@ const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
                                 </div>
                             </div>
                             <div className={style.SettingContainer}>
-                                <div className={"d-flex py-2 px-3 align-items-center"}  onClick={()=>setUser(null)}>
-                                    <Setting className={style.SettingIcon}/>
+                                <div className={"d-flex py-2 px-3 align-items-center"} onClick={() => setUser(null)}>
+                                    <Setting className={style.SettingIcon} />
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
-                <div className={"d-md-none"} onClick={()=>setModalMenuOpen(true)}>
+                <div className={"d-md-none"} onClick={() => handleMenuClick()}>
                     <Hamburger className={style.Hamburger} />
                 </div>
-                {/*<ModalMenu
-                    modalMenuOpen={modalMenuOpen}
-                    setModalMenuOpen={setModalMenuOpen}
-                    user={user}
-                />*/}
             </div>
         </>
     )

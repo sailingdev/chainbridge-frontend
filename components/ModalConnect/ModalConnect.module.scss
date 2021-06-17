@@ -1,0 +1,34 @@
+.ModalContainer {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.CloseButton {
+    float: right;
+}
+
+.ClosePanel {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+}
+.iconContainer, .buttonContainer {
+    margin-top: 2em;
+}
+
+.ConnectButton {
+    background: #004FFF;
+    font-style: normal;
+    font-weight: bold;
+    text-transform: uppercase;
+    /* White */
+    color: #FFFFFF;
+    display: inline;
+    padding:10px;
+    border-radius: 64px;
+}
