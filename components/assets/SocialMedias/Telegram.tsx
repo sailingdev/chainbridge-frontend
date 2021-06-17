@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface TelegramProps {
-  className: string;
+  className?: string;
 }
 
 const Telegram: React.FC<TelegramProps> = ({ className }) => (

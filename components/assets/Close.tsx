@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface CloseProps {
-  className: string;
+  className?: string;
 }
 
 const Close: React.FC<CloseProps> = ({ className }) => (

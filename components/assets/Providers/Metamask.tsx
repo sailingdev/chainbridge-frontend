@@ -1,11 +1,11 @@
 import React from 'react';
 import style from './Metamask.module.scss';
 
-interface HamburgerProps {
-  className: string;
+interface MetamaskProps {
+  className?: string;
 }
 
-const Hamburger: React.FC<HamburgerProps> = ({ className }) => (
+const Metamask: React.FC<MetamaskProps> = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={className}
@@ -54,4 +54,4 @@ const Hamburger: React.FC<HamburgerProps> = ({ className }) => (
   </svg>
 );
 
-export default Hamburger;
+export default Metamask;

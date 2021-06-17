@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface EthereumProps {
-  className: string;
+  className?: string;
 }
 
 const Ethereum: React.FC<EthereumProps> = ({ className }) => (

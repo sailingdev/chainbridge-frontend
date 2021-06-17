@@ -44,7 +44,7 @@ const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
                             <div className={style.ProviderContainer}>
                                 <div className={"row d-flex align-items-center"}>
                                     <div className={"col-3"}>
-                                        {isMetamaskConnection ? <Metamask className=""/> : <WalletConnect className=""/>}
+                                        {isMetamaskConnection ? <Metamask /> : <WalletConnect />}
                                     </div>
                                     <div className={"col"}>
                                         <div className={"row"}>

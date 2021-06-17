@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface SettingProps {
-  className: string;
+  className?: string;
 }
 
 const Setting: React.FC<SettingProps> = ({ className }) => (

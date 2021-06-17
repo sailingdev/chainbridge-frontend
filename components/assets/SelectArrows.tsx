@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface SelectArrowsProps {
-  className: string;
+  className?: string;
 }
 
 const SelectArrows: React.FC<SelectArrowsProps> = ({ className }) => (

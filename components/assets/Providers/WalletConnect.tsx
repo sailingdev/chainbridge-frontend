@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface WalletConnectProps {
-  className: string;
+  className?: string;
 }
 
 const WalletConnect: React.FC<WalletConnectProps> = ({ className }) => (

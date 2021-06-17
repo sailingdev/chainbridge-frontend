@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface BinanceProps {
-  className: string;
+  className?: string;
 }
 
 const Binance: React.FC<BinanceProps> = ({ className }) => (

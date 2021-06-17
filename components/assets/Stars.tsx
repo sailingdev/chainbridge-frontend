@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface StarsProps {
-  className: string;
+  className?: string;
 }
 
 const Stars: React.FC<StarsProps> = ({ className }) => (

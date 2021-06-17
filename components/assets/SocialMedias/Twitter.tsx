@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface TwitterProps {
-  className: string;
+  className?: string;
 }
 
 const Twitter: React.FC<TwitterProps> = ({ className }) => (

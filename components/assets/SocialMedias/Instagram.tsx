@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface InstagramProps {
-  className: string;
+  className?: string;
 }
 
 const Instagram: React.FC<InstagramProps> = ({ className }) => (

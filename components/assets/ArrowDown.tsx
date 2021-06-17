@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ArrowDownProps {
-  className: string;
+  className?: string;
 }
 
 const ArrowDown: React.FC<ArrowDownProps> = ({ className }) => (

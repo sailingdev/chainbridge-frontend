@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface DiscordProps {
-  className: string;
+  className?: string;
 }
 
 const Discord: React.FC<DiscordProps> = ({ className }) => (

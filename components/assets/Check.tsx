@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface CheckProps {
-  className: string;
+  className?: string;
 }
 
 const Check: React.FC<CheckProps> = ({ className }) => (

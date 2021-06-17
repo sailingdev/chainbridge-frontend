@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface HamburgerProps {
-  className: string;
+  className?: string;
 }
 
 const Hamburger: React.FC<HamburgerProps> = ({ className }) => (

@@ -2,7 +2,7 @@
     font-family: "Airbnb Cereal App Bold";
     font-size: 20px;
     text-align: center;
-    padding: 15px;
+    padding: 10px;
     @media (min-width: 768px) {
         padding: 30px 0px;
         font-size: 30px;
@@ -25,22 +25,24 @@
 
 .networkLabel{
     font-family: "Airbnb Cereal App Bold";
-    font-size: 20px;
     padding: 0px 16px;
+    font-size: 14px;
     @media (min-width: 768px) {
         padding: 0px 24px;
-
+        font-size: 20px;
     }
 }
 
 .addNetwork{
-    padding-top: 30px;
-    padding-bottom: 15px;
+    padding-top: 10px;
+    padding-bottom: 5px;
     color: #FFFFFF;
     text-align: center;
     font-size: 10px;
     @media (min-width: 768px) {
         font-size: 14px;
+        padding-top: 30px;
+        padding-bottom: 15px;
     }
 }
 
@@ -65,13 +67,14 @@
     margin-bottom: 30px;
     border: solid 2px transparent;
     background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
-                linear-gradient(101deg,  #ff8500, #ff0062, #cb06ed, #004fff);
+                linear-gradient(101deg,#004fff, #cb06ed, #ff0062, #ff8500 );
     background-origin: border-box;
     background-clip: content-box, border-box;
     box-shadow: 2px 1000px 1px #00001e inset;
     border-radius: 8px;
     @media (min-width: 768px) {
         width: 70%;
+        margin-top: 50px;
     }
 }
 
@@ -79,7 +82,7 @@
     font-family: "Airbnb Cereal App Bold";
     font-size: 22px;
     line-height: 30px;
-    background: linear-gradient(90deg, #FF8500 0%, #FF0062 32.78%, #CB06ED 67.12%, #004FFF 99.9%);
+    background: linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500);
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -99,18 +102,14 @@
     margin:0px 15px;
 }
 
-.amountLabel{
-    padding: 15px 15px 0px 15px
-}
-
 .sliderContainer{
     padding: 25px 15px;
 }
 
-.sliderBubble{
+/*.sliderBubble{
     position: relative;
     width:120px;
-}
+}*/
 
 .slider {
     -webkit-appearance: none; 
