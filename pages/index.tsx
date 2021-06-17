@@ -9,20 +9,6 @@ import { ethers } from "ethers";
 
 export default function Home() {
   const [user, setUser] = useState(null)
-  /*const [signer, setSigner] = useState()
-  let provider:any;
-  
-  useEffect(()=>{
-    if (window && (window as any).ethereum) {
-        provider = new ethers.providers.Web3Provider((window as any).ethereum, 'any')
-        const signer = provider.getSigner()
-    }
-  }, [])
-  
-  const connect = async () => {
-    await provider.send("eth_requestAccounts", []);
-    setSigner(provider.getSigner())
-  }*/
 
   return (
     <>

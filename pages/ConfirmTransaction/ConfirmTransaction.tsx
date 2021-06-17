@@ -48,7 +48,7 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
         {open && 
             <div className={style.wrapper}>
                 <div className={style.confirmTransactionContainer}>
-                    <div className={"container py-2 px-2"}>
+                    <div className={"container p-2 p-md-4"}>
                         <div className={"row"}>
                             <div onClick={() => setOpen(false)}><Close className={style.closeButton}/></div>
                         </div>
@@ -61,14 +61,22 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                                 <span className={style.capsAmount}>{`${formatCaps(capsToSwap)} CAPS`}</span>
                             </div>
                         </div>
-                        <div className={"row px-4 pt-md-4 pt-2"}>
-                            <span className={style.networkTitle}>From</span>
-                            {NetworkRow(from, user)}
+                        <div className={"row"}>
+                            <div className={"col-1"}>aze</div>
+                            <div className={"col-10"}>
+                                <div className={"row px-4 pt-md-4 pt-2"}>
+                                    <span className={style.networkTitle}>From</span>
+                                    {NetworkRow(from, user)}
+                                </div>
+                                <div className={"row px-4 pt-md-4 pt-2"}>
+                                    <span className={style.networkTitle}>To</span>
+                                    {NetworkRow(to, user)}
+                                </div>
+                            </div>
+                            <div className={"col-1"}>aze</div>
                         </div>
-                        <div className={"row px-4 pt-md-4 pt-2"}>
-                            <span className={style.networkTitle}>To</span>
-                            {NetworkRow(to, user)}
-                        </div>
+
+
                         <div className={"row py-4 px-4"}>
                             <div className={"col-6 " + style.leftLabel}>Asset</div>
                             <div className={"col-6 " + style.rightLabel}>

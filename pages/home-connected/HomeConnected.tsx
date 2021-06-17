@@ -43,9 +43,9 @@ const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
                 <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
                 <div className={style.swapAddressLabel}>The swap will occur on your same adress</div>
                 <div className={style.address}>{user?.walletId && middleEllipsis(user?.walletId, 24)}</div>
-                <div className={"container py-2 pt-md-4 pb-md-3"}>
+                <div className={"container px-2 py-4 pt-md-4 pb-md-3"}>
                     <div className={"row d-flex justify-content-center"}>
-                        <div className={"col-12 col-md-auto px-0"}>
+                        <div className={"col-12 col-md-auto px-0 mx-0"}>
                             <span className={style.networkLabel}>From</span>
                             <NetworkSelect
                                 selected={selectedOptionFrom}
