@@ -9,14 +9,16 @@ import Ethereum from 'components/assets/Networks/Ethereum';
 import Binance from 'components/assets/Networks/Binance';
 
 
-export interface Option{
-    value:number;
-    label:string;
+export interface Option {
+    value: number;
+    label: string;
+    bridgeAddress: string;
+    tokenAddress: string;
 }
 
-export const options = [
-    { value: 0, label: "Ethereum network (ERC20)" },
-    { value: 1, label: "Binance Smart Chain (BEP20)" }
+export const options: Option[] = [
+    { value: 0, label: "Ethereum network (ERC20)", bridgeAddress: process.env.NEXT_PUBLIC_BRIDGE_KOVAN_ADDRESS || '', tokenAddress: process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_ETH || '' },
+    { value: 1, label: "Binance Smart Chain (BEP20)", bridgeAddress: process.env.NEXT_PUBLIC_BRIDGE_ROPSTEN_ADDRESS || '', tokenAddress: process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_BCS || '' }
 ]
 
 export interface NetworkSelectProps {
@@ -33,46 +35,46 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, i
         handleChange(notSelected, isFrom)
         setSelectOpen(false)
     }
-    return(
+    return (
         <>
             <div className={style.selectContainer}>
                 <div className={style.networkRow + " " + (!selectOpen ? style.networkRowRadius : "") + " row d-flex align-items-center"}>
                     <div className={style.selectColumn + " col-10"}>
                         <div className={style.selectColumnRow + " row"}>
                             <div className={"col-10 col-md-8 px-2 d-flex align-items-center"}>
-                                <div>{selected.value ===0 ? <Ethereum className={"mx-1"}/> : <Binance className={"mx-1"}/>}</div>
+                                <div>{selected.value === 0 ? <Ethereum className={"mx-1"} /> : <Binance className={"mx-1"} />}</div>
                                 <div>{selected.label}</div>
                             </div>
                             {!networkConnected &&
                                 <div className={"col-2 col-md-4 px-0 d-flex justify-content-center justify-content-md-left align-items-center"}>
-                                    {networkConnected==="walletconnect"  ? <WalletConnect className={style.connectedIcon}/> : <Metamask className={style.connectedIcon}/>}
+                                    {networkConnected === "walletconnect" ? <WalletConnect className={style.connectedIcon} /> : <Metamask className={style.connectedIcon} />}
                                     <span className={style.connectedLabel}>{"Connected"}</span>
                                     <Check />
                                 </div>
                             }
                         </div>
                     </div>
-                    <div 
-                        className={style.selectArrows + " " + (!selectOpen ? style.selectArrowsRadius : "") + " col-2"} 
-                        onClick={()=>setSelectOpen(!selectOpen)}
+                    <div
+                        className={style.selectArrows + " " + (!selectOpen ? style.selectArrowsRadius : "") + " col-2"}
+                        onClick={() => setSelectOpen(!selectOpen)}
                     >
                         <SelectArrows />
                     </div>
                 </div>
                 <div className={selectOpen ? style.optionContainer : "d-none"} onClick={() => handleSelectChange()}>
-                    <ClickAwayListener onClickAway={()=>selectOpen && setSelectOpen(false)}>
+                    <ClickAwayListener onClickAway={() => selectOpen && setSelectOpen(false)}>
                         <div className={"col-10 px-2"}>
-                                <div className={style.selectColumnRow + " row"}>
-                                    <div className={"col-10 col-md-8 d-flex align-items-center"}>
-                                        <div>{notSelected.value === 0 ? <Ethereum className={"mx-1"}/> : <Binance className={"mx-1"}/>}</div>
-                                        <div>{notSelected.label}</div>
-                                    </div>
+                            <div className={style.selectColumnRow + " row"}>
+                                <div className={"col-10 col-md-8 d-flex align-items-center"}>
+                                    <div>{notSelected.value === 0 ? <Ethereum className={"mx-1"} /> : <Binance className={"mx-1"} />}</div>
+                                    <div>{notSelected.label}</div>
                                 </div>
+                            </div>
                         </div>
                     </ClickAwayListener>
                 </div>
             </div>
-                
+
         </>
     )
 }
