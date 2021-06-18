@@ -11,7 +11,7 @@ import Caps from 'components/assets/Caps';
 import { formatCaps, middleEllipsis } from 'utils/strings';
 import { Option, options } from 'components/base/Select/NetworkSelect'
 import { useAppSelector } from 'redux/hooks';
-import { ETH_CHAIN_ID, BSC_CHAIN_ID } from 'const'
+import { ChainTypes } from 'interfaces';
 
 export interface ConfirmTransactionProps {
     open: boolean;
@@ -26,7 +26,7 @@ const NetworkRow = (option:Option | null, userWallet: UserWallet | null) => {
         <div className={style.networkContainer}>
             <div className={"row " + style.networkRow}>
                 <div className={"col-9 col-md-8 d-flex align-items-center"}>
-                    <div>{option?.value === ETH_CHAIN_ID ? <Ethereum className={"mx-1"}/> : <Binance className={"mx-1"}/>}</div>
+                    <div>{option?.value === ChainTypes.erc20 ? <Ethereum className={"mx-1"}/> : <Binance className={"mx-1"}/>}</div>
                     <div>{option?.label}</div>
                 </div>
                 {userWallet && userWallet.chainId===option?.value && 

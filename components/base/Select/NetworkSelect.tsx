@@ -11,7 +11,6 @@ import Binance from 'components/assets/Networks/Binance';
 import { ChainType, ChainTypes } from 'interfaces';
 
 import { useAppSelector } from 'redux/hooks';
-import { ETH_CHAIN_ID, BSC_CHAIN_ID } from 'const'
 
 export interface Option {
     value: ChainType;
@@ -77,7 +76,7 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, i
                         <div className={style.selectColumnRow + " row"}>
                             <div className={"col-10 col-md-8 d-flex align-items-center"}>
                                 <div>
-                                    {notSelected.value === ETH_CHAIN_ID ? 
+                                    {notSelected.value === ChainTypes.erc20 ? 
                                         <Ethereum className={"mx-1"}/> 
                                     : 
                                         <Binance className={"mx-1"}/>}
