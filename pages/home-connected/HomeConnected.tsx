@@ -25,6 +25,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [capsToSwap, setCapsToSwap] = useState(capsAmount)
     const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const [selectedOptionFrom, setSelectedOptionFrom] = useState<Option | null>(options[0])
+    let maskedTextInput:any = null;
     const updateProviderBalance = async () => {
         if (userWallet){
             console.log('updateProviderBalance');
@@ -41,7 +42,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             router.push('home-not-connected')
         }
     }, [userWallet])
-    const handleChange = async (option: Option, isFrom: boolean) => {
+    const handleChange = (option: Option, isFrom: boolean) => {
         if (isFrom) {
             setSelectedOptionFrom(option)
         } else {
@@ -114,12 +115,21 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                             <div className={"px-2 pt-2 px-md-3 pt-md-3"}>Amount</div>
                             <div className={"row d-flex align-items-center px-2 pb-2 px-md-3 pb-md-0"}>
                                 <div className={"col-10"}>
-                                    <span className={style.capsAmount}>{formatCaps(capsToSwap) + " CAPS"}</span>
+                                    <span className={style.capsAmount} onClick={() => maskedTextInput?.focus()}>
+                                        {formatCaps(capsToSwap) + " CAPS"}
+                                        <input
+                                            type="number"
+                                            value={capsToSwap}
+                                            onChange={(e) => Number(e.target.value)>=0 && Number(e.target.value)<=10000000000 && setCapsToSwap(Number(e.target.value))}
+                                            ref={(input) => {maskedTextInput=input}}
+                                            className={style.makedInput}
+                                        />
+                                    </span>
                                 </div>
                                 <div className={"col-2"} onClick={() => setCapsToSwap(capsAmount)}>
                                     <div className={"badge badge-pill " + style.maxButton}>
                                         Max
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                             <div className={"d-none d-md-block"}>
