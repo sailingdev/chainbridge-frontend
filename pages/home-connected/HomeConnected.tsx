@@ -43,7 +43,9 @@ const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
     const handleTransfer = async () => {
         const amount = Number(capsToSwap || 1);
         const transaction = await transfer(user.signer, selectedOptionFrom, amount)
-        console.log('transaction sent', transaction);
+        setPopupConfirmationOpen(false)
+        const receipt = await transaction.wait()
+        updateProviderBalance();
     }
     const isAbleToSwap = capsToSwap && capsAmount && capsToSwap > 0 && capsToSwap <= capsAmount
     return (
@@ -142,7 +144,7 @@ const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
                         </div>
                     </div>
                     <div className={"pt-3"}>
-                        <div className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : ""/*disabled */}`} onClick={(() => { setPopupConfirmationOpen(true); handleTransfer() })}>
+                        <div className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : ""/*disabled */}`} onClick={(() => { setPopupConfirmationOpen(true); })}>
                             <div className={"d-flex align-items-center px-5 mx-5"}>
                                 <span className={style.buttonLabel}>Next</span>
                             </div>
@@ -151,9 +153,10 @@ const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
                     <ConfirmTransaction
                         open={popupConfirmationOpen}
                         setOpen={setPopupConfirmationOpen}
-                        user={{ address: "123456789", balance: 3000000, networkType: "metamask", chainType: 0 }}
-                        capsToSwap={250000}
+                        user={user}
+                        capsToSwap={capsToSwap}
                         from={selectedOptionFrom}
+                        onConfirm={handleTransfer}
                     />
                 </div>
                 <Footer />

@@ -74,9 +74,7 @@ export const transfer = async (signer: Signer | null, network: Option | null, am
 
     // Send tokens
     try {
-        const transaction = await contract.transfer(network.bridgeAddress, numberOfTokens);
-        const receipt = await transaction.wait()
-        return receipt;
+        return contract.transfer(network.bridgeAddress, numberOfTokens);
     } catch (error) {
         console.log(error.toString());
         throw new Error(error);
