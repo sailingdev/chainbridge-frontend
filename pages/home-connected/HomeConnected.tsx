@@ -34,7 +34,11 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     useEffect(() => {
         updateProviderBalance()
     }, [selectedOptionFrom?.value])
-
+    useEffect(()=>{
+        if ((!userWallet)){
+            router.push('home-not-connected')
+        }
+    }, [userWallet])
     const handleChange = async (option: Option, isFrom: boolean) => {
         if (isFrom) {
             setSelectedOptionFrom(option)
@@ -51,11 +55,6 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
         const receipt = await transaction.wait()
         updateProviderBalance();
     }
-    useEffect(()=>{
-        if ((!userWallet)){
-            router.push('home-not-connected')
-        }
-    }, [userWallet])
     const isAbleToSwap = capsToSwap && capsAmount && capsToSwap > 0 && capsToSwap <= capsAmount
     return (
         <>
