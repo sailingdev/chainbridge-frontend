@@ -36,6 +36,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     }
     useEffect(() => {
         updateProviderBalance()
+        setCapsToSwap(0)
     }, [selectedOptionFrom?.value])
     useEffect(()=>{
         if ((!userWallet)){
@@ -52,7 +53,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     }
 
     const handleTransfer = async () => {
-        const amount = Number(capsToSwap || 1);
+        const amount = Number(capsToSwap);
         const transaction = await transfer(userWallet.signer, selectedOptionFrom, amount)
         setPopupConfirmationOpen(false)
         const receipt = await transaction.wait()
