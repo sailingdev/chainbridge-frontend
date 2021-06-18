@@ -11,7 +11,7 @@ import Binance from 'components/assets/Networks/Binance';
 import { ChainType, ChainTypes } from 'interfaces';
 
 import { useAppSelector } from 'redux/hooks';
-import { ETH_CHAIN_ID, BSC_CHAIN_ID, ETH_TEST_CHAIN_ID, BSC_TEST_CHAIN_ID } from 'const'
+import { ETH_CHAIN_ID, BSC_CHAIN_ID } from 'const'
 
 export interface Option {
     value: ChainType;
@@ -39,9 +39,9 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, i
         handleChange(notSelected, isFrom)
         setSelectOpen(false)
     }
-    return (
-        <>
-            <div className={style.selectContainer}>
+    return(
+        <ClickAwayListener onClickAway={()=>selectOpen && setSelectOpen(false)}>
+            <div className={style.selectContainer}> 
                 <div className={style.networkRow + " " + (!selectOpen ? style.networkRowRadius : "") + " row d-flex align-items-center"}>
                     <div className={style.selectColumn + " col-10"}>
                         <div className={style.selectColumnRow + " row"}>
@@ -54,13 +54,15 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, i
                                 </div>
                                 <div>{selected?.label}</div>
                             </div>
-                            {userWallet && userWallet.chainId===selected?.value && 
-                                <div className={"col-2 col-md-4 px-0 d-flex justify-content-center justify-content-md-left align-items-center"}>
-                                    {userWallet && userWallet.networkType==="walletconnect" ? <WalletConnect className={style.connectedIcon}/> : <Metamask className={style.connectedIcon}/>}
-                                    <span className={style.connectedLabel}>{"Connected"}</span>
-                                    <Check className={style.connectedCheck}/>
-                                </div>
-                            }
+                            <div className={"col-2 col-md-4 px-0 d-flex justify-content-center justify-content-md-left align-items-center"}>
+                                {(userWallet && userWallet.chainId===selected?.value) && 
+                                    <>
+                                        {userWallet && userWallet.networkType==="walletconnect" ? <WalletConnect className={style.connectedIcon}/> : <Metamask className={style.connectedIcon}/>}
+                                        <span className={style.connectedLabel}>{"Connected"}</span>
+                                        <Check className={style.connectedCheck}/>
+                                    </>
+                                }
+                            </div>
                         </div>
                     </div>
                     <div
@@ -71,25 +73,22 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, i
                     </div>
                 </div>
                 <div className={selectOpen ? style.optionContainer : "d-none"} onClick={() => handleSelectChange()}>
-                    <ClickAwayListener onClickAway={() => selectOpen && setSelectOpen(false)}>
-                        <div className={"col-10 px-2"}>
-                            <div className={style.selectColumnRow + " row"}>
-                                <div className={"col-10 col-md-8 d-flex align-items-center"}>
-                                    <div>
-                                        {notSelected.value === ChainTypes.erc20 ? 
-                                            <Ethereum className={"mx-1"}/> 
-                                            : 
-                                            <Binance className={"mx-1"}/>}
-                                    </div>
-                                    <div>{notSelected.label}</div>
+                    <div className={"col-10 px-2"}>
+                        <div className={style.selectColumnRow + " row"}>
+                            <div className={"col-10 col-md-8 d-flex align-items-center"}>
+                                <div>
+                                    {notSelected.value === ETH_CHAIN_ID ? 
+                                        <Ethereum className={"mx-1"}/> 
+                                    : 
+                                        <Binance className={"mx-1"}/>}
                                 </div>
+                                <div>{notSelected.label}</div>
                             </div>
                         </div>
-                    </ClickAwayListener>
+                    </div>
                 </div>
             </div>
-
-        </>
+        </ClickAwayListener>
     )
 }
 

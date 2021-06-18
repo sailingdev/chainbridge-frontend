@@ -6,15 +6,19 @@
     left: 0;
     top: 0;
     background-color: #201A31;
-    display:flex;
-    align-items: center;
-    justify-content: center;
+    overflow-y: auto;
+    display: flex;
+}
+
+.confirmTransactionAlignBox{
+    margin: auto;
+    min-width: 220px;
+    max-width: 500px;
+    width: 100%;
 }
 
 .confirmTransactionContainer{
-    min-width: 220px;
-    width: 400px;
-    margin: 0px 20px;
+    margin:10px;
     padding: 5px;
     background-color: #00001E;
     border-radius: 12px;
@@ -24,9 +28,7 @@
     background-origin: border-box;
     background-clip: content-box, border-box;
     box-shadow: 2px 1000px 1px #00001e inset;
-    @media (min-width: 576px) {
-        width: 500px;
-    }
+    
 }
 
 
@@ -78,8 +80,10 @@
     border-radius: 12px;
     min-height: 62px;
     padding: 10px;
+    font-size: 10px;
     @media (min-width: 768px) {
         min-height: 72px;
+        font-size: 14px;
     }
 }
 

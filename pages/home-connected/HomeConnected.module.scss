@@ -90,6 +90,9 @@
         width: 65%;
         margin-top: 30px;
     }
+    @media (min-width: 992px) {
+        width: 50%;
+    }
 }
 
 .capsAmount{
