@@ -11,15 +11,17 @@ import SettingMenu from 'components/assets/SettingMenu';
 import Support from 'components/assets/Support';
 import FAQs from 'components/assets/FAQs';
 import { middleEllipsis, formatCaps } from 'utils/strings';
-import { UserType } from 'interfaces/index';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { actions } from 'redux/walletUser/actions';
 
 export interface ModalMenuProps {
     modalMenuOpen: boolean;
     setModalMenuOpen: Function;
-    user: UserType | null;
 }
 
-const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, user }) => {
+const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen }) => {
+    const userWallet = useAppSelector((state) => state.user.userWallet)
+    const dispatch = useAppDispatch()
     const router = useRouter();
     const handleClose = () => {
         setModalMenuOpen(false)
@@ -28,11 +30,8 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
         handleClose()
         router.push('home-not-connected')
     }
-    const test = {
-        walletId: "1234567859123456789123456789",
-        capsAmount: 300000,
-        networkType: "metamask",
-        chainType: 0,
+    const handleLogout = () => {
+        dispatch(actions.logout())
     }
     return(
         <>
@@ -44,35 +43,31 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                 <Close />
                             </div>
                         </div>
-
-                        {(user || test) ? 
+                        {(userWallet) ? 
                             <>
                                 <div className={"row py-4"}>
-                                    <div className={style.capsAmount}>{formatCaps(test.capsAmount) + " CAPS"}</div>
+                                    <div className={style.capsAmount}>{formatCaps(userWallet.balance) + " CAPS"}</div>
                                     <div className={style.capsAvailable}>Available</div>
                                 </div>
                                 <div className={"row py-4"}>
                                     <div>
-                                        {test.networkType==="metamask" ? <Metamask/> : <WalletConnect/>}
+                                        {userWallet.networkType==="walletconnect" ? <WalletConnect/> : <Metamask/>}
                                         <span className={style.network}>
-                                            {`${test.chainType===0 ? "Ethereum" : "Binance"} Network`}
+                                            {`${userWallet.chainId===1 ? "Ethereum" : "Binance"} Network`}
                                         </span>
                                     </div>
                                     <div className={style.address}>
-                                        {middleEllipsis(test.walletId, 24)}
+                                        {middleEllipsis(userWallet.address, 24)}
                                     </div>
                                 </div>
                             </>
                         :
-                            <>
-                                <div className={"row py-5 px-4"}>
-                                    <div className={"btn btn-outline-primary rounded-pill"} onClick={() => navigateLogin()}>
-                                        Log in
-                                    </div>
+                            <div className={"row py-5 px-4"}>
+                                <div className={"btn btn-outline-primary rounded-pill"} onClick={() => navigateLogin()}>
+                                    Log in
                                 </div>
-                            </>
+                            </div>
                         }
-
                         <div className={"row py-4"}>
                             <div className={"col-12 py-2"}>
                                 <span><Swap/></span>
@@ -95,9 +90,9 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                 <span className={style.menuLabel}><a href="#">FAQs</a></span>
                             </div>
                         </div>
-                        {(user || test) && 
+                        {(userWallet) && 
                             <div className={"row py-5 px-4"}>
-                                <div className={"btn btn-outline-primary rounded-pill"}>Log out</div>
+                                <div className={"btn btn-outline-primary rounded-pill"} onClick={() => handleLogout()}>Log out</div>
                             </div>
                         }
                     </div>

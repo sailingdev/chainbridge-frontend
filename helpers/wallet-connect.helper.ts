@@ -12,7 +12,7 @@ export const connect = async () => {
     if (accounts.length > 0) {
         const provider = new ethers.providers.Web3Provider(walletProvider)
         const signer = provider.getSigner(accounts[0]);
-        return mapSignerAsWallet(signer);
+        return mapSignerAsWallet(signer, 'walletconnect');
     } else {
         throw new Error('No WalletConnect account retrieved');
     }

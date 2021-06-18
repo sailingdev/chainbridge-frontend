@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head'
 import style from './HomeConnected.module.scss';
 import ArrowRight from 'components/assets/ArrowRight';
@@ -7,30 +8,33 @@ import MainHeader from 'components/base/MainHeader';
 import Footer from 'components/base/Footer';
 import Stars from 'components/assets/Stars';
 import NetworkSelect from 'components/base/Select/NetworkSelect';
-import ConfirmTransaction from '../ConfirmTransaction';
+import ConfirmTransaction from 'components/ConfirmTransaction';
 import { middleEllipsis, formatCaps } from 'utils/strings';
-import { UserWallet } from 'interfaces';
 import { Option, options } from 'components/base/Select/NetworkSelect'
 import { getProviderBalance, transfer } from 'helpers/wallet.helper';
 import { Contract } from 'ethers';
-export interface HeaderProps {
-    user: UserWallet;
-    setUser: Function;
+import { useAppSelector } from 'redux/hooks';
+
+export interface HomeConnectedProps {
 }
-const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
+
+const HomeConnected: React.FC<HomeConnectedProps> = () => {
+    const router = useRouter()
+    const userWallet = useAppSelector((state) => state.user.userWallet)
     const [capsAmount, setCapsAmount] = useState(0);
     const [capsToSwap, setCapsToSwap] = useState(capsAmount)
     const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const [selectedOptionFrom, setSelectedOptionFrom] = useState<Option | null>(options[0])
     const updateProviderBalance = async () => {
         console.log('updateProviderBalance');
-        const providerBalance = await getProviderBalance(user.signer, selectedOptionFrom)
+        const providerBalance = await getProviderBalance(userWallet.signer, selectedOptionFrom)
         console.log('providerBalance', providerBalance.toString());
         setCapsAmount(Number(providerBalance.toString()))
     }
     useEffect(() => {
         updateProviderBalance()
     }, [selectedOptionFrom?.value])
+
     const handleChange = async (option: Option, isFrom: boolean) => {
         if (isFrom) {
             setSelectedOptionFrom(option)
@@ -42,11 +46,16 @@ const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
 
     const handleTransfer = async () => {
         const amount = Number(capsToSwap || 1);
-        const transaction = await transfer(user.signer, selectedOptionFrom, amount)
+        const transaction = await transfer(userWallet.signer, selectedOptionFrom, amount)
         setPopupConfirmationOpen(false)
         const receipt = await transaction.wait()
         updateProviderBalance();
     }
+    useEffect(()=>{
+        if ((!userWallet)){
+            router.push('home-not-connected')
+        }
+    }, [userWallet])
     const isAbleToSwap = capsToSwap && capsAmount && capsToSwap > 0 && capsToSwap <= capsAmount
     return (
         <>
@@ -56,11 +65,11 @@ const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
                 <meta name="description" content="BSC ETH Bridge, by Ternoa." />
             </Head>
             <div className={"mainContainer"}>
-                <MainHeader user={user} setUser={setUser} capsAmount={capsAmount} />
+                <MainHeader capsAmount={capsAmount} />
                 <div className={"container py-md-6 py-4 d-flex flex-column align-items-center"}>
                     <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
                     <div className={style.swapAddressLabel}>The swap will occur on your same adress</div>
-                    <div className={style.address}>{user?.address && middleEllipsis(user?.address, 24)}</div>
+                    <div className={style.address}>{userWallet?.address && middleEllipsis(userWallet?.address, 24)}</div>
                     <div className={"container px-2 py-4 pt-md-4 pb-md-3"}>
                         <div className={"row d-flex justify-content-center"}>
                             <div className={"col-12 col-md-auto px-0 mx-0"}>
@@ -80,7 +89,7 @@ const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
                             <div className={"col-12 col-md-auto px-0"}>
                                 <span className={style.networkLabel}>To</span>
                                 <NetworkSelect
-                                    selected={options.filter(x => x.value !== selectedOptionFrom.value)[0]}
+                                    selected={options.filter(x => x.value !== selectedOptionFrom?.value)[0]}
                                     handleChange={handleChange}
                                     isFrom={false}
                                 />
@@ -150,17 +159,16 @@ const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
                             </div>
                         </div>
                     </div>
-                    <ConfirmTransaction
-                        open={popupConfirmationOpen}
-                        setOpen={setPopupConfirmationOpen}
-                        user={user}
-                        capsToSwap={capsToSwap}
-                        from={selectedOptionFrom}
-                        onConfirm={handleTransfer}
-                    />
                 </div>
                 <Footer />
                 <Stars className={"stars"} />
+                <ConfirmTransaction
+                    open={popupConfirmationOpen}
+                    setOpen={setPopupConfirmationOpen}
+                    capsToSwap={capsToSwap}
+                    from={selectedOptionFrom}
+                    onConfirm={handleTransfer}
+                />
             </div>
         </>
     )

@@ -5,26 +5,30 @@ import { NetworkType } from 'interfaces/index';
 import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
 import { connectMetaMask, connectWalletConnect } from 'actions/connect';
+import { useAppDispatch } from 'redux/hooks';
+import { actions } from 'redux/walletUser/actions';
+
 export interface ModalConnectProps {
     isOpen: boolean;
     setOpen: Function;
     network: NetworkType;
-    setUserWallet: Function
 }
 
-const ModalConnect: React.FC<ModalConnectProps> = ({ isOpen, setOpen, network, setUserWallet }) => {
+const ModalConnect: React.FC<ModalConnectProps> = ({ isOpen, setOpen, network }) => {
+    const dispatch = useAppDispatch()
     const handleConnect = async (network: NetworkType) => {
         switch (network) {
             case 'metamask':
                 const metaMaskUserWallet = await connectMetaMask();
-                console.log('metaMaskUserWallet',metaMaskUserWallet);                
-                setUserWallet(metaMaskUserWallet)
+                console.log('metaMaskUserWallet',metaMaskUserWallet);   
+                dispatch(actions.login(metaMaskUserWallet))           
                 break
             case 'walletconnect':
                 const walletconnectUserWallet = await connectWalletConnect()
-                setUserWallet(walletconnectUserWallet)
+                dispatch(actions.login(walletconnectUserWallet))             
                 break
         }
+        setOpen(false)
     }
     return (<>
         { isOpen && <div className={style.ModalContainer}>

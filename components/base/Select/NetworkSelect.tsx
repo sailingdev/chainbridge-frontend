@@ -7,8 +7,11 @@ import Metamask from 'components/assets/Providers/Metamask'
 import WalletConnect from 'components/assets/Providers/WalletConnect'
 import Ethereum from 'components/assets/Networks/Ethereum';
 import Binance from 'components/assets/Networks/Binance';
+
 import { ChainType, ChainTypes } from 'interfaces';
 
+import { useAppSelector } from 'redux/hooks';
+import { ETH_CHAIN_ID, BSC_CHAIN_ID, ETH_TEST_CHAIN_ID, BSC_TEST_CHAIN_ID } from 'const'
 
 export interface Option {
     value: ChainType;
@@ -23,15 +26,15 @@ export const options: Option[] = [
 ]
 
 export interface NetworkSelectProps {
-    selected: Option;
+    selected: Option | null;
     handleChange: Function;
     isFrom: boolean;
-    networkConnected?: string;
 }
 
-const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, isFrom, networkConnected }) => {
+const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, isFrom }) => {
+    const userWallet = useAppSelector((state) => state.user.userWallet)
     const [selectOpen, setSelectOpen] = useState(false)
-    const notSelected = options.filter(x => x.value !== selected.value)[0]
+    const notSelected = options.filter(x => x.value !== selected?.value)[0]
     const handleSelectChange = () => {
         handleChange(notSelected, isFrom)
         setSelectOpen(false)
@@ -43,14 +46,19 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, i
                     <div className={style.selectColumn + " col-10"}>
                         <div className={style.selectColumnRow + " row"}>
                             <div className={"col-10 col-md-8 px-2 d-flex align-items-center"}>
-                                <div>{selected.value === 0 ? <Ethereum className={"mx-1"} /> : <Binance className={"mx-1"} />}</div>
-                                <div>{selected.label}</div>
+                                <div>
+                                    {selected?.value === ChainTypes.erc20 ? 
+                                        <Ethereum className={"mx-1"}/> 
+                                    : 
+                                        <Binance className={"mx-1"}/>}
+                                </div>
+                                <div>{selected?.label}</div>
                             </div>
-                            {!networkConnected &&
+                            {userWallet && userWallet.chainId===selected?.value && 
                                 <div className={"col-2 col-md-4 px-0 d-flex justify-content-center justify-content-md-left align-items-center"}>
-                                    {networkConnected === "walletconnect" ? <WalletConnect className={style.connectedIcon} /> : <Metamask className={style.connectedIcon} />}
+                                    {userWallet && userWallet.networkType==="walletconnect" ? <WalletConnect className={style.connectedIcon}/> : <Metamask className={style.connectedIcon}/>}
                                     <span className={style.connectedLabel}>{"Connected"}</span>
-                                    <Check />
+                                    <Check className={style.connectedCheck}/>
                                 </div>
                             }
                         </div>
@@ -67,7 +75,12 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, i
                         <div className={"col-10 px-2"}>
                             <div className={style.selectColumnRow + " row"}>
                                 <div className={"col-10 col-md-8 d-flex align-items-center"}>
-                                    <div>{notSelected.value === 0 ? <Ethereum className={"mx-1"} /> : <Binance className={"mx-1"} />}</div>
+                                    <div>
+                                        {notSelected.value === ChainTypes.erc20 ? 
+                                            <Ethereum className={"mx-1"}/> 
+                                            : 
+                                            <Binance className={"mx-1"}/>}
+                                    </div>
                                     <div>{notSelected.label}</div>
                                 </div>
                             </div>

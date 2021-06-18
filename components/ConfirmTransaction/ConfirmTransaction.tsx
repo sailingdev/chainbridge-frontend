@@ -10,27 +10,28 @@ import Check from 'components/assets/Check';
 import Caps from 'components/assets/Caps';
 import { formatCaps, middleEllipsis } from 'utils/strings';
 import { Option, options } from 'components/base/Select/NetworkSelect'
+import { useAppSelector } from 'redux/hooks';
+import { ETH_CHAIN_ID, BSC_CHAIN_ID } from 'const'
 
 export interface ConfirmTransactionProps {
     open: boolean;
     setOpen: Function;
-    user: UserWallet;
     capsToSwap: number | string;
-    from: Option
+    from: Option|null;
     onConfirm: Function;
 }
 
-const NetworkRow = (option: Option, user: UserWallet) => {
+const NetworkRow = (option:Option | null, userWallet: UserWallet | null) => {
     return (
         <div className={style.networkContainer}>
             <div className={"row " + style.networkRow}>
                 <div className={"col-8 d-flex align-items-center"}>
-                    <div>{option.value === 0 ? <Ethereum className={"mx-1"} /> : <Binance className={"mx-1"} />}</div>
-                    <div>{option.label}</div>
+                    <div>{option?.value === ETH_CHAIN_ID ? <Ethereum className={"mx-1"}/> : <Binance className={"mx-1"}/>}</div>
+                    <div>{option?.label}</div>
                 </div>
-                {user && user.chainType === option.value &&
+                {userWallet && userWallet.chainId===option?.value && 
                     <div className={"col-4 d-flex align-items-center justify-content-center"}>
-                        {user && user.networkType === "walletconnect" ? <WalletConnect className={style.connectedIcon} /> : <Metamask className={style.connectedIcon} />}
+                        {userWallet && userWallet.networkType==="walletconnect" ? <WalletConnect className={style.connectedIcon}/> : <Metamask className={style.connectedIcon}/>}
                         <span className={style.connectedLabel}>{"Connected"}</span>
                         <Check className={style.connectedCheck} />
                     </div>
@@ -40,20 +41,21 @@ const NetworkRow = (option: Option, user: UserWallet) => {
     )
 }
 
-const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, user, capsToSwap, from, onConfirm }) => {
-    useEffect(() => {
-        if (!open) {
-            setIsTermAccepted(false);
-        }
-    }, [open])
+const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, capsToSwap, from, onConfirm }) => {
+    const userWallet = useAppSelector((state) => state.user.userWallet)
     const [isTermAccepted, setIsTermAccepted] = useState(false)
-    const to = options.filter(x => x.value !== from.value)[0]
-    const canConfirmTransaction = user && isTermAccepted && capsToSwap > 0 && capsToSwap <= user.balance
+    const to = options.filter(x => x.value !== from?.value)[0]
+    const canConfirmTransaction = userWallet && isTermAccepted && capsToSwap > 0 && capsToSwap <= userWallet.balance
     const handleConfirm = () => {
         if (canConfirmTransaction) {
             onConfirm()
         }
     }
+    useEffect(() => {
+        if (!open) {
+            setIsTermAccepted(false);
+        }
+    }, [open])
     return (
         <>
             {open &&
@@ -74,14 +76,12 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                             </div>
                             <div className={"row px-4 pt-md-4 pt-2"}>
                                 <span className={style.networkTitle}>From</span>
-                                {NetworkRow(from, user)}
+                                {NetworkRow(from, userWallet)}
                             </div>
                             <div className={"row px-4 pt-md-4 pt-2"}>
                                 <span className={style.networkTitle}>To</span>
-                                {NetworkRow(to, user)}
+                                {NetworkRow(to, userWallet)}
                             </div>
-
-
                             <div className={"row py-4 px-4"}>
                                 <div className={"col-6 " + style.leftLabel}>Asset</div>
                                 <div className={"col-6 " + style.rightLabel}>
@@ -89,12 +89,12 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                                 </div>
                                 <div className={"col-6 " + style.leftLabel}>Destination</div>
                                 <div className={"col-6 " + style.rightLabel}>
-                                    {user && user.networkType === "walletconnect" ?
+                                    {userWallet && userWallet.networkType === "walletconnect" ?
                                         <WalletConnect className={style.gridIcon + " " + style.connectedIcon} />
                                         :
                                         <Metamask className={style.gridIcon + " " + style.connectedIcon} />
                                     }
-                                    {user && middleEllipsis(user.address)}
+                                    {userWallet && middleEllipsis(userWallet.address)}
                                 </div>
                                 <div className={"col-6 " + style.leftLabel}>Network fee</div>
                                 <div className={"col-6 " + style.rightLabel}>

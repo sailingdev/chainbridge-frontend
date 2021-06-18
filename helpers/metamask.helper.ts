@@ -9,7 +9,7 @@ export const connect = async (): Promise<UserWallet> => {
     if (accounts?.length > 0) {
         const provider = new ethers.providers.Web3Provider((<any>window).ethereum)
         const signer = provider.getSigner(accounts[0]);
-        return mapSignerAsWallet(signer);
+        return mapSignerAsWallet(signer, 'metamask');
     } else {
         throw new Error('No MetaMask account retrieved');
     }
