@@ -11,33 +11,38 @@ import ConfirmTransaction from '../ConfirmTransaction';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import { UserWallet } from 'interfaces';
 import { Option, options } from 'components/base/Select/NetworkSelect'
-import { connectSignerToContract, transfer } from 'helpers/wallet.helper';
+import { getProviderBalance, transfer } from 'helpers/wallet.helper';
 import { Contract } from 'ethers';
 export interface HeaderProps {
     user: UserWallet;
     setUser: Function;
 }
 const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
-    const capsAmount = user?.balance || 0;
+    const [capsAmount, setCapsAmount] = useState(0);
     const [capsToSwap, setCapsToSwap] = useState(capsAmount)
     const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const [selectedOptionFrom, setSelectedOptionFrom] = useState<Option | null>(options[0])
-    const [contract, setContract] = useState<Contract | null>(null)
-    const handleChange = (option: Option, isFrom: boolean) => {
+    const updateProviderBalance = async () => {
+        console.log('updateProviderBalance');
+        const providerBalance = await getProviderBalance(user.signer, selectedOptionFrom)
+        console.log('providerBalance', providerBalance.toString());
+        setCapsAmount(Number(providerBalance.toString()))
+    }
+    useEffect(() => {
+        updateProviderBalance()
+    }, [selectedOptionFrom?.value])
+    const handleChange = async (option: Option, isFrom: boolean) => {
         if (isFrom) {
             setSelectedOptionFrom(option)
-            const contract = connectSignerToContract(user.signer, option)
-            setContract(contract)
         } else {
             const firstOption = options.find(x => x.value !== option.value) || null
             setSelectedOptionFrom(firstOption)
-            const contract = connectSignerToContract(user.signer, firstOption)
-            setContract(contract)
         }
     }
+
     const handleTransfer = async () => {
         const amount = Number(capsToSwap || 1);
-        const transaction = await transfer(contract, selectedOptionFrom,amount)
+        const transaction = await transfer(user.signer, selectedOptionFrom, amount)
         console.log('transaction sent', transaction);
     }
     const isAbleToSwap = capsToSwap && capsAmount && capsToSwap > 0 && capsToSwap <= capsAmount
@@ -49,7 +54,7 @@ const HomeConnected: React.FC<HeaderProps> = ({ user, setUser }) => {
                 <meta name="description" content="BSC ETH Bridge, by Ternoa." />
             </Head>
             <div className={"mainContainer"}>
-                <MainHeader user={user} setUser={setUser} />
+                <MainHeader user={user} setUser={setUser} capsAmount={capsAmount} />
                 <div className={"container py-md-6 py-4 d-flex flex-column align-items-center"}>
                     <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
                     <div className={style.swapAddressLabel}>The swap will occur on your same adress</div>

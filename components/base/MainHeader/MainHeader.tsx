@@ -14,9 +14,10 @@ import ModalMenu from '../ModalMenu';
 export interface HeaderProps {
     user: UserWallet | null;
     setUser: Function;
+    capsAmount: number;
 }
 
-const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
+const MainHeader: React.FC<HeaderProps> = ({ user, setUser, capsAmount }) => {
     let isNetworkEth = true
     let isMetamaskConnection = true
     const handleMenuClick = () => {
@@ -41,7 +42,7 @@ const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
                         <div className={"d-flex"}>
                             <div className={style.CapsContainer}>
                                 <div className={"d-flex py-2 px-3 align-items-center"}>
-                                    <div className={style.CapsAmount}>{formatCaps(user.balance) + " Caps"}</div>
+                                    <div className={style.CapsAmount}>{formatCaps(capsAmount) + " Caps"}</div>
                                     <div className={style.CapsAvailable}>{"Available"}</div>
                                 </div>
                             </div>
@@ -52,7 +53,7 @@ const MainHeader: React.FC<HeaderProps> = ({ user, setUser }) => {
                                     </div>
                                     <div className={"col"}>
                                         <div className={"row"}>
-                                            <span className={style.Address}>{middleEllipsis(user.balance)}</span>
+                                            <span className={style.Address}>{middleEllipsis(capsAmount.toString())}</span>
                                         </div>
                                         <div className={"row"}>
                                             <span className={style.Network}>{`${user.chainType===0 ? "Ethereum" : "Binance"} Network`}</span>

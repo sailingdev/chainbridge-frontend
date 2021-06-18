@@ -1,6 +1,6 @@
 import { Option } from "components/base/Select/NetworkSelect";
-import { BigNumber, Contract, ethers, Signer } from "ethers"
-import { ChainTypes } from "interfaces"
+import { Contract, ethers, Signer } from "ethers"
+import { ChainType, ChainTypes } from "interfaces";
 
 export const mapSignerAsWallet = async (signer: Signer) => {
     return {
@@ -54,15 +54,21 @@ const contractAbi = [
     }
 ];
 
-export const connectSignerToContract = (signer: Signer, network: Option | null) => {
+export const getProviderBalance = async (signer: Signer, network: Option | null) => {
     if (!network) throw new Error('No network given')
-    const contract = new Contract(network.tokenAddress, contractAbi, signer)
-    return contract;
+    if (!signer) throw new Error('No signer given')
+    const provider = ethers.providers.getDefaultProvider(network.value == ChainTypes.bep20 ? 'ropsten' : 'kovan')
+    const contract = new Contract(network.tokenAddress, contractAbi, provider)
+    const balance = await contract.balanceOf(await signer.getAddress());
+    const readableBalance = ethers.utils.formatUnits(balance);
+    console.log('readableBalance',readableBalance);    
+    return readableBalance;
 }
-export const transfer = async (contract: Contract | null, network: Option | null, amount: number) => {
-    if (!contract) throw new Error('Give contract to transfer')
+export const transfer = async (signer: Signer | null, network: Option | null, amount: number) => {
     if (!network) throw new Error('Give network to transfer')
+    if (!signer) throw new Error('Give signer to transfer')
 
+    const contract = new Contract(network.tokenAddress, contractAbi, signer)
     var numberOfDecimals = 18;
     var numberOfTokens = ethers.utils.parseUnits(amount.toString(), numberOfDecimals);
 

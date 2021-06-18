@@ -7,18 +7,19 @@ import Metamask from 'components/assets/Providers/Metamask'
 import WalletConnect from 'components/assets/Providers/WalletConnect'
 import Ethereum from 'components/assets/Networks/Ethereum';
 import Binance from 'components/assets/Networks/Binance';
+import { ChainType, ChainTypes } from 'interfaces';
 
 
 export interface Option {
-    value: number;
+    value: ChainType;
     label: string;
     bridgeAddress: string;
     tokenAddress: string;
 }
 
 export const options: Option[] = [
-    { value: 0, label: "Ethereum network (ERC20)", bridgeAddress: process.env.NEXT_PUBLIC_BRIDGE_KOVAN_ADDRESS || '', tokenAddress: process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_ETH || '' },
-    { value: 1, label: "Binance Smart Chain (BEP20)", bridgeAddress: process.env.NEXT_PUBLIC_BRIDGE_ROPSTEN_ADDRESS || '', tokenAddress: process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_BCS || '' }
+    { value: ChainTypes.erc20, label: "Ethereum network (ERC20)", bridgeAddress: process.env.NEXT_PUBLIC_BRIDGE_KOVAN_ADDRESS || '', tokenAddress: process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_ETH || '' },
+    { value: ChainTypes.bep20, label: "Binance Smart Chain (BEP20)", bridgeAddress: process.env.NEXT_PUBLIC_BRIDGE_ROPSTEN_ADDRESS || '', tokenAddress: process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_BCS || '' }
 ]
 
 export interface NetworkSelectProps {
