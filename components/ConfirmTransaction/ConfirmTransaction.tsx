@@ -28,9 +28,9 @@ const NetworkRow = (option:Option | null, userWallet: UserWallet | null) => {
             <div className={"row " + style.networkRow}>
                 <div className={"col-9 col-md-8 d-flex align-items-center"}>
                     <div>{option?.value === ChainTypes.erc20 ? <Ethereum className={"mx-1"}/> : <Binance className={"mx-1"}/>}</div>
-                    <div>{option?.label}</div>
+                    <div className={style.networkLabel}>{option?.label}</div>
                 </div>
-                {userWallet && userWallet.chainId===option?.value && 
+                {userWallet && userWallet.chainType===option?.value && 
                     <div className={"col-3 col-md-4 d-flex align-items-center justify-content-center"}>
                         {userWallet && userWallet.networkType==="walletconnect" ? <WalletConnect className={style.connectedIcon}/> : <Metamask className={style.connectedIcon}/>}
                         <span className={style.connectedLabel}>{"Connected"}</span>
@@ -75,79 +75,52 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                                 <div className={style.capsAmountContainer}>
                                     <span className={style.capsAmount}>{`${formatCaps(capsToSwap)} CAPS`}</span>
                                 </div>
-                                <div className={"row d-flex justify-content-center text-center"}>
-                                    <span className={style.title}>Confirmation</span>
-                                    <hr className={style.divider} />
+                            </div>
+                            <div className={"row px-4 pt-md-4 pt-2"}>
+                                <span className={style.networkTitle}>From</span>
+                                {NetworkRow(from, userWallet)}
+                            </div>
+                            <div className={"row px-4 pt-md-4 pt-2"}>
+                                <span className={style.networkTitle}>To</span>
+                                {NetworkRow(to, userWallet)}
+                            </div>
+                            <div className={"row py-4 px-4"}>
+                                <div className={"col-6 " + style.leftLabel}>Asset</div>
+                                <div className={"col-6 " + style.rightLabel}>
+                                    <Caps className={style.gridIcon} /> {` CAPS`}
                                 </div>
                                 <div className={"col-6 " + style.leftLabel}>Destination</div>
                                 <div className={"col-6 " + style.rightLabel}>
-                                    <span className={"d-block d-sm-none"}>
-                                        {userWallet && (
-                                            userWallet.networkType==="walletconnect" ? 
-                                                <WalletConnect className={style.gridIcon + " " + style.connectedIcon}/>
-                                            : 
-                                                <Metamask className={style.gridIcon + " " + style.connectedIcon}/>
-                                            )
-                                        }
-                                        {userWallet && middleEllipsis(userWallet.address, 6)}
-                                    </span>
-                                    <span className={"d-none d-sm-block"}>
-                                        {userWallet && (
-                                            userWallet.networkType==="walletconnect" ? 
-                                                <WalletConnect className={style.gridIcon + " " + style.connectedIcon}/>
-                                            : 
-                                                <Metamask className={style.gridIcon + " " + style.connectedIcon}/>
-                                            )
-                                        }
-                                        {userWallet && middleEllipsis(userWallet.address)}
-                                    </span>
+                                    {userWallet && userWallet.networkType === "walletconnect" ?
+                                        <WalletConnect className={style.gridIcon + " " + style.connectedIcon} />
+                                        :
+                                        <Metamask className={style.gridIcon + " " + style.connectedIcon} />
+                                    }
+                                    {userWallet && middleEllipsis(userWallet.address)}
                                 </div>
-                                <div className={"row px-4 pt-md-4 pt-2"}>
-                                    <span className={style.networkTitle}>From</span>
-                                    {NetworkRow(from, userWallet)}
+                                <div className={"col-6 " + style.leftLabel}>Network fee</div>
+                                <div className={"col-6 " + style.rightLabel}>
+                                    0.001 Eth
+                            </div>
+                                <div className={"col-6 " + style.leftLabel}>You will receive</div>
+                                <div className={"col-6 " + style.rightLabel}>
+                                    <Caps className={style.gridIcon} /> {` ${formatCaps(capsToSwap)} CAPS`}
                                 </div>
-                                <div className={"row px-4 pt-md-4 pt-2"}>
-                                    <span className={style.networkTitle}>To</span>
-                                    {NetworkRow(to, userWallet)}
-                                </div>
-                                <div className={"row py-4 px-4"}>
-                                    <div className={"col-6 " + style.leftLabel}>Asset</div>
-                                    <div className={"col-6 " + style.rightLabel}>
-                                        <Caps className={style.gridIcon} /> {` CAPS`}
-                                    </div>
-                                    <div className={"col-6 " + style.leftLabel}>Destination</div>
-                                    <div className={"col-6 " + style.rightLabel}>
-                                        {userWallet && userWallet.networkType === "walletconnect" ?
-                                            <WalletConnect className={style.gridIcon + " " + style.connectedIcon} />
-                                            :
-                                            <Metamask className={style.gridIcon + " " + style.connectedIcon} />
-                                        }
-                                        {userWallet && middleEllipsis(userWallet.address)}
-                                    </div>
-                                    <div className={"col-6 " + style.leftLabel}>Network fee</div>
-                                    <div className={"col-6 " + style.rightLabel}>
-                                        0.001 Eth
-                                </div>
-                                    <div className={"col-6 " + style.leftLabel}>You will receive</div>
-                                    <div className={"col-6 " + style.rightLabel}>
-                                        <Caps className={style.gridIcon} /> {` ${formatCaps(capsToSwap)} CAPS`}
-                                    </div>
-                                </div>
-                                <div className={"row px-4"}>
-                                    <span className={style.feeWarningLabel}>The network fees and execution price depend on the market condition,  you may get a different rate when the transaction is complete</span>
-                                </div>
-                                <div className={"row pt-4 px-4 d-flex align-items-center"}>
-                                    <div className={"col-1 " + style.radioButton + " " + (isTermAccepted ? style.radioButtonChecked : "")} onClick={() => setIsTermAccepted(!isTermAccepted)}></div>
-                                    <div className={"col-11 " + style.termsLabel}>I have read and agree to the <a href="#">terms</a></div>
-                                </div>
-                                <div className={"row py-3 px-4"}>
-                                    <div className={"btn btn-outline-primary rounded-pill " + style.buttonLabel + " " + (canConfirmTransaction ? "" : "disabled")} onClick={handleConfirm}>
-                                        CONFIRM TRANSACTION
-                                </div>
-                                </div>
-                                <div className={"row d-flex justify-content-center"}>
-                                    <span className={style.capsAddressLabel}>You will receive your CAPS on the same address. Only the network will change.</span>
-                                </div>
+                            </div>
+                            <div className={"row px-4"}>
+                                <span className={style.feeWarningLabel}>The network fees and execution price depend on the market condition,  you may get a different rate when the transaction is complete</span>
+                            </div>
+                            <div className={"row pt-4 px-4 d-flex align-items-center"}>
+                                <div className={"col-1 " + style.radioButton + " " + (isTermAccepted ? style.radioButtonChecked : "")} onClick={() => setIsTermAccepted(!isTermAccepted)}></div>
+                                <div className={"col-11 " + style.termsLabel}>I have read and agree to the <a href="#">terms</a></div>
+                            </div>
+                            <div className={"row py-3 px-4"}>
+                                <div className={"btn btn-outline-primary rounded-pill " + style.buttonLabel + " " + (canConfirmTransaction ? "" : "disabled")} onClick={handleConfirm}>
+                                    CONFIRM TRANSACTION
+                            </div>
+                            </div>
+                            <div className={"row d-flex justify-content-center"}>
+                                <span className={style.capsAddressLabel}>You will receive your CAPS on the same address. Only the network will change.</span>
                             </div>
                         </div>
                     </div>

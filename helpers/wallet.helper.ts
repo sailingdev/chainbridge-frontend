@@ -1,15 +1,17 @@
 import { Option } from "components/base/Select/NetworkSelect";
 import { Contract, ethers, Signer } from "ethers"
-import { ChainType, ChainTypes, NetworkType } from "interfaces";
+import { ChainTypes, NetworkType } from "interfaces";
 
 export const mapSignerAsWallet = async (signer: Signer, networkType: NetworkType) => {
+    let chainId = await signer.getChainId()
     return {
         address: await signer.getAddress(),
         balance: ethers.utils.formatEther(await signer.getBalance()),
-        chainId: await signer.getChainId(),
+        chainId: chainId,
         gasPrice: ethers.utils.formatEther(await signer.getGasPrice()),
         transactionCount: await signer.getTransactionCount(),
         networkType: networkType,
+        chainType: [1,42].includes(chainId) ? ChainTypes.erc20 : ChainTypes.bep20,
         signer
     }
 }

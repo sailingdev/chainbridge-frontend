@@ -6,7 +6,6 @@ const initialState = { userWallet }
 
 export const reducer = (state = initialState, action: AnyAction) => {
     let nextState
-    console.log(action)
     switch (action.type){
         case 'USER_WALLET_LOGIN':
             nextState = {

@@ -51,12 +51,12 @@ const NetworkSelect: React.FC<NetworkSelectProps> = ({ selected, handleChange, i
                                     : 
                                         <Binance className={"mx-1"}/>}
                                 </div>
-                                <div>{selected?.label}</div>
+                                <div className={style.networkLabel}>{selected?.label}</div>
                             </div>
                             <div className={"col-2 col-md-4 px-0 d-flex justify-content-center justify-content-md-left align-items-center"}>
-                                {(userWallet && userWallet.chainId===selected?.value) && 
+                                {(userWallet && userWallet.chainType===selected?.value) && 
                                     <>
-                                        {userWallet && userWallet.networkType==="walletconnect" ? <WalletConnect className={style.connectedIcon}/> : <Metamask className={style.connectedIcon}/>}
+                                        {userWallet && userWallet.networkType==="metamask" ? <Metamask className={style.connectedIcon}/> : <WalletConnect className={style.connectedIcon}/>}
                                         <span className={style.connectedLabel}>{"Connected"}</span>
                                         <Check className={style.connectedCheck}/>
                                     </>

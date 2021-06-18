@@ -10,6 +10,7 @@ import WalletConnect from 'components/assets/Providers/WalletConnect';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import ModalMenu from '../ModalMenu';
 import { useAppSelector } from 'redux/hooks';
+import { ChainTypes } from 'interfaces';
 
 export interface HeaderProps {
     capsAmount: number;
@@ -50,7 +51,7 @@ const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
                                             <span className={style.Address}>{middleEllipsis(userWallet.address.toString())}</span>
                                         </div>
                                         <div className={"row"}>
-                                            <span className={style.Network}>{`${userWallet.chainId===1 ? "Ethereum" : "Binance"} Network`}</span>
+                                            <span className={style.Network}>{`${userWallet.chainType===ChainTypes.erc20 ? "Ethereum" : "Binance"} Network`}</span>
                                         </div>
                                     </div>
                                 </div>

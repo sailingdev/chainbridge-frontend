@@ -26,10 +26,12 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const [selectedOptionFrom, setSelectedOptionFrom] = useState<Option | null>(options[0])
     const updateProviderBalance = async () => {
-        console.log('updateProviderBalance');
-        const providerBalance = await getProviderBalance(userWallet.signer, selectedOptionFrom)
-        console.log('providerBalance', providerBalance.toString());
-        setCapsAmount(Number(providerBalance.toString()))
+        if (userWallet){
+            console.log('updateProviderBalance');
+            const providerBalance = await getProviderBalance(userWallet.signer, selectedOptionFrom)
+            console.log('providerBalance', providerBalance.toString());
+            setCapsAmount(Number(providerBalance.toString()))
+        }
     }
     useEffect(() => {
         updateProviderBalance()
@@ -71,7 +73,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     <div className={style.address}>{userWallet?.address && middleEllipsis(userWallet?.address, 24)}</div>
                     <div className={"container px-2 py-4 pt-md-4 pb-md-3"}>
                         <div className={"row d-flex justify-content-center"}>
-                            <div className={"col-12 col-md-auto px-0 mx-0"}>
+                            <div className={"col-12 col-md-5 px-0 mx-0"}>
                                 <span className={style.networkLabel}>From</span>
                                 <NetworkSelect
                                     selected={selectedOptionFrom}
@@ -79,13 +81,13 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                     isFrom={true}
                                 />
                             </div>
-                            <div className={style.middleArrow + " col-12 col-md-1"}>
+                            <div className={style.middleArrow + " col-12 col-md-2"}>
                                 <div className={"align-self-center "}>
                                     <ArrowRight className={"d-none d-md-block"} />
                                     <ArrowDown className={"d-block d-md-none"} />
                                 </div>
                             </div>
-                            <div className={"col-12 col-md-auto px-0"}>
+                            <div className={"col-12 col-md-5 px-0"}>
                                 <span className={style.networkLabel}>To</span>
                                 <NetworkSelect
                                     selected={options.filter(x => x.value !== selectedOptionFrom?.value)[0]}

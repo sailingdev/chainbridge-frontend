@@ -13,6 +13,7 @@ import FAQs from 'components/assets/FAQs';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { actions } from 'redux/walletUser/actions';
+import { ChainTypes } from 'interfaces';
 
 export interface ModalMenuProps {
     modalMenuOpen: boolean;
@@ -54,7 +55,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                     <div>
                                         {userWallet.networkType==="walletconnect" ? <WalletConnect/> : <Metamask/>}
                                         <span className={style.network}>
-                                            {`${userWallet.chainId===1 ? "Ethereum" : "Binance"} Network`}
+                                            {`${userWallet.chainType ===ChainTypes.erc20 ? "Ethereum" : "Binance"} Network`}
                                         </span>
                                     </div>
                                     <div className={style.address}>
