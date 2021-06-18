@@ -70,6 +70,7 @@ const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
             <ModalMenu
                 modalMenuOpen={isMenuOpen}
                 setModalMenuOpen={setIsMenuOpen}
+                capsAmount={capsAmount}
             />
         </>
     )

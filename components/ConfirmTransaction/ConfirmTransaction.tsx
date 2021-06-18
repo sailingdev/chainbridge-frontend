@@ -19,6 +19,7 @@ export interface ConfirmTransactionProps {
     capsToSwap: number | string;
     from: Option|null;
     onConfirm: Function;
+    capsAmount: number | string;
 }
 
 const NetworkRow = (option:Option | null, userWallet: UserWallet | null) => {
@@ -41,11 +42,11 @@ const NetworkRow = (option:Option | null, userWallet: UserWallet | null) => {
     )
 }
 
-const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, capsToSwap, from, onConfirm }) => {
+const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, capsToSwap, from, onConfirm, capsAmount }) => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const [isTermAccepted, setIsTermAccepted] = useState(false)
     const to = options.filter(x => x.value !== from?.value)[0]
-    const canConfirmTransaction = userWallet && isTermAccepted && capsToSwap > 0 && capsToSwap <= userWallet.balance
+    const canConfirmTransaction = userWallet && isTermAccepted && capsToSwap > 0 && capsToSwap <= capsAmount
     const handleConfirm = () => {
         if (canConfirmTransaction) {
             onConfirm()

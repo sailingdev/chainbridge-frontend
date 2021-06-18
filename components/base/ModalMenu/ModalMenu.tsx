@@ -17,9 +17,10 @@ import { actions } from 'redux/walletUser/actions';
 export interface ModalMenuProps {
     modalMenuOpen: boolean;
     setModalMenuOpen: Function;
+    capsAmount: number|string
 }
 
-const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen }) => {
+const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, capsAmount }) => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const dispatch = useAppDispatch()
     const router = useRouter();
@@ -46,7 +47,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen }
                         {(userWallet) ? 
                             <>
                                 <div className={"row py-4"}>
-                                    <div className={style.capsAmount}>{formatCaps(userWallet.balance) + " CAPS"}</div>
+                                    <div className={style.capsAmount}>{formatCaps(capsAmount) + " CAPS"}</div>
                                     <div className={style.capsAvailable}>Available</div>
                                 </div>
                                 <div className={"row py-4"}>
