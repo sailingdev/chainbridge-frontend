@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next export"
+    "prod": "next build && next export"
   },
   "dependencies": {
     "@walletconnect/web3-provider": "^1.4.1",
