@@ -8,6 +8,7 @@ import { connectMetaMask, connectWalletConnect } from 'actions/connect';
 import { useAppDispatch } from 'redux/hooks';
 import { actions } from 'redux/walletUser/actions';
 import { walletProvider } from 'helpers/wallet-connect.helper';
+declare let window: any;
 
 export interface ModalConnectProps {
     isOpen: boolean;
@@ -23,15 +24,13 @@ const ModalConnect: React.FC<ModalConnectProps> = ({ isOpen, setOpen, network })
                 const metaMaskUserWallet = await connectMetaMask();
                 console.log('metaMaskUserWallet', metaMaskUserWallet);
                 dispatch(actions.login(metaMaskUserWallet))
-                window.ethereum.on('chainChanged', async function (chain) {
-                    console.log('window.ethereum', window.ethereum)
-                    // const name = await window.ethereum
+                window.ethereum.on('chainChanged', async function (chain: any) {
                     console.log('chainChanged', chain)
                     const metaMaskUserWallet = await connectMetaMask();
                     console.log('metaMaskUserWallet', metaMaskUserWallet);
                     dispatch(actions.login(metaMaskUserWallet))
                 })
-                window.ethereum.on('accountsChanged', async function (accounts) {
+                window.ethereum.on('accountsChanged', async function (accounts: any) {
                     // console.log('initEventsMetamask accountsChanged accounts', accounts)
                     if (accounts && accounts.length > 0) {
                         const metaMaskUserWallet = await connectMetaMask();
@@ -43,12 +42,18 @@ const ModalConnect: React.FC<ModalConnectProps> = ({ isOpen, setOpen, network })
                 })
                 break
             case 'walletconnect':
-                const walletconnectUserWallet = await connectWalletConnect()
-                dispatch(actions.login(walletconnectUserWallet))
-                walletProvider.on("disconnect", (code, reason) => {
-                    console.log('on disconnect', code, reason);
-                    dispatch(actions.logout())
-                });
+                try {
+                    const walletconnectUserWallet = await connectWalletConnect()
+                    dispatch(actions.login(walletconnectUserWallet))
+                    walletProvider.on("disconnect", (code: any, reason: any) => {
+                        console.log('on disconnect', code, reason);
+                        dispatch(actions.logout())
+                    });
+                } catch (err) {
+                    console.log('walletconnect err', err)
+                    //TODO: reload window as its bugged, cannot re-call QR modal
+                }
+
                 break
         }
         setOpen(false)
