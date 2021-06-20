@@ -7,6 +7,7 @@ import WalletConnect from 'components/assets/Providers/WalletConnect';
 import { connectMetaMask, connectWalletConnect } from 'actions/connect';
 import { useAppDispatch } from 'redux/hooks';
 import { actions } from 'redux/walletUser/actions';
+import { walletProvider } from 'helpers/wallet-connect.helper';
 
 export interface ModalConnectProps {
     isOpen: boolean;
@@ -20,18 +21,40 @@ const ModalConnect: React.FC<ModalConnectProps> = ({ isOpen, setOpen, network })
         switch (network) {
             case 'metamask':
                 const metaMaskUserWallet = await connectMetaMask();
-                console.log('metaMaskUserWallet',metaMaskUserWallet);   
-                dispatch(actions.login(metaMaskUserWallet))           
+                console.log('metaMaskUserWallet', metaMaskUserWallet);
+                dispatch(actions.login(metaMaskUserWallet))
+                window.ethereum.on('chainChanged', async function (chain) {
+                    console.log('window.ethereum', window.ethereum)
+                    // const name = await window.ethereum
+                    console.log('chainChanged', chain)
+                    const metaMaskUserWallet = await connectMetaMask();
+                    console.log('metaMaskUserWallet', metaMaskUserWallet);
+                    dispatch(actions.login(metaMaskUserWallet))
+                })
+                window.ethereum.on('accountsChanged', async function (accounts) {
+                    // console.log('initEventsMetamask accountsChanged accounts', accounts)
+                    if (accounts && accounts.length > 0) {
+                        const metaMaskUserWallet = await connectMetaMask();
+                        console.log('metaMaskUserWallet', metaMaskUserWallet);
+                        dispatch(actions.login(metaMaskUserWallet))
+                    } else {
+                        dispatch(actions.logout())
+                    }
+                })
                 break
             case 'walletconnect':
                 const walletconnectUserWallet = await connectWalletConnect()
-                dispatch(actions.login(walletconnectUserWallet))             
+                dispatch(actions.login(walletconnectUserWallet))
+                walletProvider.on("disconnect", (code, reason) => {
+                    console.log('on disconnect', code, reason);
+                    dispatch(actions.logout())
+                });
                 break
         }
         setOpen(false)
     }
     return (<>
-        { isOpen && <div className={style.ModalContainer}>
+        {isOpen && <div className={style.ModalContainer}>
             <div className={style.ProviderContainer}>
                 <div className={"row d-flex align-items-center full-height"}>
                     <div className={"col-12 text-center"}>
