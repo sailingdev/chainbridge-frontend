@@ -1,6 +1,7 @@
 import { Option } from "components/base/Select/NetworkSelect";
 import { Contract, ethers, Signer } from "ethers"
 import { ChainTypes, NetworkType } from "interfaces";
+import { walletProvider } from "./wallet-connect.helper";
 
 export const mapSignerAsWallet = async (signer: Signer, networkType: NetworkType) => {
     let chainId = await signer.getChainId()
@@ -60,17 +61,20 @@ const contractAbi = [
 export const getProviderBalance = async (signer: Signer, network: Option | null) => {
     if (!network) throw new Error('No network given')
     if (!signer) throw new Error('No signer given')
-    const provider = ethers.providers.getDefaultProvider(network.value == ChainTypes.bep20 ? 'ropsten' : 'kovan')
+    console.log('network', network)
+    let provider = ethers.providers.getDefaultProvider(network.value == ChainTypes.bep20 ? 'https://bsc-dataseed.binance.org/' : 'mainnet')
+    if (walletProvider && walletProvider.connected) {
+        provider = new ethers.providers.Web3Provider(walletProvider)
+    }
     const contract = new Contract(network.tokenAddress, contractAbi, provider)
     const balance = await contract.balanceOf(await signer.getAddress());
     const readableBalance = ethers.utils.formatUnits(balance);
-    console.log('readableBalance',readableBalance);    
+    console.log('readableBalance', readableBalance);
     return readableBalance;
 }
 export const transfer = async (signer: Signer | null, network: Option | null, amount: number) => {
     if (!network) throw new Error('Give network to transfer')
     if (!signer) throw new Error('Give signer to transfer')
-
     const contract = new Contract(network.tokenAddress, contractAbi, signer)
     var numberOfDecimals = 18;
     var numberOfTokens = ethers.utils.parseUnits(amount.toString(), numberOfDecimals);
@@ -79,7 +83,7 @@ export const transfer = async (signer: Signer | null, network: Option | null, am
     try {
         return contract.transfer(network.bridgeAddress, numberOfTokens);
     } catch (error) {
-        console.log(error.toString());
+        console.log('send tokens error ', error.toString());
         throw new Error(error);
     }
 }
