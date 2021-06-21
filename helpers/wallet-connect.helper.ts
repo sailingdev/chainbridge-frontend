@@ -10,7 +10,7 @@ export const walletProvider = new WalletConnectProvider({
     infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
 });
 export const onQRCallback = (accounts: string[], success: Function, reject: Function) => {
-    if (accounts.length > 0) {
+    if (accounts && accounts.length > 0) {
         const provider = new ethers.providers.Web3Provider(walletProvider)
         const signer = provider.getSigner(accounts[0]);
         store(USER_WALLET_TYPE, 'walletconnect');
