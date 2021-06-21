@@ -30,12 +30,12 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const dispatch = useAppDispatch()
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const [capsToSwap, setCapsToSwap] = useState(0)
-    const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
-    const [popupConnectionOpen, setPopupConnectionOpen] = useState(false)
     const [selectedOptionFrom, setSelectedOptionFrom] = useState<Option | null>(options[0])
     const [isCapsInputFocused, setIsCapsInputFocused] = useState(false)
     const [isWindowEthAvailable, setIsWindowEthAvailable] = useState(false)
-    const [warningSelectedNetworkFrom,setWarningSelectedNetworkFrom] = useState(false)
+    const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
+    const [popupConnectionOpen, setPopupConnectionOpen] = useState(false)
+    const [warningSelectedNetworkFromOpen,setWarningSelectedNetworkFromOpen] = useState(false)
     const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount
     const userWalletChainType = userWallet ? userWallet.chainType : null
     const maxCapsToSwap = 10000
@@ -54,7 +54,12 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     useEffect(() => {
         updateProviderBalance()
         setCapsToSwap(0)
-    }, [userWalletChainType, selectedOptionFrom?.value])
+    }, [selectedOptionFrom?.value])
+    useEffect(()=>{
+        updateProviderBalance()
+        setCapsToSwap(0)
+        setSelectedOptionFrom(options.filter(x => x.value == userWalletChainType)[0])
+    }, [userWalletChainType])
     const handleChange = (option: Option, isFrom: boolean) => {
         if (isFrom) {
             setSelectedOptionFrom(option)
@@ -66,7 +71,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const handleNext = () => {
         if (isAbleToSwap || true){
             if (selectedOptionFrom?.value !== userWallet.chainType){
-                setWarningSelectedNetworkFrom(true)
+                setWarningSelectedNetworkFromOpen(true)
             }else{
                 setPopupConfirmationOpen(true)
             }
@@ -280,14 +285,14 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 <GenericModal
                     isClosable={true}
                     isModalError={true}
-                    open={warningSelectedNetworkFrom}
-                    setOpen={setWarningSelectedNetworkFrom}
+                    open={warningSelectedNetworkFromOpen}
+                    setOpen={setWarningSelectedNetworkFromOpen}
                 >
                     <div className={style.errorNetworkLabel}>
                         Please initiate transaction from the network you're connected to.
                     </div>
                     <div className={"py-3"}>
-                        <a className={"btn btn-outline-error rounded-pill"} onClick={() => setWarningSelectedNetworkFrom(false)}>
+                        <a className={"btn btn-outline-error rounded-pill"} onClick={() => setWarningSelectedNetworkFromOpen(false)}>
                             <div className={"d-flex align-items-center justify-content-center px-2"}>
                                 Got it
                             </div>
