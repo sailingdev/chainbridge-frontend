@@ -210,7 +210,15 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                         />
                                     </span>
                                 </div>
-                                <div className={"col-2"} onClick={() => userWallet && setCapsToSwap(userWallet.capsAmount)}>
+                                <div className={"col-2"} onClick={() => {
+                                    if (userWallet) {
+                                        if (userWallet.capsAmount <= maxCapsToSwap){
+                                            setCapsToSwap(userWallet.capsAmount)
+                                        }else{
+                                            setCapsToSwap(maxCapsToSwap)
+                                        }
+                                    }
+                                }}>
                                     <div className={"badge badge-pill " + style.maxButton}>
                                         Max
                                     </div>
@@ -220,7 +228,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     </div>
                     <div className={"pt-3"}>
                         <div 
-                            className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : ""/*disabled */}`} 
+                            className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : "disabled"}`} 
                             onClick={() => userWallet ? handleNext() : setPopupConnectionOpen(true)}
                         >
                             <div className={"d-flex align-items-center px-5 mx-4"}>
