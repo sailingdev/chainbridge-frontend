@@ -58,7 +58,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     useEffect(()=>{
         updateProviderBalance()
         setCapsToSwap(0)
-        setSelectedOptionFrom(options.filter(x => x.value == userWalletChainType)[0])
+        if (userWallet) setSelectedOptionFrom(options.filter(x => x.value == userWalletChainType)[0])
     }, [userWalletChainType])
     const handleChange = (option: Option, isFrom: boolean) => {
         if (isFrom) {
