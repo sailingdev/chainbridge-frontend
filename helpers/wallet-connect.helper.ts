@@ -27,9 +27,11 @@ export const connect = (): Promise<UserWallet> => {
         try {
             if (qrHasDisplayed) {
                 const uri = walletProvider.connector.uri;
-                walletProvider.qrcodeModal.open(uri, async (accounts: any) => {
+                walletProvider.qrcodeModal.open(uri, () => { });
+                walletProvider.on("accountsChanged", (accounts: string[]) => {
                     return onQRCallback(accounts, success, reject)
                 });
+
             } else {
                 qrHasDisplayed = true;
                 const accounts = await walletProvider.enable();
