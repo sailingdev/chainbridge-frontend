@@ -3,6 +3,8 @@ import { Contract, ethers, Signer } from "ethers"
 import { ChainTypes, NetworkType } from "interfaces";
 import { walletProvider } from "./wallet-connect.helper";
 
+const ETH_CHAIN_ID = [1,42]
+
 export const mapSignerAsWallet = async (signer: Signer, networkType: NetworkType) => {
     let chainId = await signer.getChainId()
     return {
@@ -12,7 +14,7 @@ export const mapSignerAsWallet = async (signer: Signer, networkType: NetworkType
         gasPrice: ethers.utils.formatEther(await signer.getGasPrice()),
         transactionCount: await signer.getTransactionCount(),
         networkType: networkType,
-        chainType: [1,42].includes(chainId) ? ChainTypes.erc20 : ChainTypes.bep20,
+        chainType: ETH_CHAIN_ID.includes(chainId) ? ChainTypes.erc20 : ChainTypes.bep20,
         signer
     }
 }

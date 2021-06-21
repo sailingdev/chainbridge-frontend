@@ -39,10 +39,10 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
         <>
             {modalMenuOpen && 
                 <ClickAwayListener onClickAway={()=>handleClose()}>
-                    <div className={style.ModalContainer}>
+                    <div className={style.modalContainer}>
                         <div className={"d-flex justify-content-end"}>
                             <div onClick={()=>handleClose()}>
-                                <Close />
+                                <Close className={style.closeButton}/>
                             </div>
                         </div>
                         {(userWallet) ? 

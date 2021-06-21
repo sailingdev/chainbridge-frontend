@@ -177,7 +177,6 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     capsToSwap={capsToSwap}
                     from={selectedOptionFrom}
                     onConfirm={handleTransfer}
-                    capsAmount={capsAmount}
                 />
             </div>
         </>

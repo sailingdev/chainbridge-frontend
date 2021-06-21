@@ -4,11 +4,10 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { mapSignerAsWallet } from "./wallet.helper";
 //  Create WalletConnect Provider
 export const walletProvider = new WalletConnectProvider({
-    infuraId: "d7ba724d1621497aaacdbc03b1094a2e",
+    infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
 });
 
 export const connect = async (): Promise<UserWallet> => {
-
     //  Enable session (triggers QR Code modal)
     try {
         const accounts = await walletProvider.enable();

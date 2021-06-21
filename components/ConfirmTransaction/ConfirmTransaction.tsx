@@ -72,8 +72,8 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                                 <hr className={style.divider}/>
                             </div>
                             <div className={"row d-flex text-center"}>
-                                <div className={style.capsAmountContainer}>
-                                    <span className={style.capsAmount}>{`${formatCaps(capsToSwap)} CAPS`}</span>
+                                <div className={style.capsToSwapContainer}>
+                                    <span className={style.capsToSwap}>{`${formatCaps(capsToSwap)} CAPS`}</span>
                                 </div>
                             </div>
                             <div className={"row px-4 pt-md-4 pt-2"}>
@@ -91,12 +91,22 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                                 </div>
                                 <div className={"col-6 " + style.leftLabel}>Destination</div>
                                 <div className={"col-6 " + style.rightLabel}>
-                                    {userWallet && userWallet.networkType === "walletconnect" ?
-                                        <WalletConnect className={style.gridIcon + " " + style.connectedIcon} />
-                                        :
-                                        <Metamask className={style.gridIcon + " " + style.connectedIcon} />
-                                    }
-                                    {userWallet && middleEllipsis(userWallet.address)}
+                                    <span className={"d-none d-md-block"}>
+                                        {userWallet && userWallet.networkType === "walletconnect" ?
+                                            <WalletConnect className={style.gridIcon + " " + style.connectedIcon} />
+                                            :
+                                            <Metamask className={style.gridIcon + " " + style.connectedIcon} />
+                                        }
+                                        {userWallet && middleEllipsis(userWallet.address)}
+                                    </span>
+                                    <span className={"d-block d-md-none"}>
+                                        {userWallet && userWallet.networkType === "walletconnect" ?
+                                            <WalletConnect className={style.gridIcon + " " + style.connectedIcon} />
+                                            :
+                                            <Metamask className={style.gridIcon + " " + style.connectedIcon} />
+                                        }
+                                        {userWallet && middleEllipsis(userWallet.address, 6)}
+                                    </span>
                                 </div>
                                 <div className={"col-6 " + style.leftLabel}>Network fee</div>
                                 <div className={"col-6 " + style.rightLabel}>

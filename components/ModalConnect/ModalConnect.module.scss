@@ -1,4 +1,4 @@
-.ModalContainer {
+.modalContainer {
     position: absolute;
     top: 0;
     width: 100vw;
@@ -8,11 +8,11 @@
     flex-direction: column;
 }
 
-.CloseButton {
+.closeButton {
     float: right;
 }
 
-.ClosePanel {
+.closePanel {
     position: absolute;
     right: 5%;
     top: 5%;
@@ -21,7 +21,7 @@
     margin-top: 2em;
 }
 
-.ConnectButton {
+.connectButton {
     background: #004FFF;
     font-style: normal;
     font-weight: bold;

@@ -9,6 +9,7 @@ import Footer from 'components/base/Footer'
 import { NetworkType } from 'interfaces';
 import ModalConnect from 'components/ModalConnect';
 import { useAppSelector } from 'redux/hooks';
+declare let window: any;
 
 export interface HomeNotConnectedProps {
 }
@@ -16,6 +17,7 @@ export interface HomeNotConnectedProps {
 const HomeNotConnected: React.FC<HomeNotConnectedProps> = () => {
     const [isConnectModalOpen, setConnectModalOpen] = useState(false);
     const [network, setNetwork] = useState<NetworkType>(null);
+    const [isWindowEthAvailable, setIsWindowEthAvailable] = useState(false)
     const router = useRouter();
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const connectWithMetaMask = () => {
@@ -31,6 +33,9 @@ const HomeNotConnected: React.FC<HomeNotConnectedProps> = () => {
             router.push('home-connected')
         }
     }, [userWallet])
+    useEffect(()=>{
+        setIsWindowEthAvailable(typeof window !== "undefined" && window.ethereum ? true : false)
+    })
     return (
         <>
             <Head>
@@ -43,14 +48,16 @@ const HomeNotConnected: React.FC<HomeNotConnectedProps> = () => {
                 <div className={"container py-md-6 py-4 d-flex flex-column align-items-center"}>
                     <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
                     <div className={"d-flex flex-column align-items-center pt-2 pt-md-5"}>
-                        <div className={"py-2"}>
-                            <a className={"btn btn-outline-primary rounded-pill"} onClick={connectWithMetaMask}>
-                                <div className={"d-flex align-items-center px-2"}>
-                                    <Metamask className={"mx-3"} />
-                                    <span className={style.buttonLabel}>Connect with Metamask</span>
-                                </div>
-                            </a>
-                        </div>
+                        {isWindowEthAvailable && 
+                            <div className={"py-2"}>
+                                <a className={"btn btn-outline-primary rounded-pill"} onClick={connectWithMetaMask}>
+                                    <div className={"d-flex align-items-center px-2"}>
+                                        <Metamask className={"mx-3"} />
+                                        <span className={style.buttonLabel}>Connect with Metamask</span>
+                                    </div>
+                                </a>
+                            </div>
+                        }
                         <div className={"py-2"}>
                             <a className={"btn btn-outline-primary rounded-pill"} onClick={connectWithWalletConnect}>
                                 <div className={"d-flex align-items-center px-2"}>

@@ -27,7 +27,7 @@ const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
             <div className={style.Header}>
                 <Link href="/">
                     <a>
-                        <LogoTernoaBridge className={style.Logo} />
+                        <LogoTernoaBridge className={style.logo} />
                     </a>
                 </Link>
                 <div className={"d-none d-md-block"}>
@@ -37,20 +37,20 @@ const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
                         </a>
                         :
                         <div className={"d-flex"}>
-                            <div className={style.CapsContainer}>
+                            <div className={style.capsContainer}>
                                 <div className={"d-flex py-2 px-3 align-items-center"}>
-                                    <div className={style.CapsAmount}>{formatCaps(capsAmount) + " Caps"}</div>
+                                    <div className={style.capsAmount}>{formatCaps(capsAmount) + " Caps"}</div>
                                     <div className={style.capsAvailable}>{"Available"}</div>
                                 </div>
                             </div>
-                            <div className={style.ProviderContainer}>
+                            <div className={style.providerContainer}>
                                 <div className={"row d-flex align-items-center"}>
                                     <div className={"col-3"}>
                                         {userWallet.networkType === "metamask" ? <Metamask /> : <WalletConnect />}
                                     </div>
                                     <div className={"col"}>
                                         <div className={"row"}>
-                                            <span className={style.Address}>{middleEllipsis(userWallet.address.toString())}</span>
+                                            <span className={style.address}>{middleEllipsis(userWallet.address.toString())}</span>
                                         </div>
                                         <div className={"row"}>
                                             <span className={style.Network}>{`${userWallet.chainType === ChainTypes.erc20 ? "Ethereum" : "Binance"} Network`}</span>
@@ -58,16 +58,16 @@ const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className={style.SettingContainer}>
+                            <div className={style.settingContainer}>
                                 <div className={"d-flex px-3 align-items-center"}>
-                                    <Setting className={style.SettingIcon} />
+                                    <Setting className={style.settingIcon} />
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
                 <div className={"d-md-none"} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                    <Hamburger className={style.Hamburger + " mx-2"} />
+                    <Hamburger className={style.hamburger + " mx-2"} />
                 </div>
             </div>
             <ModalMenu
