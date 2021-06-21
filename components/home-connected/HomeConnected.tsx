@@ -48,6 +48,9 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
         }
     }
     useEffect(() => {
+        updateProviderBalance();
+    }, [userWallet?.address])
+    useEffect(() => {
         setIsWindowEthAvailable(typeof window !== "undefined" && window.ethereum ? true : false)
     })
     useEffect(() => {
