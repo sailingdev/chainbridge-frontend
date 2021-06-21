@@ -48,7 +48,7 @@ const HomeNotConnected: React.FC<HomeNotConnectedProps> = () => {
                 <MainHeader/>
                 <div className={"container py-3 d-flex flex-column align-items-center"}>
                     <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
-                    <div className={"d-flex flex-column align-items-center pt-2 pt-md-5"}>
+                    <div className={"d-flex flex-column align-items-center pt-5"}>
                         {isWindowEthAvailable && 
                             <div className={"py-2"}>
                                 <a className={"btn btn-outline-primary rounded-pill"} onClick={connectWithMetaMask}>

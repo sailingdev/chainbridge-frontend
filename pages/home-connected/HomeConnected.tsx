@@ -24,7 +24,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [capsToSwap, setCapsToSwap] = useState(0)
     const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const [selectedOptionFrom, setSelectedOptionFrom] = useState<Option | null>(options[0])
-    let maskedTextInput: any = null;
+    const [isCapsInputFocused, setIsCapsInputFocused] = useState(false)
+    let maskedTextInput:any = null;
     const updateProviderBalance = async () => {
         if (userWallet) {
             console.log('updateProviderBalance');
@@ -116,8 +117,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                             <div className={style.amountContainer}>
                                 <div className={"px-2 pt-2 px-md-3 pt-md-3"}>Amount</div>
                                 <div className={"row d-flex align-items-center px-2 pb-2 px-md-3 pb-md-0"}>
-                                    <div className={"col-10"}>
-                                        <span className={style.capsAmount} onClick={() => maskedTextInput?.focus()}>
+                                    <div className={"col-10"} onClick={() => maskedTextInput?.focus()}>
+                                        <span className={style.capsAmount}>
                                             {formatCaps(capsToSwap) + " CAPS"}
                                             <input
                                                 type="number"
@@ -125,6 +126,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                                 onChange={(e) => Number(e.target.value)>=0 && Number(e.target.value)<=10000000000 && setCapsToSwap(Number(e.target.value))}
                                                 ref={(input) => {maskedTextInput=input}}
                                                 className={style.maskedInput}
+                                                onFocus={() => setIsCapsInputFocused(true)}
+                                                onBlur={() => setIsCapsInputFocused(false)}
                                             />
                                         </span>
                                     </div>
@@ -134,35 +137,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className={"d-none d-md-block"}>
-                                    <hr className={style.divider} />
-                                    <div className={style.sliderContainer}>
-                                        <div className={"row d-flex align-items-center"}>
-                                            <div className={"col " + style.rangeLegend}>
-                                                0 CAPS
-                                        </div>
-                                            <div className={"col " + style.rangeLegendRight}>
-                                                {formatCaps(userWallet.capsAmount) + " CAPS"}
-                                            </div>
-                                        </div>
-                                        <input
-                                            type="range"
-                                            className={style.slider}
-                                            min={0}
-                                            max={userWallet.capsAmount}
-                                            value={capsToSwap}
-                                            onChange={(event) => setCapsToSwap(Number(event.target.value))}
-                                        />
-                                        <div className={"row d-flex align-items-bottom pt-2"}>
-                                            <div className={"col " + style.rangeLegend}>
-                                                min
-                                        </div>
-                                            <div className={"col " + style.rangeLegendRight}>
-                                                max
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <hr className={style.divider + " " + (isCapsInputFocused ? style.dividerColored : "") } />
                             </div>
                         </div>
                         <div className={"pt-3"}>

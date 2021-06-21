@@ -116,54 +116,14 @@
 
 .divider{
     padding:0px;
-    margin:0px 15px;
+    margin:0px 10px 10px 10px;
+    @media (min-width: 768px) {
+        margin:5px 15px 10px 15px;
+    }
 }
 
-.sliderContainer{
-    padding: 25px 15px;
-}
-
-.slider {
-    -webkit-appearance: none; 
-    appearance: none;
-    width: 100%; 
-    height: 2px;
-    outline: none; 
-    -webkit-transition: .2s; 
-    transition: .2s;
-    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
-                linear-gradient(101deg,  #ff8500, #ff0062, #cb06ed, #004fff);
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none; 
-    appearance: none;
-    width: 20px;
-    height: 20px; 
-    border-radius: 15px;
-    background: #004fff; 
-    cursor: pointer; 
-}
-
-.slider::-moz-range-thumb {
-    width: 20px; 
-    height: 20px;
-    border-radius: 15px;
-    background: #004fff;
-    cursor: pointer; 
-}
-
-.rangeLegend{
-    font-size: 9px;
-    line-height: 9px;
-    color: #9C9CBA;
-}
-
-.rangeLegendRight{
-    font-size: 9px;
-    line-height: 9px;
-    color: #9C9CBA;
-    text-align: right;
+.dividerColored{
+    background: linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500);
 }
 
 .maskedInput{
