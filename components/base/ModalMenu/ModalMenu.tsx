@@ -17,9 +17,11 @@ import { ChainTypes } from 'interfaces';
 export interface ModalMenuProps {
     modalMenuOpen: boolean;
     setModalMenuOpen: Function;
+    isWindowEthAvailable: Boolean;
+    handleConnect: Function;
 }
 
-const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen }) => {
+const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, isWindowEthAvailable, handleConnect }) => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const dispatch = useAppDispatch()
     const handleClose = () => {
@@ -92,13 +94,28 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen }
                                 <div className={"btn btn-outline-primary rounded-pill"} onClick={() => handleLogout()}>Log out</div>
                             </div>
                         :
-                            <div className={"row py-4 px-4"}>
-                                <div className={"btn btn-outline-primary rounded-pill"}>Connect wallet</div>
+                            <div className={"d-flex flex-column align-items-center pt-3"}>
+                                {isWindowEthAvailable && 
+                                    <div className={"py-2"}>
+                                        <a className={"btn btn-outline-primary rounded-pill px-2 " + style.connectButton} onClick={() => handleConnect("metamask")}>
+                                            <div className={"d-flex align-items-center"}>
+                                                <Metamask className={"mx-2"} />
+                                                <span>Connect with Metamask</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                                <div className={"py-2"}>
+                                    <a className={"btn btn-outline-primary rounded-pill px-2 " + style.connectButton} onClick={() => handleConnect("walletconnect")}>
+                                        <div className={"d-flex align-items-center"}>
+                                            <WalletConnect className={"mx-2"} />
+                                            <span>Connect with Wallet Connect</span>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         }
                     </div>
-
-
                 </ClickAwayListener>
             }
         </>

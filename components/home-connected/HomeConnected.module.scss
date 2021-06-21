@@ -136,3 +136,19 @@
     font-family: "Airbnb Cereal App Bold";
     font-size: 16px;
 }
+
+.modalConnectTitle{
+    font-size: 24px;
+}
+
+.connectButton{
+    line-height: 30px;
+    width: 100%;
+}
+
+.buttonContainer{
+    width: 90%;
+    @media (min-width: 768px) {
+        width: 70%;
+    }
+}

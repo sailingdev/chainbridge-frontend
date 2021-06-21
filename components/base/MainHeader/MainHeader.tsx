@@ -14,16 +14,18 @@ import { ChainTypes } from 'interfaces';
 import Stars from '../Stars';
 
 export interface HeaderProps {
+    setConnectModalOpen: Function;
+    isWindowEthAvailable: Boolean;
+    handleConnect: Function;
 }
 
-const MainHeader: React.FC<HeaderProps> = () => {
+const MainHeader: React.FC<HeaderProps> = ({ setConnectModalOpen, isWindowEthAvailable, handleConnect }) => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const router = useRouter();
     return (
         <header>
             <Stars />
-            <div className={style.Header}>
+            <div className={style.header}>
                 <Link href="/">
                     <a>
                         <LogoTernoaBridge className={style.logo} />
@@ -31,7 +33,7 @@ const MainHeader: React.FC<HeaderProps> = () => {
                 </Link>
                 <div className={"d-none d-md-block"}>
                     {!userWallet ?
-                        <a className={"btn btn-outline-primary rounded-pill"} onClick={() => router.push('home-not-connected')}>
+                        <a className={"btn btn-outline-primary rounded-pill"} onClick={() => setConnectModalOpen(true)}>
                             Connect wallet
                         </a>
                         :
@@ -82,6 +84,8 @@ const MainHeader: React.FC<HeaderProps> = () => {
             <ModalMenu
                 modalMenuOpen={isMenuOpen}
                 setModalMenuOpen={setIsMenuOpen}
+                isWindowEthAvailable={isWindowEthAvailable}
+                handleConnect={handleConnect}
             />
         </header>
     )

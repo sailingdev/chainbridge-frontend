@@ -2,6 +2,7 @@ import React from 'react';
 import style from './GenericModal.module.scss';
 import Close from 'components/assets/Close';
 import Warning from 'components/assets/Warning';
+import ClickAwayListener from 'react-click-away-listener';
 
 export interface GenericModalProps {
     open: boolean;
@@ -16,23 +17,29 @@ const GenericModal: React.FC<GenericModalProps> = ({ open, setOpen, isModalError
         <>
         {open && 
             <div className={style.wrapper}>
-                <div className={style.alignBox}>
-                    <div className={style.container + " " + (isModalError ? style.containerError : "")}>
-                        <div className={"container p-2 p-md-3"}>
+                <ClickAwayListener onClickAway={()=>setOpen && setOpen(false)}>
+                    <div className={style.alignBox}>
+                        <div className={style.container + " " + (isModalError ? style.containerError : "")}>
                             {isClosable && setOpen && 
-                                <div className={"row"}>
-                                    <div onClick={() => setOpen(false)}><Close className={style.closeButton}/></div>
+                                <div className={"row d-flex justify-content-end"}>
+                                    <div onClick={() => setOpen(false)} className={style.closeButtonContainer}>
+                                        <Close className={style.closeButton}/>
+                                    </div>
                                 </div>
                             }
-                            <div className={"row pt-2 pb-5"}>
-                                <Warning/>
-                            </div>
-                            <div className={"row"}>
-                                {children}
+                            <div className={"container pt-2 pt-md-3"}>
+                                {isModalError && 
+                                    <div className={"row pt-2 pb-5"}>
+                                        <Warning/>
+                                    </div>
+                                }
+                                <div className={"row"}>
+                                    {children}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </ClickAwayListener>
             </div>
         }
         </>

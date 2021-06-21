@@ -19,7 +19,7 @@
 
 .container{
     margin:18px;
-    padding: 40px;
+    padding: 25px;
     background-color: #14142E;
     border-radius: 12px;
     text-align: center;
@@ -34,6 +34,9 @@
     box-shadow: 2px 1000px 1px #00001e inset;
 }
 
+.closeButtonContainer{
+    width: auto;
+}
 
 .closeButton{
     cursor: pointer;
