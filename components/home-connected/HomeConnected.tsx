@@ -35,6 +35,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [selectedOptionFrom, setSelectedOptionFrom] = useState<Option | null>(options[0])
     const [isCapsInputFocused, setIsCapsInputFocused] = useState(false)
     const [isWindowEthAvailable, setIsWindowEthAvailable] = useState(false)
+    const [warningSelectedNetworkFrom,setWarningSelectedNetworkFrom] = useState(false)
     const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount
     const userWalletChainType = userWallet ? userWallet.chainType : null
     const maxCapsToSwap = 10000
@@ -62,12 +63,14 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             setSelectedOptionFrom(firstOption)
         }
     }
-    const handleTransfer = async () => {
-        const amount = Number(capsToSwap);
-        const transaction = await transfer(userWallet.signer, selectedOptionFrom, amount)
-        setPopupConfirmationOpen(false)
-        const receipt = await transaction.wait()
-        updateProviderBalance();
+    const handleNext = () => {
+        if (isAbleToSwap || true){
+            if (selectedOptionFrom?.value !== userWallet.chainType){
+                setWarningSelectedNetworkFrom(true)
+            }else{
+                setPopupConfirmationOpen(true)
+            }
+        }
     }
     const handleConnect = async (network: NetworkType) => {
         switch (network) {
@@ -108,6 +111,13 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 break
         }
         setPopupConnectionOpen(false)
+    }
+    const handleTransfer = async () => {
+        const amount = Number(capsToSwap);
+        const transaction = await transfer(userWallet.signer, selectedOptionFrom, amount)
+        setPopupConfirmationOpen(false)
+        const receipt = await transaction.wait()
+        updateProviderBalance();
     }
     return (
         <>
@@ -155,7 +165,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     <div className={style.addNetwork}>
                         <span className={style.addNetworkLabel}>{"If you have not add Binance Smart Chain network in your MetaMask yet, please click "}</span>
                         <a
-                            href="#"
+                            href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
                             target="_blank"
                             rel="noopener"
                             className={style.addNetworkButton}
@@ -165,11 +175,11 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         <span className={style.addNetworkLabel}>{" and continue."}</span>
                     </div>
                     <div className={"container d-flex justify-content-center px-0"}>
-                        <div className={style.amountContainer}>
-                            <div className={"px-2 pt-2 px-md-3 pt-md-3"}>Amount</div>
-                            <div className={"row d-flex align-items-center px-2 pb-2 px-md-3 pb-md-0"}>
+                        <div className={style.amountContainer + " py-2 py-md-2"}>
+                            <div className={"px-3"}>Amount</div>
+                            <div className={"row d-flex align-items-center px-2 pb-2 pb-md-0"}>
                                 <div className={"col-10"} onClick={() => maskedTextInput?.focus()}>
-                                    <span className={style.capsAmount}>
+                                    <span className={style.capsAmount + " " + (isCapsInputFocused ? style.capsAmountFocused : "")}>
                                         {formatCaps(capsToSwap) + " CAPS"}
                                         <input
                                             type="number"
@@ -201,13 +211,12 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                     </div>
                                 </div>
                             </div>
-                            <hr className={style.divider + " " + (isCapsInputFocused ? style.dividerColored : "") } />
                         </div>
                     </div>
                     <div className={"pt-3"}>
                         <div 
                             className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : ""/*disabled */}`} 
-                            onClick={() => userWallet ? setPopupConfirmationOpen(true) : setPopupConnectionOpen(true)}
+                            onClick={() => userWallet ? handleNext() : setPopupConnectionOpen(true)}
                         >
                             <div className={"d-flex align-items-center px-5 mx-4"}>
                                 <span>
@@ -265,6 +274,24 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 >
                     <div className={style.errorNetworkLabel}>
                         Please select  the ETH main network or the BSC main network in your wallet to continue
+                    </div>
+                </GenericModal>
+                {/* Wrong network selected modal */}
+                <GenericModal
+                    isClosable={true}
+                    isModalError={true}
+                    open={warningSelectedNetworkFrom}
+                    setOpen={setWarningSelectedNetworkFrom}
+                >
+                    <div className={style.errorNetworkLabel}>
+                        Please initiate transaction from the network you're connected to.
+                    </div>
+                    <div className={"py-3"}>
+                        <a className={"btn btn-outline-error rounded-pill"} onClick={() => setWarningSelectedNetworkFrom(false)}>
+                            <div className={"d-flex align-items-center justify-content-center px-2"}>
+                                Got it
+                            </div>
+                        </a>
                     </div>
                 </GenericModal>
             </div>

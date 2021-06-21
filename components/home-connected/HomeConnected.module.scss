@@ -99,9 +99,17 @@
     font-family: "Airbnb Cereal App Bold";
     font-size: 22px;
     line-height: 30px;
+    padding-left: 4px;
+    padding-right: 4px;
     background: linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500);
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    border: solid 1px transparent;
+}
+
+.capsAmountFocused{
+    border-image:linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500);
+    border-image-slice: 1;
 }
 
 .maxButton{
@@ -113,18 +121,6 @@
     cursor:pointer;
 }
 
-
-.divider{
-    padding:0px;
-    margin:0px 10px 10px 10px;
-    @media (min-width: 768px) {
-        margin:5px 15px 10px 15px;
-    }
-}
-
-.dividerColored{
-    background: linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500);
-}
 
 .maskedInput{
     width:0; 

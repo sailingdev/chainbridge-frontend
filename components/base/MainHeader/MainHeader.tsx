@@ -69,7 +69,7 @@ const MainHeader: React.FC<HeaderProps> = ({ setConnectModalOpen, isWindowEthAva
                                     </div>
                                 </div>
                             </div>
-                            <div className={style.settingContainer}>
+                            <div className={"d-none " + style.settingContainer}>
                                 <div className={"d-flex px-3 align-items-center"}>
                                     <Setting className={style.settingIcon} />
                                 </div>

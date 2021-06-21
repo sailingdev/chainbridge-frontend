@@ -67,7 +67,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                 </div>
                             </>
                         }
-                        <div className={"row py-4"}>
+                        <div className={"d-none row py-5"}>
                             <div className={"col-12 py-2"}>
                                 <span><Swap/></span>
                                 <span className={style.menuLabel}><a href="#">Swap</a></span>
@@ -89,8 +89,14 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                 <span className={style.menuLabel}><a href="#">FAQs</a></span>
                             </div>
                         </div>
+                        <div className={"row py-5"}>
+                            <div className={"col-12 py-2"}>
+                                <span><Support/></span>
+                                <span className={style.menuLabel}><a href="#">Support</a></span>
+                            </div>
+                        </div>
                         {(userWallet) ? 
-                            <div className={"row py-4 px-4"}>
+                            <div className={"d-none row py-4 px-4"}>
                                 <div 
                                     className={"btn btn-outline-primary rounded-pill"} 
                                     onClick={() => {
