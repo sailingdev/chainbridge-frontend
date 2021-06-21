@@ -38,7 +38,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen }
                                 <Close className={style.closeButton}/>
                             </div>
                         </div>
-                        {(userWallet) ?
+                        {(userWallet) &&
                             <>
                                 <div className={"row py-3"}>
                                     <div className={style.capsAmount}>{formatCaps(userWallet.capsAmount) + " CAPS"}</div>
@@ -56,8 +56,6 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen }
                                     </div>
                                 </div>
                             </>
-                        :
-                            <div className={"py-5"}></div>
                         }
                         <div className={"row py-4"}>
                             <div className={"col-12 py-2"}>
@@ -81,9 +79,13 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen }
                                 <span className={style.menuLabel}><a href="#">FAQs</a></span>
                             </div>
                         </div>
-                        {(userWallet) && 
+                        {(userWallet) ? 
                             <div className={"row py-4 px-4"}>
                                 <div className={"btn btn-outline-primary rounded-pill"} onClick={() => handleLogout()}>Log out</div>
+                            </div>
+                        :
+                            <div className={"row py-4 px-4"}>
+                                <div className={"btn btn-outline-primary rounded-pill"}>Connect wallet</div>
                             </div>
                         }
                     </div>

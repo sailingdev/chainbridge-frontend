@@ -75,15 +75,15 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                                     <span className={style.capsToSwap}>{`${formatCaps(capsToSwap)} CAPS`}</span>
                                 </div>
                             </div>
-                            <div className={"row px-4 pt-md-4 pt-2"}>
+                            <div className={"row px-4 pt-md-3 pt-2"}>
                                 <span className={style.networkTitle}>From</span>
                                 {NetworkRow(from, userWallet)}
                             </div>
-                            <div className={"row px-4 pt-md-4 pt-2"}>
+                            <div className={"row px-4 pt-md-3 pt-2"}>
                                 <span className={style.networkTitle}>To</span>
                                 {NetworkRow(to, userWallet)}
                             </div>
-                            <div className={"row py-4 px-4"}>
+                            <div className={"row py-3 px-4"}>
                                 <div className={"col-6 " + style.leftLabel}>Asset</div>
                                 <div className={"col-6 " + style.rightLabel}>
                                     <Caps className={style.gridIcon} /> {` CAPS`}
@@ -119,7 +119,7 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                             <div className={"row px-4"}>
                                 <span className={style.feeWarningLabel}>The network fees and execution price depend on the market condition,  you may get a different rate when the transaction is complete</span>
                             </div>
-                            <div className={"row pt-4 px-4 d-flex align-items-center"}>
+                            <div className={"row pt-3 px-4 d-flex align-items-center"}>
                                 <div className={"col-1 " + style.radioButton + " " + (isTermAccepted ? style.radioButtonChecked : "")} onClick={() => setIsTermAccepted(!isTermAccepted)}></div>
                                 <div className={"col-11 " + style.termsLabel}>I have read and agree to the <a href="#">terms</a></div>
                             </div>

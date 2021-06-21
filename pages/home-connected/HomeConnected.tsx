@@ -70,11 +70,11 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             <div className={"mainContainer"}>
                 <MainHeader/>
                 {userWallet && 
-                    <div className={"container py-md-6 py-4 d-flex flex-column align-items-center"}>
+                    <div className={"container py-3 d-flex flex-column align-items-center"}>
                         <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
                         <div className={style.swapAddressLabel}>The swap will occur on your same adress</div>
                         <div className={style.address}>{userWallet.address && middleEllipsis(userWallet.address, 24)}</div>
-                        <div className={"container px-2 py-4 pt-md-4 pb-md-3"}>
+                        <div className={"container px-2 py-3"}>
                             <div className={"row d-flex justify-content-center"}>
                                 <div className={"col-12 col-md-5 px-0 mx-0"}>
                                     <span className={style.networkLabel}>From</span>
