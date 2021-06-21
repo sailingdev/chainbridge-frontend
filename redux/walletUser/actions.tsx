@@ -11,5 +11,5 @@ export const actions = {
     setCapsAmount: (value: string | number) => ({
         type: 'USER_WALLET_SET_CAPS_AMOUNT',
         value: value,
-    }),
+    })
 }

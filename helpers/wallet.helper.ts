@@ -65,7 +65,6 @@ const contractAbi = [
 export const getProviderBalance = async (signer: Signer, network: Option | null) => {
     if (!network) throw new Error('No network given')
     if (!signer) throw new Error('No signer given')
-    console.log('network', network)
     let provider = ethers.providers.getDefaultProvider(network.value == ChainTypes.bep20 ? 'https://bsc-dataseed.binance.org/' : 'mainnet')
     if (walletProvider && walletProvider.connected) {
         provider = new ethers.providers.Web3Provider(walletProvider)
@@ -73,7 +72,6 @@ export const getProviderBalance = async (signer: Signer, network: Option | null)
     const contract = new Contract(network.tokenAddress, contractAbi, provider)
     const balance = await contract.balanceOf(await signer.getAddress());
     const readableBalance = ethers.utils.formatUnits(balance);
-    console.log('readableBalance', readableBalance);
     return readableBalance;
 }
 export const transfer = async (signer: Signer | null, network: Option | null, amount: number) => {
@@ -87,7 +85,6 @@ export const transfer = async (signer: Signer | null, network: Option | null, am
     try {
         return contract.transfer(network.bridgeAddress, numberOfTokens);
     } catch (error) {
-        console.log('send tokens error ', error.toString());
         throw new Error(error);
     }
 }
