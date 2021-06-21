@@ -9,12 +9,12 @@ let qrHasDisplayed = false;
 export const walletProvider = new WalletConnectProvider({
     infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
 });
-export const onQRCallback = (accounts: string[], success: Function, reject: Function) => {
+export const onQRCallback = async (accounts: string[], success: Function, reject: Function) => {
     if (accounts && accounts.length > 0) {
         const provider = new ethers.providers.Web3Provider(walletProvider)
         const signer = provider.getSigner(accounts[0]);
         store(USER_WALLET_TYPE, 'walletconnect');
-        const wallet = mapSignerAsWallet(signer, 'walletconnect');
+        const wallet = await mapSignerAsWallet(signer, 'walletconnect');
         success(wallet)
     } else {
         reject('No WalletConnect account retrieved');
