@@ -19,7 +19,7 @@ import { connectMetaMask, connectWalletConnect } from 'actions/connect';
 import { walletProvider } from 'helpers/wallet-connect.helper';
 import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
-import { get } from 'helpers/storage.helper'
+import { clear, get } from 'helpers/storage.helper'
 import { USER_WALLET_TYPE } from 'const'
 
 declare let window: any;
@@ -102,6 +102,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         dispatch(actions.login(metaMaskUserWallet))
                     } else {
                         dispatch(actions.logout())
+                        clear(USER_WALLET_TYPE)
                     }
                 })
                 break
@@ -111,9 +112,10 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     dispatch(actions.login(walletconnectUserWallet))
                     walletProvider.on("disconnect", (code: any, reason: any) => {
                         dispatch(actions.logout())
+                        clear(USER_WALLET_TYPE)
                     });
                 } catch (err) {
-                    //TODO: reload window as its bugged, cannot re-call QR modal
+                    clear(USER_WALLET_TYPE)
                 }
 
                 break
