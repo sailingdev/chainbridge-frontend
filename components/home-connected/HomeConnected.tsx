@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Head from 'next/head'
 import style from './HomeConnected.module.scss';
 import ArrowRight from 'components/assets/ArrowRight';
@@ -20,6 +19,8 @@ import { connectMetaMask, connectWalletConnect } from 'actions/connect';
 import { walletProvider } from 'helpers/wallet-connect.helper';
 import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
+import { get } from 'helpers/storage.helper'
+import { USER_WALLET_TYPE } from 'const'
 
 declare let window: any;
 
@@ -42,15 +43,21 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     let maskedTextInput:any = null;
     const updateProviderBalance = async () => {
         if (userWallet) {
-            console.log('updateProviderBalance');
             const providerBalance = await getProviderBalance(userWallet.signer, selectedOptionFrom)
-            console.log('providerBalance', providerBalance.toString());
             dispatch(actions.setCapsAmount(Number(providerBalance.toString())))
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         setIsWindowEthAvailable(typeof window !== "undefined" && window.ethereum ? true : false)
     })
+    useEffect(() => {
+        const networkTypeStorage: NetworkType = get(USER_WALLET_TYPE) as NetworkType
+
+        if (networkTypeStorage) {
+            handleConnect(networkTypeStorage)
+        }
+    }, []);
+
     useEffect(() => {
         updateProviderBalance()
         setCapsToSwap(0)
@@ -81,19 +88,14 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
         switch (network) {
             case 'metamask':
                 const metaMaskUserWallet = await connectMetaMask();
-                console.log('metaMaskUserWallet', metaMaskUserWallet);
                 dispatch(actions.login(metaMaskUserWallet))
                 window.ethereum.on('chainChanged', async function (chain: any) {
-                    console.log('chainChanged', chain)
                     const metaMaskUserWallet = await connectMetaMask();
-                    console.log('metaMaskUserWallet', metaMaskUserWallet);
                     dispatch(actions.login(metaMaskUserWallet))
                 })
                 window.ethereum.on('accountsChanged', async function (accounts: any) {
-                    // console.log('initEventsMetamask accountsChanged accounts', accounts)
                     if (accounts && accounts.length > 0) {
                         const metaMaskUserWallet = await connectMetaMask();
-                        console.log('metaMaskUserWallet', metaMaskUserWallet);
                         dispatch(actions.login(metaMaskUserWallet))
                     } else {
                         dispatch(actions.logout())
@@ -105,11 +107,9 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     const walletconnectUserWallet = await connectWalletConnect()
                     dispatch(actions.login(walletconnectUserWallet))
                     walletProvider.on("disconnect", (code: any, reason: any) => {
-                        console.log('on disconnect', code, reason);
                         dispatch(actions.logout())
                     });
                 } catch (err) {
-                    console.log('walletconnect err', err)
                     //TODO: reload window as its bugged, cannot re-call QR modal
                 }
 
@@ -132,10 +132,10 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 <meta name="description" content="BSC ETH Bridge, by Ternoa." />
             </Head>
             <div className={"mainContainer"}>
-                <MainHeader setConnectModalOpen={setPopupConnectionOpen} isWindowEthAvailable={isWindowEthAvailable} handleConnect={handleConnect}/>
+                <MainHeader setConnectModalOpen={setPopupConnectionOpen} isWindowEthAvailable={isWindowEthAvailable} handleConnect={handleConnect} />
                 <div className={"container py-3 d-flex flex-column align-items-center"}>
                     <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
-                    {userWallet && 
+                    {userWallet &&
                         <>
                             <div className={style.swapAddressLabel}>The swap will occur on your same adress</div>
                             <div className={style.address}>{userWallet.address && middleEllipsis(userWallet.address, 24)}</div>
@@ -243,7 +243,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         Connect your Wallet
                     </div>
                     <div className={"d-flex flex-column align-items-center pt-3"}>
-                        {isWindowEthAvailable && 
+                        {isWindowEthAvailable &&
                             <div className={"py-2 " + style.buttonContainer}>
                                 <a className={"btn btn-outline-primary rounded-pill " + style.connectButton} onClick={() => handleConnect("metamask")}>
                                     <div className={"d-flex align-items-center justify-content-center px-2"}>
@@ -275,7 +275,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 <GenericModal
                     isClosable={false}
                     isModalError={true}
-                    open={(userWallet && userWallet.chainType===ChainTypes.other)}
+                    open={(userWallet && userWallet.chainType === ChainTypes.other)}
                 >
                     <div className={style.errorNetworkLabel}>
                         Please select  the ETH main network or the BSC main network in your wallet to continue
