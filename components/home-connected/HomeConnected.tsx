@@ -36,6 +36,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [isCapsInputFocused, setIsCapsInputFocused] = useState(false)
     const [isWindowEthAvailable, setIsWindowEthAvailable] = useState(false)
     const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount
+    const userWalletChainType = userWallet ? userWallet.chainType : null
+    const maxCapsToSwap = 10000
     let maskedTextInput:any = null;
     const updateProviderBalance = async () => {
         if (userWallet) {
@@ -51,7 +53,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     useEffect(() => {
         updateProviderBalance()
         setCapsToSwap(0)
-    }, [selectedOptionFrom?.value])
+    }, [userWalletChainType, selectedOptionFrom?.value])
     const handleChange = (option: Option, isFrom: boolean) => {
         if (isFrom) {
             setSelectedOptionFrom(option)
@@ -172,10 +174,23 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                         <input
                                             type="number"
                                             value={capsToSwap}
-                                            onChange={(e) => Number(e.target.value)>=0 && Number(e.target.value)<=10000000000 && setCapsToSwap(Number(e.target.value))}
+                                            onChange={(e) => {
+                                                Number(e.target.value)>=0 && Number(e.target.value)<=10000 ?
+                                                    setCapsToSwap(Number(e.target.value))
+                                                :
+                                                    setCapsToSwap(maxCapsToSwap)
+                                            }}
                                             ref={(input) => {maskedTextInput=input}}
                                             className={style.maskedInput}
-                                            onFocus={() => setIsCapsInputFocused(true)}
+                                            style={{backgroundColor:"red"}}
+                                            min={0}
+                                            max={maxCapsToSwap}
+                                            onFocus={(e) => {
+                                                setIsCapsInputFocused(true)
+                                                e.currentTarget.type = "text"
+                                                e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)
+                                                e.currentTarget.type = "number"
+                                            }}
                                             onBlur={() => setIsCapsInputFocused(false)}
                                         />
                                     </span>
@@ -217,7 +232,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         {isWindowEthAvailable && 
                             <div className={"py-2 " + style.buttonContainer}>
                                 <a className={"btn btn-outline-primary rounded-pill " + style.connectButton} onClick={() => handleConnect("metamask")}>
-                                    <div className={"d-flex align-items-center px-2"}>
+                                    <div className={"d-flex align-items-center justify-content-center px-2"}>
                                         <Metamask className={"mx-3"} />
                                         <span>Metamask</span>
                                     </div>
@@ -226,7 +241,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         }
                         <div className={"py-2 " + style.buttonContainer}>
                             <a className={"btn btn-outline-primary rounded-pill " + style.connectButton} onClick={() => handleConnect("walletconnect")}>
-                                <div className={"d-flex align-items-center px-2"}>
+                                <div className={"d-flex align-items-center justify-content-center px-2"}>
                                     <WalletConnect className={"mx-3"} />
                                     <span>Wallet Connect</span>
                                 </div>

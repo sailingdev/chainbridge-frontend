@@ -91,13 +91,27 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                         </div>
                         {(userWallet) ? 
                             <div className={"row py-4 px-4"}>
-                                <div className={"btn btn-outline-primary rounded-pill"} onClick={() => handleLogout()}>Log out</div>
+                                <div 
+                                    className={"btn btn-outline-primary rounded-pill"} 
+                                    onClick={() => {
+                                        handleLogout()
+                                        setModalMenuOpen(false)
+                                    }}
+                                >
+                                    Log out
+                                </div>
                             </div>
                         :
                             <div className={"d-flex flex-column align-items-center pt-3"}>
                                 {isWindowEthAvailable && 
                                     <div className={"py-2"}>
-                                        <a className={"btn btn-outline-primary rounded-pill px-2 " + style.connectButton} onClick={() => handleConnect("metamask")}>
+                                        <a 
+                                            className={"btn btn-outline-primary rounded-pill px-2 " + style.connectButton} 
+                                            onClick={() => {
+                                                handleConnect("metamask")
+                                                setModalMenuOpen(false)
+                                            }}
+                                        >
                                             <div className={"d-flex align-items-center"}>
                                                 <Metamask className={"mx-2"} />
                                                 <span>Connect with Metamask</span>
@@ -106,7 +120,13 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                     </div>
                                 }
                                 <div className={"py-2"}>
-                                    <a className={"btn btn-outline-primary rounded-pill px-2 " + style.connectButton} onClick={() => handleConnect("walletconnect")}>
+                                    <a 
+                                        className={"btn btn-outline-primary rounded-pill px-2 " + style.connectButton} 
+                                        onClick={() => {
+                                            handleConnect("walletconnect")
+                                            setModalMenuOpen(false)
+                                        }}
+                                    >
                                         <div className={"d-flex align-items-center"}>
                                             <WalletConnect className={"mx-2"} />
                                             <span>Connect with Wallet Connect</span>
