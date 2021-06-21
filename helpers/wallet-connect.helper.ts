@@ -25,11 +25,9 @@ export const connect = (): Promise<UserWallet> => {
     return new Promise<UserWallet>(async (success, reject) => {
         //  Enable session (triggers QR Code modal)
         try {
-            console.log('qrHasDisplayed', qrHasDisplayed)
             if (qrHasDisplayed) {
                 const uri = walletProvider.connector.uri;
                 walletProvider.qrcodeModal.open(uri, async (accounts: any) => {
-                    console.log('cb qr', accounts)
                     return onQRCallback(accounts, success, reject)
                 });
             } else {

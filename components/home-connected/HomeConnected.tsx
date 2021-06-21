@@ -115,7 +115,6 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         clear(USER_WALLET_TYPE)
                     });
                 } catch (err) {
-                    console.log('err',err);                    
                     clear(USER_WALLET_TYPE)
                 }
 
