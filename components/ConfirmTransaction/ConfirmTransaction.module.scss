@@ -18,7 +18,7 @@
 }
 
 .confirmTransactionContainer{
-    margin:10px;
+    margin:18px;
     padding: 5px;
     background-color: #00001E;
     border-radius: 12px;
@@ -50,14 +50,14 @@
     margin:10px;
 }
 
-.capsAmountContainer{
+.capsToSwapContainer{
     padding-top: 10px;
     @media (min-width: 768px) {
         padding-top: 30px;
     }
 }
 
-.capsAmount{
+.capsToSwap{
     font-family: "Airbnb Cereal App Bold";
     font-size: 26px;
     line-height: 30px;
@@ -96,14 +96,14 @@
 }
 
 .connectedLabel{
-    margin: 0px 4px;
+    margin: 0px 2px;
     font-family: "Airbnb Cereal App Bold";
     color: #14FFC6;
     font-size: 10px;
     display: none;
     @media (min-width: 768px) {
         display:block;
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -112,18 +112,26 @@
 }
 
 .connectedCheck{
-    margin: 0px 4px;
+    margin: 0px 2px;
 }
 
 .leftLabel{
     padding-left: 0px;
     padding-right: 0px;
+    font-size: 12px;
+    @media (min-width: 768px) {
+        font-size: 14px;
+    }
 }
 
 .rightLabel{
     padding-left: 0px;
     padding-right: 0px;
     text-align: right;
+    font-size: 12px;
+    @media (min-width: 768px) {
+        font-size: 14px;
+    }
 }
 
 .gridIcon{

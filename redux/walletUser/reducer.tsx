@@ -19,6 +19,15 @@ export const reducer = (state = initialState, action: AnyAction) => {
                 userWallet: null
             }
             return nextState
+        case 'USER_WALLET_SET_CAPS_AMOUNT':
+            nextState = {
+                ...state,
+                userWallet: {
+                    ...state.userWallet,
+                    capsAmount: action.value
+                }
+            }
+            return nextState
         default:
             return state
     }

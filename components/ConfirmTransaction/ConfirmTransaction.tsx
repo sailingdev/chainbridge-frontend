@@ -19,7 +19,6 @@ export interface ConfirmTransactionProps {
     capsToSwap: number | string;
     from: Option|null;
     onConfirm: Function;
-    capsAmount: number | string;
 }
 
 const NetworkRow = (option:Option | null, userWallet: UserWallet | null) => {
@@ -42,11 +41,11 @@ const NetworkRow = (option:Option | null, userWallet: UserWallet | null) => {
     )
 }
 
-const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, capsToSwap, from, onConfirm, capsAmount }) => {
+const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, capsToSwap, from, onConfirm }) => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const [isTermAccepted, setIsTermAccepted] = useState(false)
     const to = options.filter(x => x.value !== from?.value)[0]
-    const canConfirmTransaction = userWallet && isTermAccepted && capsToSwap > 0 && capsToSwap <= capsAmount
+    const canConfirmTransaction = userWallet && isTermAccepted && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount
     const handleConfirm = () => {
         if (canConfirmTransaction) {
             onConfirm()
@@ -72,31 +71,41 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                                 <hr className={style.divider}/>
                             </div>
                             <div className={"row d-flex text-center"}>
-                                <div className={style.capsAmountContainer}>
-                                    <span className={style.capsAmount}>{`${formatCaps(capsToSwap)} CAPS`}</span>
+                                <div className={style.capsToSwapContainer}>
+                                    <span className={style.capsToSwap}>{`${formatCaps(capsToSwap)} CAPS`}</span>
                                 </div>
                             </div>
-                            <div className={"row px-4 pt-md-4 pt-2"}>
+                            <div className={"row px-4 pt-md-3 pt-2"}>
                                 <span className={style.networkTitle}>From</span>
                                 {NetworkRow(from, userWallet)}
                             </div>
-                            <div className={"row px-4 pt-md-4 pt-2"}>
+                            <div className={"row px-4 pt-md-3 pt-2"}>
                                 <span className={style.networkTitle}>To</span>
                                 {NetworkRow(to, userWallet)}
                             </div>
-                            <div className={"row py-4 px-4"}>
+                            <div className={"row py-3 px-4"}>
                                 <div className={"col-6 " + style.leftLabel}>Asset</div>
                                 <div className={"col-6 " + style.rightLabel}>
                                     <Caps className={style.gridIcon} /> {` CAPS`}
                                 </div>
                                 <div className={"col-6 " + style.leftLabel}>Destination</div>
                                 <div className={"col-6 " + style.rightLabel}>
-                                    {userWallet && userWallet.networkType === "walletconnect" ?
-                                        <WalletConnect className={style.gridIcon + " " + style.connectedIcon} />
-                                        :
-                                        <Metamask className={style.gridIcon + " " + style.connectedIcon} />
-                                    }
-                                    {userWallet && middleEllipsis(userWallet.address)}
+                                    <span className={"d-none d-md-block"}>
+                                        {userWallet && userWallet.networkType === "walletconnect" ?
+                                            <WalletConnect className={style.gridIcon + " " + style.connectedIcon} />
+                                            :
+                                            <Metamask className={style.gridIcon + " " + style.connectedIcon} />
+                                        }
+                                        {userWallet && middleEllipsis(userWallet.address)}
+                                    </span>
+                                    <span className={"d-block d-md-none"}>
+                                        {userWallet && userWallet.networkType === "walletconnect" ?
+                                            <WalletConnect className={style.gridIcon + " " + style.connectedIcon} />
+                                            :
+                                            <Metamask className={style.gridIcon + " " + style.connectedIcon} />
+                                        }
+                                        {userWallet && middleEllipsis(userWallet.address, 6)}
+                                    </span>
                                 </div>
                                 <div className={"col-6 " + style.leftLabel}>Network fee</div>
                                 <div className={"col-6 " + style.rightLabel}>
@@ -110,7 +119,7 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                             <div className={"row px-4"}>
                                 <span className={style.feeWarningLabel}>The network fees and execution price depend on the market condition,  you may get a different rate when the transaction is complete</span>
                             </div>
-                            <div className={"row pt-4 px-4 d-flex align-items-center"}>
+                            <div className={"row pt-3 px-4 d-flex align-items-center"}>
                                 <div className={"col-1 " + style.radioButton + " " + (isTermAccepted ? style.radioButtonChecked : "")} onClick={() => setIsTermAccepted(!isTermAccepted)}></div>
                                 <div className={"col-11 " + style.termsLabel}>I have read and agree to the <a href="#">terms</a></div>
                             </div>

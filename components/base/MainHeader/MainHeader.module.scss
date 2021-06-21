@@ -1,4 +1,4 @@
-.Header{
+.header{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -9,27 +9,28 @@
     background-color: #00001e;
 }
 
-.Logo{
+.logo{
     width: 70%;
     @media (min-width: 768px) {
         width: 100%;
     }
 }
 
-.Hamburger{
+.hamburger{
+    cursor: pointer;
     fill: white;
     &:hover {
         fill: #14FFC6;
     }
 }
 
-.CapsContainer{
+.capsContainer{
     background: #14142E;
     border-radius: 100px;
     padding: 0px 25px;
 }
 
-.CapsAmount{
+.capsAmount{
     font-size: 14px;
     font-family: "Airbnb Cereal App Bold";
     background: linear-gradient(90deg, #FF8500 0%, #FF0062 32.78%, #CB06ED 67.12%, #004FFF 99.9%);
@@ -50,27 +51,27 @@
     }
 }
 
-.ProviderContainer{
+.providerContainer{
     padding: 0px 30px;
 }
 
-.Address{
+.address{
     font-family: "Airbnb Cereal App Bold";
     font-size: 14px;
     color: #9C9CBA;
 }
 
-.Network{
+.network{
     font-size: 10px;
 }
 
-.SettingContainer{
+.settingContainer{
     background: #14142E;
     border-radius: 100px;
     display:flex;
 }
 
-.SettingIcon{
+.settingIcon{
     vertical-align: middle;
     cursor: pointer;
 }

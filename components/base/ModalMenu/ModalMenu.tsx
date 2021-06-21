@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router'
 import ClickAwayListener from 'react-click-away-listener';
 import style from './ModalMenu.module.scss';
 import Close from 'components/assets/Close'
@@ -18,19 +17,15 @@ import { ChainTypes } from 'interfaces';
 export interface ModalMenuProps {
     modalMenuOpen: boolean;
     setModalMenuOpen: Function;
-    capsAmount: number|string
+    isWindowEthAvailable: Boolean;
+    handleConnect: Function;
 }
 
-const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, capsAmount }) => {
+const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, isWindowEthAvailable, handleConnect }) => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const dispatch = useAppDispatch()
-    const router = useRouter();
     const handleClose = () => {
         setModalMenuOpen(false)
-    }
-    const navigateLogin = () => {
-        handleClose()
-        router.push('home-not-connected')
     }
     const handleLogout = () => {
         dispatch(actions.logout())
@@ -39,23 +34,31 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
         <>
             {modalMenuOpen && 
                 <ClickAwayListener onClickAway={()=>handleClose()}>
-                    <div className={style.ModalContainer}>
+                    <div className={style.modalContainer}>
                         <div className={"d-flex justify-content-end"}>
                             <div onClick={()=>handleClose()}>
-                                <Close />
+                                <Close className={style.closeButton}/>
                             </div>
                         </div>
-                        {(userWallet) ? 
+                        {(userWallet) &&
                             <>
-                                <div className={"row py-4"}>
-                                    <div className={style.capsAmount}>{formatCaps(capsAmount) + " CAPS"}</div>
+                                <div className={"row py-3"}>
+                                    <div className={style.capsAmount}>{formatCaps(userWallet.capsAmount) + " CAPS"}</div>
                                     <div className={style.capsAvailable}>Available</div>
                                 </div>
-                                <div className={"row py-4"}>
+                                <div className={"row py-3"}>
                                     <div>
                                         {userWallet.networkType==="walletconnect" ? <WalletConnect/> : <Metamask/>}
                                         <span className={style.network}>
-                                            {`${userWallet.chainType ===ChainTypes.erc20 ? "Ethereum" : "Binance"} Network`}
+                                            {`${userWallet.chainType===ChainTypes.erc20 ? 
+                                                    "Ethereum" 
+                                                : 
+                                                    userWallet.chainType===ChainTypes.bep20 ?
+                                                        "Binance"
+                                                    :
+                                                        "Wrong"
+                                                } 
+                                            Network`}
                                         </span>
                                     </div>
                                     <div className={style.address}>
@@ -63,12 +66,6 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                     </div>
                                 </div>
                             </>
-                        :
-                            <div className={"row py-5 px-4"}>
-                                <div className={"btn btn-outline-primary rounded-pill"} onClick={() => navigateLogin()}>
-                                    Log in
-                                </div>
-                            </div>
                         }
                         <div className={"row py-4"}>
                             <div className={"col-12 py-2"}>
@@ -92,14 +89,33 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                 <span className={style.menuLabel}><a href="#">FAQs</a></span>
                             </div>
                         </div>
-                        {(userWallet) && 
-                            <div className={"row py-5 px-4"}>
+                        {(userWallet) ? 
+                            <div className={"row py-4 px-4"}>
                                 <div className={"btn btn-outline-primary rounded-pill"} onClick={() => handleLogout()}>Log out</div>
+                            </div>
+                        :
+                            <div className={"d-flex flex-column align-items-center pt-3"}>
+                                {isWindowEthAvailable && 
+                                    <div className={"py-2"}>
+                                        <a className={"btn btn-outline-primary rounded-pill px-2 " + style.connectButton} onClick={() => handleConnect("metamask")}>
+                                            <div className={"d-flex align-items-center"}>
+                                                <Metamask className={"mx-2"} />
+                                                <span>Connect with Metamask</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                                <div className={"py-2"}>
+                                    <a className={"btn btn-outline-primary rounded-pill px-2 " + style.connectButton} onClick={() => handleConnect("walletconnect")}>
+                                        <div className={"d-flex align-items-center"}>
+                                            <WalletConnect className={"mx-2"} />
+                                            <span>Connect with Wallet Connect</span>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         }
                     </div>
-
-
                 </ClickAwayListener>
             }
         </>
