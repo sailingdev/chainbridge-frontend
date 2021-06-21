@@ -34,7 +34,6 @@ $shadows-big: multiple-box-shadow(100);
     background: transparent;
     box-shadow: $shadows-medium;
     animation: animStar 100s linear infinite;
-
     &:after {
         content: " ";
         position: absolute;

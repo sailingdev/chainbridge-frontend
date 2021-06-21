@@ -7,8 +7,8 @@ import Instagram from 'components/assets/SocialMedias/Instagram';
 
 const Footer: React.FC<{}> = () => {
     return(
-        <div className={style.footer + " row"}>
-            <div className={"col-md-6 col-12 mb-3 d-flex align-items-center justify-content-center justify-content-md-start"}>
+        <div className={style.footer + " row pt-3"}>
+            <div className={"col-md-6 col-12 mb-2 d-flex align-items-center justify-content-center justify-content-md-start"}>
                 <a
                     href="https://discord.gg/cNZTGtGJNR"
                     target="_blank"
@@ -38,7 +38,7 @@ const Footer: React.FC<{}> = () => {
                     <Instagram className={style.socialLogo}/>
                 </a>
             </div>
-            <div className={"col-md-6 col-12 mb-3 d-flex align-items-center justify-content-center justify-content-md-end"}>
+            <div className={"col-md-6 col-12 mb-2 d-flex align-items-center justify-content-center justify-content-md-end"}>
                 <a
                     href="https://intercom.help/ternoa/fr/collections/2774679-legal"
                     target="_blank"
@@ -56,10 +56,10 @@ const Footer: React.FC<{}> = () => {
                     Privacy
                 </a>
             </div>
-            <div className={"d-none d-md-block col-md-6 mb-3 d-flex flex-row align-items-center justify-content-left"}>
+            <div className={"d-none d-md-block col-md-6 mb-2 d-flex flex-row align-items-center justify-content-left"}>
                 <p className={style.footerCopyright}>© 2021 Ternoa Bridge developed and designed by ternoa.com. All rights reserved.</p>
             </div>
-            <div className={"d-md-none col-12 mb-3 d-flex flex-row align-items-center justify-content-center"}>
+            <div className={"d-md-none col-12 mb-2 d-flex flex-row align-items-center justify-content-center"}>
                 <p className={style.footerCopyright}>© 2021 Ternoa Bridge. All rights reserved.</p>
             </div>
         </div>

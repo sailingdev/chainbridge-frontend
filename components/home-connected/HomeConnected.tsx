@@ -30,12 +30,15 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const dispatch = useAppDispatch()
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const [capsToSwap, setCapsToSwap] = useState(0)
-    const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
-    const [popupConnectionOpen, setPopupConnectionOpen] = useState(false)
     const [selectedOptionFrom, setSelectedOptionFrom] = useState<Option | null>(options[0])
     const [isCapsInputFocused, setIsCapsInputFocused] = useState(false)
     const [isWindowEthAvailable, setIsWindowEthAvailable] = useState(false)
+    const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
+    const [popupConnectionOpen, setPopupConnectionOpen] = useState(false)
+    const [warningSelectedNetworkFromOpen,setWarningSelectedNetworkFromOpen] = useState(false)
     const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount
+    const userWalletChainType = userWallet ? userWallet.chainType : null
+    const maxCapsToSwap = 10000
     let maskedTextInput:any = null;
     const updateProviderBalance = async () => {
         if (userWallet) {
@@ -52,6 +55,11 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
         updateProviderBalance()
         setCapsToSwap(0)
     }, [selectedOptionFrom?.value])
+    useEffect(()=>{
+        updateProviderBalance()
+        setCapsToSwap(0)
+        if (userWallet) setSelectedOptionFrom(options.filter(x => x.value == userWalletChainType)[0])
+    }, [userWalletChainType])
     const handleChange = (option: Option, isFrom: boolean) => {
         if (isFrom) {
             setSelectedOptionFrom(option)
@@ -60,12 +68,14 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             setSelectedOptionFrom(firstOption)
         }
     }
-    const handleTransfer = async () => {
-        const amount = Number(capsToSwap);
-        const transaction = await transfer(userWallet.signer, selectedOptionFrom, amount)
-        setPopupConfirmationOpen(false)
-        const receipt = await transaction.wait()
-        updateProviderBalance();
+    const handleNext = () => {
+        if (isAbleToSwap || true){
+            if (selectedOptionFrom?.value !== userWallet.chainType){
+                setWarningSelectedNetworkFromOpen(true)
+            }else{
+                setPopupConfirmationOpen(true)
+            }
+        }
     }
     const handleConnect = async (network: NetworkType) => {
         switch (network) {
@@ -106,6 +116,13 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 break
         }
         setPopupConnectionOpen(false)
+    }
+    const handleTransfer = async () => {
+        const amount = Number(capsToSwap);
+        const transaction = await transfer(userWallet.signer, selectedOptionFrom, amount)
+        setPopupConfirmationOpen(false)
+        const receipt = await transaction.wait()
+        updateProviderBalance();
     }
     return (
         <>
@@ -153,7 +170,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     <div className={style.addNetwork}>
                         <span className={style.addNetworkLabel}>{"If you have not add Binance Smart Chain network in your MetaMask yet, please click "}</span>
                         <a
-                            href="#"
+                            href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
                             target="_blank"
                             rel="noopener"
                             className={style.addNetworkButton}
@@ -163,19 +180,32 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         <span className={style.addNetworkLabel}>{" and continue."}</span>
                     </div>
                     <div className={"container d-flex justify-content-center px-0"}>
-                        <div className={style.amountContainer}>
-                            <div className={"px-2 pt-2 px-md-3 pt-md-3"}>Amount</div>
-                            <div className={"row d-flex align-items-center px-2 pb-2 px-md-3 pb-md-0"}>
+                        <div className={style.amountContainer + " py-2 py-md-2"}>
+                            <div className={"px-3"}>Amount</div>
+                            <div className={"row d-flex align-items-center px-2 pb-2 pb-md-0"}>
                                 <div className={"col-10"} onClick={() => maskedTextInput?.focus()}>
-                                    <span className={style.capsAmount}>
+                                    <span className={style.capsAmount + " " + (isCapsInputFocused ? style.capsAmountFocused : "")}>
                                         {formatCaps(capsToSwap) + " CAPS"}
                                         <input
                                             type="number"
                                             value={capsToSwap}
-                                            onChange={(e) => Number(e.target.value)>=0 && Number(e.target.value)<=10000000000 && setCapsToSwap(Number(e.target.value))}
+                                            onChange={(e) => {
+                                                Number(e.target.value)>=0 && Number(e.target.value)<=10000 ?
+                                                    setCapsToSwap(Number(e.target.value))
+                                                :
+                                                    setCapsToSwap(maxCapsToSwap)
+                                            }}
                                             ref={(input) => {maskedTextInput=input}}
                                             className={style.maskedInput}
-                                            onFocus={() => setIsCapsInputFocused(true)}
+                                            style={{backgroundColor:"red"}}
+                                            min={0}
+                                            max={maxCapsToSwap}
+                                            onFocus={(e) => {
+                                                setIsCapsInputFocused(true)
+                                                e.currentTarget.type = "text"
+                                                e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)
+                                                e.currentTarget.type = "number"
+                                            }}
                                             onBlur={() => setIsCapsInputFocused(false)}
                                         />
                                     </span>
@@ -186,13 +216,12 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                     </div>
                                 </div>
                             </div>
-                            <hr className={style.divider + " " + (isCapsInputFocused ? style.dividerColored : "") } />
                         </div>
                     </div>
                     <div className={"pt-3"}>
                         <div 
                             className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : ""/*disabled */}`} 
-                            onClick={() => userWallet ? setPopupConfirmationOpen(true) : setPopupConnectionOpen(true)}
+                            onClick={() => userWallet ? handleNext() : setPopupConnectionOpen(true)}
                         >
                             <div className={"d-flex align-items-center px-5 mx-4"}>
                                 <span>
@@ -217,7 +246,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         {isWindowEthAvailable && 
                             <div className={"py-2 " + style.buttonContainer}>
                                 <a className={"btn btn-outline-primary rounded-pill " + style.connectButton} onClick={() => handleConnect("metamask")}>
-                                    <div className={"d-flex align-items-center px-2"}>
+                                    <div className={"d-flex align-items-center justify-content-center px-2"}>
                                         <Metamask className={"mx-3"} />
                                         <span>Metamask</span>
                                     </div>
@@ -226,7 +255,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         }
                         <div className={"py-2 " + style.buttonContainer}>
                             <a className={"btn btn-outline-primary rounded-pill " + style.connectButton} onClick={() => handleConnect("walletconnect")}>
-                                <div className={"d-flex align-items-center px-2"}>
+                                <div className={"d-flex align-items-center justify-content-center px-2"}>
                                     <WalletConnect className={"mx-3"} />
                                     <span>Wallet Connect</span>
                                 </div>
@@ -250,6 +279,24 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 >
                     <div className={style.errorNetworkLabel}>
                         Please select  the ETH main network or the BSC main network in your wallet to continue
+                    </div>
+                </GenericModal>
+                {/* Wrong network selected modal */}
+                <GenericModal
+                    isClosable={true}
+                    isModalError={true}
+                    open={warningSelectedNetworkFromOpen}
+                    setOpen={setWarningSelectedNetworkFromOpen}
+                >
+                    <div className={style.errorNetworkLabel}>
+                        Please initiate transaction from the network you're connected to.
+                    </div>
+                    <div className={"py-3"}>
+                        <a className={"btn btn-outline-error rounded-pill"} onClick={() => setWarningSelectedNetworkFromOpen(false)}>
+                            <div className={"d-flex align-items-center justify-content-center px-2"}>
+                                Got it
+                            </div>
+                        </a>
                     </div>
                 </GenericModal>
             </div>
