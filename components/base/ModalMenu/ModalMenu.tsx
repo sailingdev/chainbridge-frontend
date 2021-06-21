@@ -48,7 +48,15 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen }
                                     <div>
                                         {userWallet.networkType==="walletconnect" ? <WalletConnect/> : <Metamask/>}
                                         <span className={style.network}>
-                                            {`${userWallet.chainType ===ChainTypes.erc20 ? "Ethereum" : "Binance"} Network`}
+                                            {`${userWallet.chainType===ChainTypes.erc20 ? 
+                                                    "Ethereum" 
+                                                : 
+                                                    userWallet.chainType===ChainTypes.bep20 ?
+                                                        "Binance"
+                                                    :
+                                                        "Wrong"
+                                                } 
+                                            Network`}
                                         </span>
                                     </div>
                                     <div className={style.address}>

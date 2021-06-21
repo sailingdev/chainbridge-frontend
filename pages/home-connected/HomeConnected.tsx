@@ -8,11 +8,13 @@ import MainHeader from 'components/base/MainHeader';
 import Footer from 'components/base/Footer';
 import NetworkSelect from 'components/base/Select/NetworkSelect';
 import ConfirmTransaction from 'components/ConfirmTransaction';
+import GenericModal from 'components/GenericModal';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import { Option, options } from 'components/base/Select/NetworkSelect'
 import { getProviderBalance, transfer } from 'helpers/wallet.helper';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { actions } from 'redux/walletUser/actions';
+import { ChainTypes } from 'interfaces';
 
 export interface HomeConnectedProps {
 }
@@ -157,6 +159,16 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     from={selectedOptionFrom}
                     onConfirm={handleTransfer}
                 />
+                {/* Network error modal */}
+                <GenericModal
+                    isClosable={false}
+                    isModalError={true}
+                    open={(userWallet && userWallet.chainType===ChainTypes.other)}
+                >
+                    <div className={style.errorNetworkLabel}>
+                        Please select  the ETH main network or the BSC main network in your wallet to continue
+                    </div>
+                </GenericModal>
             </div>
         </>
     )

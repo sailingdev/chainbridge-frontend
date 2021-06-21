@@ -52,7 +52,17 @@ const MainHeader: React.FC<HeaderProps> = () => {
                                             <span className={style.address}>{middleEllipsis(userWallet.address.toString())}</span>
                                         </div>
                                         <div className={"row"}>
-                                            <span className={style.Network}>{`${userWallet.chainType === ChainTypes.erc20 ? "Ethereum" : "Binance"} Network`}</span>
+                                            <span className={style.network}>
+                                                {`${userWallet.chainType===ChainTypes.erc20 ? 
+                                                    "Ethereum" 
+                                                : 
+                                                    userWallet.chainType===ChainTypes.bep20 ?
+                                                        "Binance"
+                                                    :
+                                                        "Wrong"
+                                                } 
+                                                Network`}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

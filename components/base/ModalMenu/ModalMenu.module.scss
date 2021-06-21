@@ -10,7 +10,7 @@
     border-bottom-left-radius: 25px;
     display:flex;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 100;
     @media (min-width: 768px) {
         display: none;
     }
