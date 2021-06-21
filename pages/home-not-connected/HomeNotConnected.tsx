@@ -43,8 +43,9 @@ const HomeNotConnected: React.FC<HomeNotConnectedProps> = () => {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <meta name="description" content="BSC ETH Bridge, by Ternoa." />
             </Head>
-            <MainHeader capsAmount={0} />
+            <MainHeader />
             <div className={"mainContainer"}>
+                <MainHeader/>
                 <div className={"container py-md-6 py-4 d-flex flex-column align-items-center"}>
                     <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
                     <div className={"d-flex flex-column align-items-center pt-2 pt-md-5"}>

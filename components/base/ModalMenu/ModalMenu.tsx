@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router'
 import ClickAwayListener from 'react-click-away-listener';
 import style from './ModalMenu.module.scss';
 import Close from 'components/assets/Close'
@@ -18,19 +17,13 @@ import { ChainTypes } from 'interfaces';
 export interface ModalMenuProps {
     modalMenuOpen: boolean;
     setModalMenuOpen: Function;
-    capsAmount: number|string
 }
 
-const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, capsAmount }) => {
+const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen }) => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const dispatch = useAppDispatch()
-    const router = useRouter();
     const handleClose = () => {
         setModalMenuOpen(false)
-    }
-    const navigateLogin = () => {
-        handleClose()
-        router.push('home-not-connected')
     }
     const handleLogout = () => {
         dispatch(actions.logout())
@@ -45,13 +38,13 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                 <Close className={style.closeButton}/>
                             </div>
                         </div>
-                        {(userWallet) ? 
+                        {(userWallet) ?
                             <>
-                                <div className={"row py-4"}>
-                                    <div className={style.capsAmount}>{formatCaps(capsAmount) + " CAPS"}</div>
+                                <div className={"row py-3"}>
+                                    <div className={style.capsAmount}>{formatCaps(userWallet.capsAmount) + " CAPS"}</div>
                                     <div className={style.capsAvailable}>Available</div>
                                 </div>
-                                <div className={"row py-4"}>
+                                <div className={"row py-3"}>
                                     <div>
                                         {userWallet.networkType==="walletconnect" ? <WalletConnect/> : <Metamask/>}
                                         <span className={style.network}>
@@ -64,11 +57,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                 </div>
                             </>
                         :
-                            <div className={"row py-5 px-4"}>
-                                <div className={"btn btn-outline-primary rounded-pill"} onClick={() => navigateLogin()}>
-                                    Log in
-                                </div>
-                            </div>
+                            <div className={"py-5"}></div>
                         }
                         <div className={"row py-4"}>
                             <div className={"col-12 py-2"}>
@@ -93,7 +82,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                             </div>
                         </div>
                         {(userWallet) && 
-                            <div className={"row py-5 px-4"}>
+                            <div className={"row py-4 px-4"}>
                                 <div className={"btn btn-outline-primary rounded-pill"} onClick={() => handleLogout()}>Log out</div>
                             </div>
                         }

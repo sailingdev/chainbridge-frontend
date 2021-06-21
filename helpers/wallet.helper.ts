@@ -15,6 +15,7 @@ export const mapSignerAsWallet = async (signer: Signer, networkType: NetworkType
         transactionCount: await signer.getTransactionCount(),
         networkType: networkType,
         chainType: ETH_CHAIN_ID.includes(chainId) ? ChainTypes.erc20 : ChainTypes.bep20,
+        capsAmount: 0,
         signer
     }
 }

@@ -14,10 +14,9 @@ import { ChainTypes } from 'interfaces';
 import Stars from '../Stars';
 
 export interface HeaderProps {
-    capsAmount: number;
 }
 
-const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
+const MainHeader: React.FC<HeaderProps> = () => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const router = useRouter();
@@ -39,7 +38,7 @@ const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
                         <div className={"d-flex"}>
                             <div className={style.capsContainer}>
                                 <div className={"d-flex py-2 px-3 align-items-center"}>
-                                    <div className={style.capsAmount}>{formatCaps(capsAmount) + " Caps"}</div>
+                                    <div className={style.capsAmount}>{formatCaps(userWallet.capsAmount) + " Caps"}</div>
                                     <div className={style.capsAvailable}>{"Available"}</div>
                                 </div>
                             </div>
@@ -73,7 +72,6 @@ const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
             <ModalMenu
                 modalMenuOpen={isMenuOpen}
                 setModalMenuOpen={setIsMenuOpen}
-                capsAmount={capsAmount}
             />
         </header>
     )

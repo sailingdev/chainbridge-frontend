@@ -12,7 +12,8 @@ export interface UserWallet {
     chainId?: number
     gasPrice?: string
     transactionCount?: number
-    networkType?: NetworkType;
+    networkType?: NetworkType
     chainType?: ChainType
+    capsAmount?: string | number
     signer : Signer
 }
