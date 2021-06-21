@@ -11,6 +11,7 @@ import { middleEllipsis, formatCaps } from 'utils/strings';
 import ModalMenu from '../ModalMenu';
 import { useAppSelector } from 'redux/hooks';
 import { ChainTypes } from 'interfaces';
+import Stars from '../Stars';
 
 export interface HeaderProps {
     capsAmount: number;
@@ -21,7 +22,8 @@ const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const router = useRouter();
     return (
-        <>
+        <header>
+            <Stars />
             <div className={style.Header}>
                 <Link href="/">
                     <a>
@@ -44,14 +46,14 @@ const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
                             <div className={style.ProviderContainer}>
                                 <div className={"row d-flex align-items-center"}>
                                     <div className={"col-3"}>
-                                        {userWallet.networkType==="metamask" ? <Metamask /> : <WalletConnect />}
+                                        {userWallet.networkType === "metamask" ? <Metamask /> : <WalletConnect />}
                                     </div>
                                     <div className={"col"}>
                                         <div className={"row"}>
                                             <span className={style.Address}>{middleEllipsis(userWallet.address.toString())}</span>
                                         </div>
                                         <div className={"row"}>
-                                            <span className={style.Network}>{`${userWallet.chainType===ChainTypes.erc20 ? "Ethereum" : "Binance"} Network`}</span>
+                                            <span className={style.Network}>{`${userWallet.chainType === ChainTypes.erc20 ? "Ethereum" : "Binance"} Network`}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +75,7 @@ const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
                 setModalMenuOpen={setIsMenuOpen}
                 capsAmount={capsAmount}
             />
-        </>
+        </header>
     )
 }
 

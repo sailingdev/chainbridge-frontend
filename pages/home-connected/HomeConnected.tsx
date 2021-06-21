@@ -6,13 +6,11 @@ import ArrowRight from 'components/assets/ArrowRight';
 import ArrowDown from 'components/assets/ArrowDown';
 import MainHeader from 'components/base/MainHeader';
 import Footer from 'components/base/Footer';
-import Stars from 'components/assets/Stars';
 import NetworkSelect from 'components/base/Select/NetworkSelect';
 import ConfirmTransaction from 'components/ConfirmTransaction';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import { Option, options } from 'components/base/Select/NetworkSelect'
 import { getProviderBalance, transfer } from 'helpers/wallet.helper';
-import { Contract } from 'ethers';
 import { useAppSelector } from 'redux/hooks';
 
 export interface HomeConnectedProps {
@@ -25,9 +23,9 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [capsToSwap, setCapsToSwap] = useState(capsAmount)
     const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const [selectedOptionFrom, setSelectedOptionFrom] = useState<Option | null>(options[0])
-    let maskedTextInput:any = null;
+    let maskedTextInput: any = null;
     const updateProviderBalance = async () => {
-        if (userWallet){
+        if (userWallet) {
             console.log('updateProviderBalance');
             const providerBalance = await getProviderBalance(userWallet.signer, selectedOptionFrom)
             console.log('providerBalance', providerBalance.toString());
@@ -38,8 +36,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
         updateProviderBalance()
         setCapsToSwap(0)
     }, [selectedOptionFrom?.value])
-    useEffect(()=>{
-        if ((!userWallet)){
+    useEffect(() => {
+        if ((!userWallet)) {
             router.push('home-not-connected')
         }
     }, [userWallet])
@@ -67,8 +65,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <meta name="description" content="BSC ETH Bridge, by Ternoa." />
             </Head>
+            <MainHeader capsAmount={capsAmount} />
             <div className={"mainContainer"}>
-                <MainHeader capsAmount={capsAmount} />
                 <div className={"container py-md-6 py-4 d-flex flex-column align-items-center"}>
                     <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
                     <div className={style.swapAddressLabel}>The swap will occur on your same adress</div>
@@ -121,8 +119,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                         <input
                                             type="number"
                                             value={capsToSwap}
-                                            onChange={(e) => Number(e.target.value)>=0 && Number(e.target.value)<=10000000000 && setCapsToSwap(Number(e.target.value))}
-                                            ref={(input) => {maskedTextInput=input}}
+                                            onChange={(e) => Number(e.target.value) >= 0 && Number(e.target.value) <= 10000000000 && setCapsToSwap(Number(e.target.value))}
+                                            ref={(input) => { maskedTextInput = input }}
                                             className={style.makedInput}
                                         />
                                     </span>
@@ -173,7 +171,6 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     </div>
                 </div>
                 <Footer />
-                <Stars className={"stars"} />
                 <ConfirmTransaction
                     open={popupConfirmationOpen}
                     setOpen={setPopupConfirmationOpen}
