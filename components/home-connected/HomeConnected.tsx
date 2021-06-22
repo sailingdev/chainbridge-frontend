@@ -37,20 +37,21 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [isWindowEthAvailable, setIsWindowEthAvailable] = useState(false)
     const [popupConfirmationOpen, setPopupConfirmationOpen] = useState(false)
     const [popupConnectionOpen, setPopupConnectionOpen] = useState(false)
-    const [warningSelectedNetworkFromOpen,setWarningSelectedNetworkFromOpen] = useState(false)
+    const [warningSelectedNetworkFromOpen, setWarningSelectedNetworkFromOpen] = useState(false)
+    const [transferError, setTransferError] = useState<any>(null);
     const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount
     const userWalletChainType = userWallet ? userWallet.chainType : null
     const maxCapsToSwap = 10000
-    let maskedTextInput:any = null;
+    let maskedTextInput: any = null;
     const updateProviderBalance = async () => {
         if (userWallet) {
             const providerBalance = await getProviderBalance(userWallet.signer, selectedOptionFrom)
             dispatch(actions.setCapsAmount(Number(providerBalance.toString())))
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         let optionsArray = options.filter(x => x.value == userWalletChainType)
-        if (userWallet && optionsArray.length>0) setSelectedOptionFrom(optionsArray[0])
+        if (userWallet && optionsArray.length > 0) setSelectedOptionFrom(optionsArray[0])
         updateProviderBalance()
         setCapsToSwap(0)
     }, [userWalletChainType])
@@ -77,10 +78,10 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
         }
     }
     const handleNext = () => {
-        if (isAbleToSwap || true){
-            if (selectedOptionFrom?.value !== userWallet.chainType){
+        if (isAbleToSwap || true) {
+            if (selectedOptionFrom?.value !== userWallet.chainType) {
                 setWarningSelectedNetworkFromOpen(true)
-            }else{
+            } else {
                 setPopupConfirmationOpen(true)
             }
         }
@@ -118,12 +119,20 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
         }
         setPopupConnectionOpen(false)
     }
+    const onTransferModalClose = () => {
+        setTransferError(null);
+    }
     const handleTransfer = async () => {
-        const amount = Number(capsToSwap);
-        const transaction = await transfer(userWallet.signer, selectedOptionFrom, amount)
-        setPopupConfirmationOpen(false)
-        const receipt = await transaction.wait()
-        updateProviderBalance();
+        try {
+            const amount = Number(capsToSwap);
+            const transaction = await transfer(userWallet.signer, selectedOptionFrom, amount)
+            setPopupConfirmationOpen(false)
+            const receipt = await transaction.wait()
+            updateProviderBalance();
+        }
+        catch (e) {
+            setTransferError(e);
+        }
     }
     return (
         <>
@@ -133,7 +142,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 <meta name="description" content="BSC ETH Bridge, by Ternoa." />
             </Head>
             <div className={"mainContainer"}>
-                <WarningBanner/>
+                <WarningBanner />
                 <MainHeader setConnectModalOpen={setPopupConnectionOpen} isWindowEthAvailable={isWindowEthAvailable} handleConnect={handleConnect} />
                 <div className={"container py-3 d-flex flex-column align-items-center"}>
                     <div className={style.intro}>The safest, fastest and most secure way to swap Caps to binance smart chain.</div>
@@ -192,14 +201,14 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                             type="number"
                                             value={capsToSwap}
                                             onChange={(e) => {
-                                                Number(e.target.value)>=0 && Number(e.target.value)<=10000 ?
+                                                Number(e.target.value) >= 0 && Number(e.target.value) <= 10000 ?
                                                     setCapsToSwap(Number(e.target.value))
-                                                :
+                                                    :
                                                     setCapsToSwap(maxCapsToSwap)
                                             }}
-                                            ref={(input) => {maskedTextInput=input}}
+                                            ref={(input) => { maskedTextInput = input }}
                                             className={style.maskedInput}
-                                            style={{backgroundColor:"red"}}
+                                            style={{ backgroundColor: "red" }}
                                             min={0}
                                             max={maxCapsToSwap}
                                             onFocus={(e) => {
@@ -214,9 +223,9 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                 </div>
                                 <div className={"col-2"} onClick={() => {
                                     if (userWallet) {
-                                        if (userWallet.capsAmount <= maxCapsToSwap){
+                                        if (userWallet.capsAmount <= maxCapsToSwap) {
                                             setCapsToSwap(userWallet.capsAmount)
-                                        }else{
+                                        } else {
                                             setCapsToSwap(maxCapsToSwap)
                                         }
                                     }
@@ -309,6 +318,19 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         </a>
                     </div>
                 </GenericModal>
+                {/* Transfer error modal */}
+                <GenericModal
+                    isClosable={true}
+                    isModalError={true}
+                    open={(transferError != null)}
+                    onClose={onTransferModalClose}
+                    setOpen={setPopupConfirmationOpen}
+                >
+                    <div className={style.errorNetworkLabel}>
+                        An error has occured on transfer: {transferError}.
+                    </div>
+                </GenericModal>
+
             </div>
         </>
     )
