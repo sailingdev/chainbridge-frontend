@@ -72,9 +72,6 @@ export const getProviderBalance = async (signer: Signer, network: Option | null)
     if (!network) throw new Error('No network given')
     if (!signer) throw new Error('No signer given')
     let provider = ethers.providers.getDefaultProvider(getDefaultProviderNetwork(network))
-    if (walletProvider && walletProvider.connected) {
-        provider = new ethers.providers.Web3Provider(walletProvider)
-    }
     const contract = new Contract(network.tokenAddress, contractAbi, provider)
     const balance = await contract.balanceOf(await signer.getAddress());
     const readableBalance = ethers.utils.formatUnits(balance);
