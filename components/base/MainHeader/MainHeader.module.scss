@@ -83,6 +83,8 @@
 }
 .logoutButton{
     height: 100%;
+    width:100%;
+    justify-content: center;
     &:hover{
         background: linear-gradient(90deg, #FF7F05 0%, #FF204B 99.9%);
         background-clip: text;
