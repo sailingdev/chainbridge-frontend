@@ -20,6 +20,9 @@ export const onQRCallback = async (accounts: string[], success: Function, reject
 }
 export const connect = (): Promise<UserWallet> => {
     return new Promise<UserWallet>(async (success, reject) => {
+        // workaround to avoid console.log while connecting
+        const saveLog = console.log;
+        console.log = () => { };
         walletProvider = new WalletConnectProvider({
             infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
             bridge: process.env.NEXT_PUBLIC_WALLETCONNECT_BRIDGE,
@@ -27,6 +30,8 @@ export const connect = (): Promise<UserWallet> => {
         try {
             const accounts = await walletProvider.enable();
             onQRCallback(accounts, success, reject)
+            // workaround revert - reset console.log
+            console.log = saveLog;
         }
         catch (e) {
             // caught user modal closing error
