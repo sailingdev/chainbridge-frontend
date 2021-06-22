@@ -136,7 +136,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 <WarningBanner/>
                 <MainHeader setConnectModalOpen={setPopupConnectionOpen} isWindowEthAvailable={isWindowEthAvailable} handleConnect={handleConnect} />
                 <div className={"container py-3 d-flex flex-column align-items-center"}>
-                    <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
+                    <div className={style.intro}>The safest, fastest and most secure way to swap Caps to binance smart chain.</div>
                     {userWallet &&
                         <>
                             <div className={style.swapAddressLabel}>The swap will occur on your same adress</div>
