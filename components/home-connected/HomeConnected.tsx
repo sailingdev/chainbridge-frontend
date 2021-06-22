@@ -133,9 +133,19 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             updateProviderBalance();
         }
         catch (e) {
-            setTransferError(e.message);
+            let errorMessage: string = 'Unknown error';
+            if (typeof e === 'string') {
+                errorMessage = e;
+            } else if (typeof e === 'object') {
+                if (e.message) {
+                    errorMessage = e.message;
+                } else {
+                    errorMessage = JSON.stringify(e);
+                }
+            }
+            setTransferError(errorMessage);
         }
-        finally{
+        finally {
             setTransferPending(false);
         }
     }
@@ -243,8 +253,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         </div>
                     </div>
                     <div className={"pt-3"}>
-                        <div 
-                            className={`btn btn-primary rounded-pill ${!userWallet || isAbleToSwap ? "" : "disabled"}`} 
+                        <div
+                            className={`btn btn-primary rounded-pill ${!userWallet || isAbleToSwap ? "" : "disabled"}`}
                             onClick={() => userWallet ? handleNext() : setPopupConnectionOpen(true)}
                         >
                             <div className={"d-flex align-items-center px-5 mx-4"}>
