@@ -13,7 +13,6 @@ import { ChainTypes } from 'interfaces';
 import Stars from '../Stars';
 import { actions } from 'redux/walletUser/actions';
 
-
 export interface HeaderProps {
     setConnectModalOpen: Function;
     isWindowEthAvailable: Boolean;

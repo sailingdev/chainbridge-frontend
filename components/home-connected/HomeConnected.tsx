@@ -230,7 +230,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     </div>
                     <div className={"pt-3"}>
                         <div 
-                            className={`btn btn-primary rounded-pill ${isAbleToSwap ? "" : "disabled"}`} 
+                            className={`btn btn-primary rounded-pill ${!userWallet || isAbleToSwap ? "" : "disabled"}`} 
                             onClick={() => userWallet ? handleNext() : setPopupConnectionOpen(true)}
                         >
                             <div className={"d-flex align-items-center px-5 mx-4"}>
