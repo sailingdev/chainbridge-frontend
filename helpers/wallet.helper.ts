@@ -7,7 +7,7 @@ const ETH_CHAIN_ID = 1
 const BSC_CHAIN_ID = 56
 
 export const mapSignerAsWallet = async (signer: Signer, networkType: NetworkType) => {
-    let chainId = await signer.getChainId()
+    const chainId = await signer.getChainId()
     return {
         address: await signer.getAddress(),
         balance: ethers.utils.formatEther(await signer.getBalance()),
@@ -61,11 +61,17 @@ const contractAbi = [
         "payable": false
     }
 ];
-
+export const getDefaultProviderNetwork = (network: Option | null) => {
+    switch (network?.value) {
+        case ChainTypes.bep20: return 'https://bsc-dataseed.binance.org/'
+        default:
+            return 'mainnet'
+    }
+}
 export const getProviderBalance = async (signer: Signer, network: Option | null) => {
     if (!network) throw new Error('No network given')
     if (!signer) throw new Error('No signer given')
-    let provider = ethers.providers.getDefaultProvider(network.value == ChainTypes.bep20 ? 'https://bsc-dataseed.binance.org/' : 'mainnet')
+    let provider = ethers.providers.getDefaultProvider(getDefaultProviderNetwork(network))
     if (walletProvider && walletProvider.connected) {
         provider = new ethers.providers.Web3Provider(walletProvider)
     }
