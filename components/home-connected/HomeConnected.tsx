@@ -39,6 +39,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [popupConnectionOpen, setPopupConnectionOpen] = useState(false)
     const [warningSelectedNetworkFromOpen, setWarningSelectedNetworkFromOpen] = useState(false)
     const [transferError, setTransferError] = useState<any>(null);
+    const [transferPending, setTransferPending] = useState(false)
     const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount
     const userWalletChainType = userWallet ? userWallet.chainType : null
     const maxCapsToSwap = 10000
@@ -123,6 +124,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
         setTransferError(null);
     }
     const handleTransfer = async () => {
+        setTransferPending(true)
         try {
             const amount = Number(capsToSwap);
             const transaction = await transfer(userWallet.signer, selectedOptionFrom, amount)
@@ -131,7 +133,10 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             updateProviderBalance();
         }
         catch (e) {
-            setTransferError(e);
+            setTransferError(e.toString());
+        }
+        finally{
+            setTransferPending(false);
         }
     }
     return (
@@ -289,6 +294,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     capsToSwap={capsToSwap}
                     from={selectedOptionFrom}
                     onConfirm={handleTransfer}
+                    transferPending={transferPending}
                 />
                 {/* Network error modal */}
                 <GenericModal
