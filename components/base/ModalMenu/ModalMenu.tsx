@@ -96,7 +96,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                             </div>
                         </div>
                         {(userWallet) ? 
-                            {/*<div className={"row py-4 px-4"}>
+                            <div className={"row py-4 px-4"}>
                                 <div 
                                     className={"btn btn-outline-primary rounded-pill"} 
                                     onClick={() => {
@@ -104,9 +104,9 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                         setModalMenuOpen(false)
                                     }}
                                 >
-                                    Log out
+                                    Disconnect
                                 </div>
-                            </div>*/}
+                            </div>
                         :
                             <div className={"d-flex flex-column align-items-center pt-3"}>
                                 {isWindowEthAvailable && 

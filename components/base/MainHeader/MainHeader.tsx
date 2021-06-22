@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router'
 import Link from 'next/link';
 import style from './MainHeader.module.scss';
 import LogoTernoaBridge from 'components/assets/LogoTernoaBridge';
@@ -9,9 +8,11 @@ import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import ModalMenu from '../ModalMenu';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { ChainTypes } from 'interfaces';
 import Stars from '../Stars';
+import { actions } from 'redux/walletUser/actions';
+
 
 export interface HeaderProps {
     setConnectModalOpen: Function;
@@ -21,7 +22,9 @@ export interface HeaderProps {
 
 const MainHeader: React.FC<HeaderProps> = ({ setConnectModalOpen, isWindowEthAvailable, handleConnect }) => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
+    const dispatch = useAppDispatch()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isDisconnectButtonHovered, setIsDisconnectButtonHovered] = useState(false)
     return (
         <header>
             <Stars />
@@ -37,6 +40,7 @@ const MainHeader: React.FC<HeaderProps> = ({ setConnectModalOpen, isWindowEthAva
                             Connect wallet
                         </a>
                         :
+                        <>
                         <div className={"d-flex"}>
                             <div className={style.capsContainer}>
                                 <div className={"d-flex py-2 px-3 align-items-center"}>
@@ -68,6 +72,17 @@ const MainHeader: React.FC<HeaderProps> = ({ setConnectModalOpen, isWindowEthAva
                                         </div>
                                     </div>
                                 </div>
+                                <div 
+                                    className={style.logoutContainer} 
+                                    onMouseEnter={()=>setIsDisconnectButtonHovered(true)} 
+                                    onMouseLeave={()=>setIsDisconnectButtonHovered(false)}
+                                    onClick={() => {dispatch(actions.logout());setIsDisconnectButtonHovered(false)}}
+                                >
+                                    <div className={"d-flex p-1 align-items-center " + style.logoutButton}>
+                                        {!isDisconnectButtonHovered ? <img src={'/Logout.png'} className={"mx-2"}/> : <img src={'/LogoutHover.png'} className={"mx-2"}/>}
+                                        Disconnect
+                                    </div>
+                                </div>
                             </div>
                             {/*<div className={style.settingContainer}>
                                 <div className={"d-flex px-3 align-items-center"}>
@@ -75,6 +90,7 @@ const MainHeader: React.FC<HeaderProps> = ({ setConnectModalOpen, isWindowEthAva
                                 </div>
                             </div>*/}
                         </div>
+                        </>
                     }
                 </div>
                 <div className={"d-md-none"} onClick={() => setIsMenuOpen(!isMenuOpen)}>
