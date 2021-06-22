@@ -194,7 +194,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         </div>
                     </div>
                     <div className={style.addNetwork}>
-                        <span className={style.addNetworkLabel}>{"If you have not add Binance Smart Chain network in your MetaMask yet, please click "}</span>
+                        <span className={style.addNetworkLabel}>{"If you have not added Binance Smart Chain network in your MetaMask yet, please click "}</span>
                         <a
                             href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
                             target="_blank"
