@@ -2,9 +2,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 12px;
+    padding: 8px 12px;
     @media (min-width: 768px) {
-        padding: 36px 36px;
+        padding: 20px 36px 36px 36px;
     }
     background-color: #00001e;
 }

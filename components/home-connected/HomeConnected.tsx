@@ -21,6 +21,7 @@ import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
 import { clear, get } from 'helpers/storage.helper'
 import { USER_WALLET_TYPE } from 'const'
+import WarningBanner from 'components/WarningBanner';
 
 declare let window: any;
 
@@ -47,15 +48,17 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             dispatch(actions.setCapsAmount(Number(providerBalance.toString())))
         }
     }
-    useEffect(() => {
-        updateProviderBalance();
-    }, [userWallet?.address])
+    useEffect(()=>{
+        let optionsArray = options.filter(x => x.value == userWalletChainType)
+        if (userWallet && optionsArray.length>0) setSelectedOptionFrom(optionsArray[0])
+        updateProviderBalance()
+        setCapsToSwap(0)
+    }, [userWalletChainType])
     useEffect(() => {
         setIsWindowEthAvailable(typeof window !== "undefined" && window.ethereum ? true : false)
     })
     useEffect(() => {
         const networkTypeStorage: NetworkType = get(USER_WALLET_TYPE) as NetworkType
-
         if (networkTypeStorage) {
             handleConnect(networkTypeStorage)
         }
@@ -65,11 +68,6 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
         updateProviderBalance()
         setCapsToSwap(0)
     }, [selectedOptionFrom?.value])
-    useEffect(()=>{
-        updateProviderBalance()
-        setCapsToSwap(0)
-        if (userWallet) setSelectedOptionFrom(options.filter(x => x.value == userWalletChainType)[0])
-    }, [userWalletChainType])
     const handleChange = (option: Option, isFrom: boolean) => {
         if (isFrom) {
             setSelectedOptionFrom(option)
@@ -137,6 +135,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 <meta name="description" content="BSC ETH Bridge, by Ternoa." />
             </Head>
             <div className={"mainContainer"}>
+                <WarningBanner/>
                 <MainHeader setConnectModalOpen={setPopupConnectionOpen} isWindowEthAvailable={isWindowEthAvailable} handleConnect={handleConnect} />
                 <div className={"container py-3 d-flex flex-column align-items-center"}>
                     <div className={style.intro}>The safe, fast and most secure way to swap Caps to binance smart chain.</div>
