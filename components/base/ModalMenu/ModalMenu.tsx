@@ -67,7 +67,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                 </div>
                             </>
                         }
-                        <div className={"d-none row py-5"}>
+                        {/*<div className={"row py-5"}>
                             <div className={"col-12 py-2"}>
                                 <span><Swap/></span>
                                 <span className={style.menuLabel}><a href="#">Swap</a></span>
@@ -88,7 +88,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                 <span><FAQs/></span>
                                 <span className={style.menuLabel}><a href="#">FAQs</a></span>
                             </div>
-                        </div>
+                        </div>*/}
                         <div className={"row py-5"}>
                             <div className={"col-12 py-2"}>
                                 <span><Support/></span>
@@ -96,7 +96,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                             </div>
                         </div>
                         {(userWallet) ? 
-                            <div className={"d-none row py-4 px-4"}>
+                            {/*<div className={"row py-4 px-4"}>
                                 <div 
                                     className={"btn btn-outline-primary rounded-pill"} 
                                     onClick={() => {
@@ -106,7 +106,7 @@ const ModalMenu: React.FC<ModalMenuProps> = ({ modalMenuOpen, setModalMenuOpen, 
                                 >
                                     Log out
                                 </div>
-                            </div>
+                            </div>*/}
                         :
                             <div className={"d-flex flex-column align-items-center pt-3"}>
                                 {isWindowEthAvailable && 
