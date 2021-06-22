@@ -133,9 +133,19 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             updateProviderBalance();
         }
         catch (e) {
-            setTransferError(e.toString());
+            let errorMessage: string = 'Unknown error';
+            if (typeof e === 'string') {
+                errorMessage = e;
+            } else if (typeof e === 'object') {
+                if (e.message) {
+                    errorMessage = e.message;
+                } else {
+                    errorMessage = JSON.stringify(e);
+                }
+            }
+            setTransferError(errorMessage);
         }
-        finally{
+        finally {
             setTransferPending(false);
         }
     }
@@ -184,7 +194,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         </div>
                     </div>
                     <div className={style.addNetwork}>
-                        <span className={style.addNetworkLabel}>{"If you have not add Binance Smart Chain network in your MetaMask yet, please click "}</span>
+                        <span className={style.addNetworkLabel}>{"If you have not added Binance Smart Chain network in your MetaMask yet, please click "}</span>
                         <a
                             href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
                             target="_blank"
@@ -243,8 +253,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         </div>
                     </div>
                     <div className={"pt-3"}>
-                        <div 
-                            className={`btn btn-primary rounded-pill ${!userWallet || isAbleToSwap ? "" : "disabled"}`} 
+                        <div
+                            className={`btn btn-primary rounded-pill ${!userWallet || isAbleToSwap ? "" : "disabled"}`}
                             onClick={() => userWallet ? handleNext() : setPopupConnectionOpen(true)}
                         >
                             <div className={"d-flex align-items-center px-5 mx-4"}>
@@ -333,7 +343,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     setOpen={setPopupConfirmationOpen}
                 >
                     <div className={style.errorNetworkLabel}>
-                        An error has occured on transfer: {transferError}.
+                        An error has occured on transfer: {transferError}
                     </div>
                 </GenericModal>
 
