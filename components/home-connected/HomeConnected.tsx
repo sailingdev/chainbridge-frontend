@@ -133,7 +133,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             updateProviderBalance();
         }
         catch (e) {
-            setTransferError(e.toString());
+            setTransferError(e.message);
         }
         finally{
             setTransferPending(false);
@@ -333,7 +333,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     setOpen={setPopupConfirmationOpen}
                 >
                     <div className={style.errorNetworkLabel}>
-                        An error has occured on transfer: {transferError}.
+                        An error has occured on transfer: {transferError}
                     </div>
                 </GenericModal>
 
