@@ -4,11 +4,8 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { mapSignerAsWallet } from "./wallet.helper";
 import { USER_WALLET_TYPE } from "const";
 import { store } from "./storage.helper";
-let qrHasDisplayed = false;
 //  Create WalletConnect Provider
-export const walletProvider = new WalletConnectProvider({
-    infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
-});
+export let walletProvider: WalletConnectProvider;
 export const onQRCallback = async (accounts: string[], success: Function, reject: Function) => {
     if (accounts && accounts.length > 0) {
         const provider = new ethers.providers.Web3Provider(walletProvider)
@@ -23,24 +20,21 @@ export const onQRCallback = async (accounts: string[], success: Function, reject
 }
 export const connect = (): Promise<UserWallet> => {
     return new Promise<UserWallet>(async (success, reject) => {
-        //  Enable session (triggers QR Code modal)
+        // workaround to avoid console.log while connecting
+        const saveLog = console.log;
+        console.log = () => { };
+        walletProvider = new WalletConnectProvider({
+            infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+            bridge: process.env.NEXT_PUBLIC_WALLETCONNECT_BRIDGE,
+        });
         try {
-            if (qrHasDisplayed) {
-                const uri = walletProvider.connector.uri;
-                walletProvider.qrcodeModal.open(uri, () => { });
-                walletProvider.on("accountsChanged", (accounts: string[]) => {
-                    return onQRCallback(accounts, success, reject)
-                });
-
-            } else {
-                qrHasDisplayed = true;
-                const accounts = await walletProvider.enable();
-                return onQRCallback(accounts, success, reject)
-            }
-        } catch (err) {
-            //user closed QR modal
-            reject(err);
+            const accounts = await walletProvider.enable();
+            onQRCallback(accounts, success, reject)
+            // workaround revert - reset console.log
+            console.log = saveLog;
+        }
+        catch (e) {
+            // caught user modal closing error
         }
     })
-
 }
