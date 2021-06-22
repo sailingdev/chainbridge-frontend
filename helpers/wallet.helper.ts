@@ -65,16 +65,13 @@ export const getDefaultProviderNetwork = (network: Option | null) => {
     switch (network?.value) {
         case ChainTypes.bep20: return 'https://bsc-dataseed.binance.org/'
         default:
-            return 'mainnet'
+            return 'https://mainnet.infura.io/v3/d7ba724d1621497aaacdbc03b1094a2e'
     }
 }
 export const getProviderBalance = async (signer: Signer, network: Option | null) => {
     if (!network) throw new Error('No network given')
     if (!signer) throw new Error('No signer given')
     let provider = ethers.providers.getDefaultProvider(getDefaultProviderNetwork(network))
-    if (walletProvider && walletProvider.connected) {
-        provider = new ethers.providers.Web3Provider(walletProvider)
-    }
     const contract = new Contract(network.tokenAddress, contractAbi, provider)
     const balance = await contract.balanceOf(await signer.getAddress());
     const readableBalance = ethers.utils.formatUnits(balance);
