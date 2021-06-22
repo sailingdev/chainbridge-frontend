@@ -100,7 +100,6 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         dispatch(actions.login(metaMaskUserWallet))
                     } else {
                         dispatch(actions.logout())
-                        clear(USER_WALLET_TYPE)
                     }
                 })
                 break
@@ -110,7 +109,6 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                     dispatch(actions.login(walletconnectUserWallet))
                     walletProvider.on("disconnect", (code: any, reason: any) => {
                         dispatch(actions.logout())
-                        clear(USER_WALLET_TYPE)
                     });
                 } catch (err) {
                     clear(USER_WALLET_TYPE)
