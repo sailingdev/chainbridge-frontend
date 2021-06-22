@@ -65,7 +65,7 @@ export const getDefaultProviderNetwork = (network: Option | null) => {
     switch (network?.value) {
         case ChainTypes.bep20: return 'https://bsc-dataseed.binance.org/'
         default:
-            return 'https://mainnet.infura.io/v3/0f6b35a9fd314b17bbf20292cbb4c4cf'
+            return 'https://mainnet.infura.io/v3/d7ba724d1621497aaacdbc03b1094a2e'
     }
 }
 export const getProviderBalance = async (signer: Signer, network: Option | null) => {
