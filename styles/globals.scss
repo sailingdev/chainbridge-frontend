@@ -62,20 +62,11 @@ a {
   box-sizing: border-box;
 }
 
-.stars {
-  position: fixed;
-  z-index: -1;
-  height: 100%;
-  width: 100%;
-}
-
 .mainContainer {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   width: 100%;
   overflow: auto;
-}
-.full-height {
-  height: 100vh;
 }

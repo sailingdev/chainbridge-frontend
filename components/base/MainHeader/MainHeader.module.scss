@@ -1,35 +1,36 @@
-.Header{
+.header{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 12px;
+    padding: 8px 12px;
     @media (min-width: 768px) {
-        padding: 36px 36px;
+        padding: 20px 36px 36px 36px;
     }
     background-color: #00001e;
 }
 
-.Logo{
+.logo{
     width: 70%;
     @media (min-width: 768px) {
         width: 100%;
     }
 }
 
-.Hamburger{
+.hamburger{
+    cursor: pointer;
     fill: white;
     &:hover {
         fill: #14FFC6;
     }
 }
 
-.CapsContainer{
+.capsContainer{
     background: #14142E;
     border-radius: 100px;
     padding: 0px 25px;
 }
 
-.CapsAmount{
+.capsAmount{
     font-size: 14px;
     font-family: "Airbnb Cereal App Bold";
     background: linear-gradient(90deg, #FF8500 0%, #FF0062 32.78%, #CB06ED 67.12%, #004FFF 99.9%);
@@ -50,27 +51,55 @@
     }
 }
 
-.ProviderContainer{
+.providerContainer{
     padding: 0px 30px;
 }
 
-.Address{
+.address{
     font-family: "Airbnb Cereal App Bold";
     font-size: 14px;
     color: #9C9CBA;
 }
 
-.Network{
+.network{
     font-size: 10px;
 }
 
-.SettingContainer{
+.logoutContainer{
+    position: absolute;
+    height: 30px;
+    width: 155px;
+    background-color: #14142E;
+    border-radius: 5px;
+    display:flex;
+    align-self: center;
+    justify-content:center;
+    font-size: 14px;
+    margin-top: 10px;
+    cursor:pointer;
+    &:hover{
+        background-color: rgba(255,133,0, 0.2);
+    }
+}
+.logoutButton{
+    height: 100%;
+    width:100%;
+    justify-content: center;
+    &:hover{
+        background: linear-gradient(90deg, #FF7F05 0%, #FF204B 99.9%);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+}
+
+.settingContainer{
     background: #14142E;
     border-radius: 100px;
     display:flex;
 }
 
-.SettingIcon{
+.settingIcon{
     vertical-align: middle;
     cursor: pointer;
 }

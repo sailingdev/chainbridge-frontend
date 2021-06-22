@@ -1,2 +1,2 @@
-export const USER_WALLET_STORAGE_KEY='userWallet'
+export const USER_WALLET_TYPE='USER_WALLET_TYPE'
 

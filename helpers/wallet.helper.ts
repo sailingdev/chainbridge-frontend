@@ -3,8 +3,11 @@ import { Contract, ethers, Signer } from "ethers"
 import { ChainTypes, NetworkType } from "interfaces";
 import { walletProvider } from "./wallet-connect.helper";
 
+const ETH_CHAIN_ID = 1
+const BSC_CHAIN_ID = 56
+
 export const mapSignerAsWallet = async (signer: Signer, networkType: NetworkType) => {
-    let chainId = await signer.getChainId()
+    const chainId = await signer.getChainId()
     return {
         address: await signer.getAddress(),
         balance: ethers.utils.formatEther(await signer.getBalance()),
@@ -12,7 +15,8 @@ export const mapSignerAsWallet = async (signer: Signer, networkType: NetworkType
         gasPrice: ethers.utils.formatEther(await signer.getGasPrice()),
         transactionCount: await signer.getTransactionCount(),
         networkType: networkType,
-        chainType: [1,42].includes(chainId) ? ChainTypes.erc20 : ChainTypes.bep20,
+        chainType: ETH_CHAIN_ID === chainId ? ChainTypes.erc20 : (chainId === BSC_CHAIN_ID ? ChainTypes.bep20 : ChainTypes.other),
+        capsAmount: 0,
         signer
     }
 }
@@ -57,19 +61,23 @@ const contractAbi = [
         "payable": false
     }
 ];
-
+export const getDefaultProviderNetwork = (network: Option | null) => {
+    switch (network?.value) {
+        case ChainTypes.bep20: return 'https://bsc-dataseed.binance.org/'
+        default:
+            return 'mainnet'
+    }
+}
 export const getProviderBalance = async (signer: Signer, network: Option | null) => {
     if (!network) throw new Error('No network given')
     if (!signer) throw new Error('No signer given')
-    console.log('network', network)
-    let provider = ethers.providers.getDefaultProvider(network.value == ChainTypes.bep20 ? 'https://bsc-dataseed.binance.org/' : 'mainnet')
+    let provider = ethers.providers.getDefaultProvider(getDefaultProviderNetwork(network))
     if (walletProvider && walletProvider.connected) {
         provider = new ethers.providers.Web3Provider(walletProvider)
     }
     const contract = new Contract(network.tokenAddress, contractAbi, provider)
     const balance = await contract.balanceOf(await signer.getAddress());
     const readableBalance = ethers.utils.formatUnits(balance);
-    console.log('readableBalance', readableBalance);
     return readableBalance;
 }
 export const transfer = async (signer: Signer | null, network: Option | null, amount: number) => {
@@ -83,7 +91,6 @@ export const transfer = async (signer: Signer | null, network: Option | null, am
     try {
         return contract.transfer(network.bridgeAddress, numberOfTokens);
     } catch (error) {
-        console.log('send tokens error ', error.toString());
         throw new Error(error);
     }
 }

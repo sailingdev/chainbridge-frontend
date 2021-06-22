@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router'
 import Link from 'next/link';
 import style from './MainHeader.module.scss';
 import LogoTernoaBridge from 'components/assets/LogoTernoaBridge';
@@ -9,71 +8,102 @@ import Metamask from 'components/assets/Providers/Metamask';
 import WalletConnect from 'components/assets/Providers/WalletConnect';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import ModalMenu from '../ModalMenu';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { ChainTypes } from 'interfaces';
+import Stars from '../Stars';
+import { actions } from 'redux/walletUser/actions';
+
 
 export interface HeaderProps {
-    capsAmount: number;
+    setConnectModalOpen: Function;
+    isWindowEthAvailable: Boolean;
+    handleConnect: Function;
 }
 
-const MainHeader: React.FC<HeaderProps> = ({ capsAmount }) => {
+const MainHeader: React.FC<HeaderProps> = ({ setConnectModalOpen, isWindowEthAvailable, handleConnect }) => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
+    const dispatch = useAppDispatch()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const router = useRouter();
+    const [isDisconnectButtonHovered, setIsDisconnectButtonHovered] = useState(false)
     return (
-        <>
-            <div className={style.Header}>
+        <header>
+            <Stars />
+            <div className={style.header}>
                 <Link href="/">
                     <a>
-                        <LogoTernoaBridge className={style.Logo} />
+                        <LogoTernoaBridge className={style.logo} />
                     </a>
                 </Link>
                 <div className={"d-none d-md-block"}>
                     {!userWallet ?
-                        <a className={"btn btn-outline-primary rounded-pill"} onClick={() => router.push('home-not-connected')}>
+                        <a className={"btn btn-outline-primary rounded-pill"} onClick={() => setConnectModalOpen(true)}>
                             Connect wallet
                         </a>
                         :
+                        <>
                         <div className={"d-flex"}>
-                            <div className={style.CapsContainer}>
+                            <div className={style.capsContainer}>
                                 <div className={"d-flex py-2 px-3 align-items-center"}>
-                                    <div className={style.CapsAmount}>{formatCaps(capsAmount) + " Caps"}</div>
+                                    <div className={style.capsAmount}>{formatCaps(userWallet.capsAmount) + " Caps"}</div>
                                     <div className={style.capsAvailable}>{"Available"}</div>
                                 </div>
                             </div>
-                            <div className={style.ProviderContainer}>
+                            <div className={style.providerContainer}>
                                 <div className={"row d-flex align-items-center"}>
                                     <div className={"col-3"}>
-                                        {userWallet.networkType==="metamask" ? <Metamask /> : <WalletConnect />}
+                                        {userWallet.networkType === "metamask" ? <Metamask /> : <WalletConnect />}
                                     </div>
                                     <div className={"col"}>
                                         <div className={"row"}>
-                                            <span className={style.Address}>{middleEllipsis(userWallet.address.toString())}</span>
+                                            <span className={style.address}>{middleEllipsis(userWallet.address.toString())}</span>
                                         </div>
                                         <div className={"row"}>
-                                            <span className={style.Network}>{`${userWallet.chainType===ChainTypes.erc20 ? "Ethereum" : "Binance"} Network`}</span>
+                                            <span className={style.network}>
+                                                {`${userWallet.chainType===ChainTypes.erc20 ? 
+                                                    "Ethereum" 
+                                                : 
+                                                    userWallet.chainType===ChainTypes.bep20 ?
+                                                        "Binance"
+                                                    :
+                                                        "Wrong"
+                                                } 
+                                                Network`}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className={style.SettingContainer}>
-                                <div className={"d-flex px-3 align-items-center"}>
-                                    <Setting className={style.SettingIcon} />
+                                <div 
+                                    className={style.logoutContainer} 
+                                    onMouseEnter={()=>setIsDisconnectButtonHovered(true)} 
+                                    onMouseLeave={()=>setIsDisconnectButtonHovered(false)}
+                                    onClick={() => {dispatch(actions.logout());setIsDisconnectButtonHovered(false)}}
+                                >
+                                    <div className={"d-flex p-1 align-items-center " + style.logoutButton}>
+                                        {!isDisconnectButtonHovered ? <img src={'/Logout.png'} className={"mx-2"}/> : <img src={'/LogoutHover.png'} className={"mx-2"}/>}
+                                        Disconnect
+                                    </div>
                                 </div>
                             </div>
+                            {/*<div className={style.settingContainer}>
+                                <div className={"d-flex px-3 align-items-center"}>
+                                    <Setting className={style.settingIcon} />
+                                </div>
+                            </div>*/}
                         </div>
+                        </>
                     }
                 </div>
                 <div className={"d-md-none"} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                    <Hamburger className={style.Hamburger + " mx-2"} />
+                    <Hamburger className={style.hamburger + " mx-2"} />
                 </div>
             </div>
             <ModalMenu
                 modalMenuOpen={isMenuOpen}
                 setModalMenuOpen={setIsMenuOpen}
-                capsAmount={capsAmount}
+                isWindowEthAvailable={isWindowEthAvailable}
+                handleConnect={handleConnect}
             />
-        </>
+        </header>
     )
 }
 

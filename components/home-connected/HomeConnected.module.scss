@@ -55,7 +55,7 @@
     font-size: 10px;
     @media (min-width: 768px) {
         font-size: 14px;
-        padding-top: 30px;
+        padding-top: 20px;
         padding-bottom: 15px;
     }
 }
@@ -99,9 +99,17 @@
     font-family: "Airbnb Cereal App Bold";
     font-size: 22px;
     line-height: 30px;
+    padding-left: 4px;
+    padding-right: 4px;
     background: linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500);
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    border: solid 1px transparent;
+}
+
+.capsAmountFocused{
+    border-image:linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500);
+    border-image-slice: 1;
 }
 
 .maxButton{
@@ -114,60 +122,29 @@
 }
 
 
-.divider{
-    padding:0px;
-    margin:0px 15px;
-}
-
-.sliderContainer{
-    padding: 25px 15px;
-}
-
-.slider {
-    -webkit-appearance: none; 
-    appearance: none;
-    width: 100%; 
-    height: 2px;
-    outline: none; 
-    -webkit-transition: .2s; 
-    transition: .2s;
-    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
-                linear-gradient(101deg,  #ff8500, #ff0062, #cb06ed, #004fff);
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none; 
-    appearance: none;
-    width: 20px;
-    height: 20px; 
-    border-radius: 15px;
-    background: #004fff; 
-    cursor: pointer; 
-}
-
-.slider::-moz-range-thumb {
-    width: 20px; 
-    height: 20px;
-    border-radius: 15px;
-    background: #004fff;
-    cursor: pointer; 
-}
-
-.rangeLegend{
-    font-size: 9px;
-    line-height: 9px;
-    color: #9C9CBA;
-}
-
-.rangeLegendRight{
-    font-size: 9px;
-    line-height: 9px;
-    color: #9C9CBA;
-    text-align: right;
-}
-
-.makedInput{
+.maskedInput{
     width:0; 
     height:0; 
     opacity:0;
+}
+
+.errorNetworkLabel{
+    font-family: "Airbnb Cereal App Bold";
+    font-size: 16px;
+}
+
+.modalConnectTitle{
+    font-size: 24px;
+}
+
+.connectButton{
+    line-height: 30px;
+    width: 100%;
+}
+
+.buttonContainer{
+    width: 90%;
+    @media (min-width: 768px) {
+        width: 70%;
+    }
 }

@@ -7,43 +7,43 @@ import Instagram from 'components/assets/SocialMedias/Instagram';
 
 const Footer: React.FC<{}> = () => {
     return(
-        <div className={style.Footer + " row"}>
-            <div className={"col-md-6 col-12 mb-3 d-flex align-items-center justify-content-center justify-content-md-start"}>
+        <div className={style.footer + " row pt-3"}>
+            <div className={"col-md-6 col-12 mb-2 d-flex align-items-center justify-content-center justify-content-md-start"}>
                 <a
                     href="https://discord.gg/cNZTGtGJNR"
                     target="_blank"
                     rel="noopener"
                 >
-                    <Discord className={style.SocialLogo}/>
+                    <Discord className={style.socialLogo}/>
                 </a>
                 <a
                     href="https://t.me/ternoadiscussions"
                     target="_blank"
                     rel="noopener"
                 >
-                    <Telegram className={style.SocialLogo}/>
+                    <Telegram className={style.socialLogo}/>
                 </a>
                 <a
                     href="https://twitter.com/ternoa_"
                     target="_blank"
                     rel="noopener"
                 >
-                    <Twitter className={style.SocialLogo}/>
+                    <Twitter className={style.socialLogo}/>
                 </a>
                 <a
                     href="https://www.instagram.com/ternoa_/"
                     target="_blank"
                     rel="noopener"
                 >
-                    <Instagram className={style.SocialLogo}/>
+                    <Instagram className={style.socialLogo}/>
                 </a>
             </div>
-            <div className={"col-md-6 col-12 mb-3 d-flex align-items-center justify-content-center justify-content-md-end"}>
+            <div className={"col-md-6 col-12 mb-2 d-flex align-items-center justify-content-center justify-content-md-end"}>
                 <a
                     href="https://intercom.help/ternoa/fr/collections/2774679-legal"
                     target="_blank"
                     rel="noopener"
-                    className={style.FooterLink}
+                    className={style.footerLink}
                 >
                     Terms
                 </a>
@@ -51,16 +51,16 @@ const Footer: React.FC<{}> = () => {
                     href="https://intercom.help/ternoa/fr/collections/2774679-legal"
                     target="_blank"
                     rel="noopener"
-                    className={style.FooterLink}
+                    className={style.footerLink}
                 >
                     Privacy
                 </a>
             </div>
-            <div className={"d-none d-md-block col-md-6 mb-3 d-flex flex-row align-items-center justify-content-left"}>
-                <p className={style.FooterCopyright}>© 2021 Ternoa Bridge developed and designed by ternoa.com. All rights reserved.</p>
+            <div className={"d-none d-md-block col-md-6 mb-2 d-flex flex-row align-items-center justify-content-left"}>
+                <p className={style.footerCopyright}>© 2021 Ternoa Bridge developed and designed by ternoa.com. All rights reserved.</p>
             </div>
-            <div className={"d-md-none col-12 mb-3 d-flex flex-row align-items-center justify-content-center"}>
-                <p className={style.FooterCopyright}>© 2021 Ternoa Bridge. All rights reserved.</p>
+            <div className={"d-md-none col-12 mb-2 d-flex flex-row align-items-center justify-content-center"}>
+                <p className={style.footerCopyright}>© 2021 Ternoa Bridge. All rights reserved.</p>
             </div>
         </div>
     )

@@ -1,16 +1,16 @@
-.ModalContainer{
+.modalContainer{
     position: fixed;
     height: 100%;
     width: 250px;
     right: 0px;
     top: 0px;
-    padding: 24px 24px;
+    padding: 24px;
     background-color: #14142E;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
     display:flex;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 100;
     @media (min-width: 768px) {
         display: none;
     }
@@ -46,4 +46,14 @@
 
 .menuLabel{
     padding-left: 8px;
+}
+
+.closeButton{
+    cursor: pointer;
+}
+
+.connectButton{
+    line-height: 30px;
+    font-size: 10px;
+    width: 100%;
 }

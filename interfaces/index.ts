@@ -3,7 +3,8 @@ import { Signer } from "ethers";
 export type NetworkType = 'metamask' | 'walletconnect' | null | undefined;
 export enum ChainTypes {
     erc20 = 0,
-    bep20 = 1
+    bep20 = 1,
+    other = 2
 }
 export type ChainType = ChainTypes | null | undefined;
 export interface UserWallet {
@@ -12,7 +13,8 @@ export interface UserWallet {
     chainId?: number
     gasPrice?: string
     transactionCount?: number
-    networkType?: NetworkType;
+    networkType?: NetworkType
     chainType?: ChainType
+    capsAmount?: string | number
     signer : Signer
 }
