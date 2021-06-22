@@ -49,12 +49,15 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             const providerBalance = await getProviderBalance(userWallet.signer, selectedOptionFrom)
             dispatch(actions.setCapsAmount(Number(providerBalance.toString())))
         }
+        setCapsToSwap(0)
     }
     useEffect(() => {
         let optionsArray = options.filter(x => x.value == userWalletChainType)
-        if (userWallet && optionsArray.length > 0) setSelectedOptionFrom(optionsArray[0])
-        updateProviderBalance()
-        setCapsToSwap(0)
+        if (userWallet && optionsArray.length > 0 && optionsArray[0]!==selectedOptionFrom){
+            setSelectedOptionFrom(optionsArray[0])
+        }else{
+            updateProviderBalance()
+        }
     }, [userWalletChainType])
     useEffect(() => {
         setIsWindowEthAvailable(typeof window !== "undefined" && window.ethereum ? true : false)
@@ -68,7 +71,6 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
 
     useEffect(() => {
         updateProviderBalance()
-        setCapsToSwap(0)
     }, [selectedOptionFrom?.value])
     const handleChange = (option: Option, isFrom: boolean) => {
         if (isFrom) {
@@ -79,7 +81,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
         }
     }
     const handleNext = () => {
-        if (isAbleToSwap || true) {
+        if (isAbleToSwap) {
             if (selectedOptionFrom?.value !== userWallet.chainType) {
                 setWarningSelectedNetworkFromOpen(true)
             } else {
