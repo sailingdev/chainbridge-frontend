@@ -2,6 +2,7 @@ import { AnyAction } from 'redux'
 import { UserWallet } from 'interfaces'
 import { clear } from 'helpers/storage.helper';
 import { USER_WALLET_TYPE } from 'const';
+import { walletProvider } from 'helpers/wallet-connect.helper';
 
 const userWallet: UserWallet | null = null as (UserWallet | null)
 const initialState = { userWallet }
@@ -17,6 +18,9 @@ export const reducer = (state = initialState, action: AnyAction) => {
             return nextState
         case 'USER_WALLET_LOGOUT':
             clear(USER_WALLET_TYPE)
+            if (walletProvider && typeof walletProvider!=='undefined' && walletProvider.connected){
+                walletProvider.disconnect()
+            }
             nextState = {
                 ...state,
                 userWallet: null
