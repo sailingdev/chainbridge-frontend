@@ -91,3 +91,16 @@ export const transfer = async (signer: Signer | null, network: Option | null, am
         throw new Error(error);
     }
 }
+
+export const getEstimateFees = async (network: Option | null) => {
+    if (!network) throw new Error('Give network to estimate fees')
+    const provider = ethers.providers.getDefaultProvider(getDefaultProviderNetwork(network))
+    try{
+        const gasLimit = 40000
+        const gasPrice = await provider.getGasPrice()
+        const fees = ethers.utils.formatEther(gasPrice.toNumber() * gasLimit)
+        return fees
+    }catch(error){
+        throw new Error(error);
+    }
+}

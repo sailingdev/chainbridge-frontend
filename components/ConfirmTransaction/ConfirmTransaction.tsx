@@ -12,6 +12,7 @@ import { formatCaps, middleEllipsis } from 'utils/strings';
 import { Option, options } from 'components/base/Select/NetworkSelect'
 import { useAppSelector } from 'redux/hooks';
 import { ChainTypes } from 'interfaces';
+import { getEstimateFees } from 'helpers/wallet.helper';
 
 export interface ConfirmTransactionProps {
     open: boolean;
@@ -45,6 +46,7 @@ const NetworkRow = (option: Option | null, userWallet: UserWallet | null) => {
 const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, capsToSwap, from, onConfirm, transferPending }) => {
     const userWallet = useAppSelector((state) => state.user.userWallet)
     const [isTermAccepted, setIsTermAccepted] = useState(false)
+    const [estimateFees, setEstimateFees] = useState(0)
     const to = options.filter(x => x.value !== from?.value)[0]
     const canConfirmTransaction = userWallet && isTermAccepted && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount
     const handleConfirm = () => {
@@ -52,10 +54,14 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
             onConfirm()
         }
     }
+    const updateEstimateFees = async () => {
+        setEstimateFees(Number(await getEstimateFees(from)))
+    }
     useEffect(() => {
         if (!open) {
             setIsTermAccepted(false);
         }
+        if (open) updateEstimateFees()
     }, [open])
     return (
         <>
@@ -110,8 +116,8 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                                     </div>
                                     <div className={"col-6 " + style.leftLabel}>Network fee</div>
                                     <div className={"col-6 " + style.rightLabel}>
-                                        0.001 Eth
-                            </div>
+                                        {estimateFees && estimateFees > 0 ? estimateFees : 0.001} Eth
+                                    </div>
                                     <div className={"col-6 " + style.leftLabel}>You will receive</div>
                                     <div className={"col-6 " + style.rightLabel}>
                                         <Caps className={style.gridIcon} /> {` ${formatCaps(capsToSwap)} CAPS`}
