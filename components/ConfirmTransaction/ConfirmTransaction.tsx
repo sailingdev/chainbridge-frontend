@@ -116,7 +116,7 @@ const ConfirmTransaction: React.FC<ConfirmTransactionProps> = ({ open, setOpen, 
                                     </div>
                                     <div className={"col-6 " + style.leftLabel}>Network fee</div>
                                     <div className={"col-6 " + style.rightLabel}>
-                                        {estimateFees && estimateFees > 0 ? estimateFees : 0.001} Eth
+                                        {estimateFees && estimateFees > 0 ? estimateFees : 0.001} {(userWallet && userWallet.chainType === ChainTypes.bep20) ? "BNB" : "ETH"}
                                     </div>
                                     <div className={"col-6 " + style.leftLabel}>You will receive</div>
                                     <div className={"col-6 " + style.rightLabel}>
