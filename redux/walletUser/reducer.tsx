@@ -18,7 +18,7 @@ export const reducer = (state = initialState, action: AnyAction) => {
             return nextState
         case 'USER_WALLET_LOGOUT':
             clear(USER_WALLET_TYPE)
-            if (walletProvider && typeof walletProvider!=='undefined' && walletProvider.connected){
+            if (walletProvider?.connected){
                 walletProvider.disconnect()
             }
             nextState = {
