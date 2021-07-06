@@ -8,6 +8,7 @@ import Footer from 'components/base/Footer';
 import NetworkSelect from 'components/base/Select/NetworkSelect';
 import ConfirmTransaction from 'components/ConfirmTransaction';
 import GenericModal from 'components/GenericModal';
+import Loader from 'components/base/Loader';
 import { middleEllipsis, formatCaps } from 'utils/strings';
 import { Option, options } from 'components/base/Select/NetworkSelect'
 import { getProviderBalance, transfer } from 'helpers/wallet.helper';
@@ -40,6 +41,9 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [warningSelectedNetworkFromOpen, setWarningSelectedNetworkFromOpen] = useState(false)
     const [transferError, setTransferError] = useState<any>(null);
     const [transferPending, setTransferPending] = useState(false)
+    const [receipt, setReceipt] = useState<any>(null)
+    const [successModalOpen, setSuccessModalOpen] = useState(false)
+    const [iSuccessModalClosable, setISuccessModalClosable] = useState(false)
     const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount
     const userWalletChainType = userWallet ? userWallet.chainType : null
     const maxCapsToSwap = 10000
@@ -125,13 +129,20 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const onTransferModalClose = () => {
         setTransferError(null);
     }
+    const onSuccessModalClose = () => {
+        setReceipt(null);
+        setISuccessModalClosable(false)
+    }
     const handleTransfer = async () => {
         setTransferPending(true)
         try {
             const amount = Number(capsToSwap);
             const transaction = await transfer(userWallet.signer, selectedOptionFrom, amount)
             setPopupConfirmationOpen(false)
+            setSuccessModalOpen(true)
             const receipt = await transaction.wait()
+            setReceipt(receipt)
+            setISuccessModalClosable(true)
             updateProviderBalance();
         }
         catch (e) {
@@ -348,7 +359,33 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         An error has occured on transfer: {transferError}
                     </div>
                 </GenericModal>
-
+                {/* transaction success link modal */}
+                <GenericModal
+                    isClosable={iSuccessModalClosable}
+                    isModalError={false}
+                    open={successModalOpen}
+                    setOpen={setSuccessModalOpen}
+                    onClose={onSuccessModalClose}
+                >
+                    <div className={style.modalConnectTitle}>
+                        {receipt ? "Transaction successful" : "Transaction pending"}
+                    </div>
+                    <div className="pt-5 pb-4 ">
+                        {receipt ?
+                            <a 
+                                target="_blank" rel="noopener" className="btn btn-outline-error rounded-pill"
+                                href={
+                                    `https://${receipt?.to === process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_ETH ? "etherscan.io" : "bscscan.com"}/tx/${receipt?.transactionHash}`
+                                }>
+                                    <div className={"d-flex align-items-center justify-content-center px-2"}>
+                                        {"View transaction on " + (receipt?.to === process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_ETH ? "Etherscan" : "BscScan")}
+                                    </div>
+                            </a>
+                        :
+                            <Loader/>
+                        }
+                    </div>
+                </GenericModal>
             </div>
         </>
     )
