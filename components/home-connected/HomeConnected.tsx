@@ -46,6 +46,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [iSuccessModalClosable, setISuccessModalClosable] = useState(false)
     const [networkAlreadyAdded, setNetworkAlreadyAdded] = useState(false)
     const userWalletChainType = userWallet ? userWallet.chainType : null
+    const userWalletAddress = userWallet ? userWallet.address : null
     const maxCapsToSwap = 10000
     const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount && capsToSwap <= maxCapsToSwap
     let maskedTextInput: any = null;
@@ -76,7 +77,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
 
     useEffect(() => {
         updateProviderBalance()
-    }, [selectedOptionFrom?.value])
+    }, [selectedOptionFrom?.value, userWalletAddress])
     const handleChange = (option: Option, isFrom: boolean) => {
         if (isFrom) {
             setSelectedOptionFrom(option)
