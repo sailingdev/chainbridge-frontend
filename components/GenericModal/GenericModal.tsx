@@ -29,7 +29,7 @@ const GenericModal: React.FC<GenericModalProps> = ({ open, setOpen, isModalError
                     <ClickAwayListener onClickAway={() => setOpen && setOpen(false)}>
                         <div className={style.alignBox}>
                             <div className={style.container + " " + (isModalError ? style.containerError : "")}>
-                                {isClosable && setOpen &&
+                                {isClosable &&
                                     <div className={"row d-flex justify-content-end"}>
                                         <div onClick={handleClose} className={style.closeButtonContainer}>
                                             <Close className={style.closeButton} />
