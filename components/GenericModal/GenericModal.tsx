@@ -26,7 +26,7 @@ const GenericModal: React.FC<GenericModalProps> = ({ open, setOpen, isModalError
         <>
             {open &&
                 <div className={style.wrapper}>
-                    <ClickAwayListener onClickAway={() => setOpen && setOpen(false)}>
+                    <ClickAwayListener onClickAway={() => handleClose()}>
                         <div className={style.alignBox}>
                             <div className={style.container + " " + (isModalError ? style.containerError : "")}>
                                 {isClosable &&
