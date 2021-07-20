@@ -252,7 +252,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                             onBlur={() => setIsCapsInputFocused(false)}
                                         />
                                     </span>
-                                    <hr className={`${style.capsLine} ${!isCapsInputFocused ? 'invisible' : '' }`}/>
+                                    <div className={`${style.capsLine} ${!isCapsInputFocused ? 'invisible' : '' }`}><hr className={"m-0"}/></div>
                                 </div>
                                 <div className={"col-2"} onClick={() => {
                                     if (userWallet) {
