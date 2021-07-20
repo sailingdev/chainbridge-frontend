@@ -122,9 +122,11 @@
     border: solid 1px transparent;
 }
 
-.capsAmountFocused{
-    border-image:linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500);
-    border-image-slice: 1;
+.capsLine{
+    background: linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500);
+    opacity: 1;
+    height: 2px;
+    margin: 0;
 }
 
 .maxButton{

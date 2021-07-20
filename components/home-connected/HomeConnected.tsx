@@ -43,7 +43,6 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [transferPending, setTransferPending] = useState(false)
     const [receipt, setReceipt] = useState<any>(null)
     const [successModalOpen, setSuccessModalOpen] = useState(false)
-    const [iSuccessModalClosable, setISuccessModalClosable] = useState(false)
     const [networkAlreadyAdded, setNetworkAlreadyAdded] = useState(false)
     const userWalletChainType = userWallet ? userWallet.chainType : null
     const userWalletAddress = userWallet ? userWallet.address : null
@@ -130,11 +129,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const onTransferModalClose = () => {
         setTransferError(null);
     }
-    const onSuccessModalClose = () => {
-        setReceipt(null);
-        setISuccessModalClosable(false)
-    }
     const handleTransfer = async () => {
+        setReceipt(null);
         setTransferPending(true)
         try {
             const amount = Number(capsToSwap);
@@ -143,7 +139,6 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             setSuccessModalOpen(true)
             const receipt = await transaction.wait()
             setReceipt(receipt)
-            setISuccessModalClosable(true)
             updateProviderBalance();
         }
         catch (e) {
@@ -229,11 +224,11 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                         <span className={style.addNetworkLabel}>{" and continue."}</span>
                     </div>
                     <div className={"container d-flex justify-content-center align-items-center flex-column px-0"}>
-                        <div className={style.amountContainer + " py-2 py-md-2"}>
+                        <div className={style.amountContainer + " py-1 py-md-2"}>
                             <div className={"px-3"}>Amount</div>
-                            <div className={"row d-flex align-items-center px-2 pb-2 pb-md-0"}>
+                            <div className={"row d-flex align-items-center px-2 pb-1 pb-md-0"}>
                                 <div className={"col-10"} onClick={() => maskedTextInput?.focus()}>
-                                    <span className={style.capsAmount + " " + (isCapsInputFocused ? style.capsAmountFocused : "")}>
+                                    <span className={style.capsAmount}>
                                         {formatCaps(capsToSwap) + " CAPS"}
                                         <input
                                             type="number"
@@ -257,6 +252,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                             onBlur={() => setIsCapsInputFocused(false)}
                                         />
                                     </span>
+                                    <hr className={`${style.capsLine} ${!isCapsInputFocused ? 'invisible' : '' }`}/>
                                 </div>
                                 <div className={"col-2"} onClick={() => {
                                     if (userWallet) {
@@ -373,11 +369,11 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                 </GenericModal>
                 {/* transaction success link modal */}
                 <GenericModal
-                    isClosable={iSuccessModalClosable}
+                    isClosable={true}
                     isModalError={false}
                     open={successModalOpen}
                     setOpen={setSuccessModalOpen}
-                    onClose={onSuccessModalClose}
+                    clickAwayClose={false}
                 >
                     <div className={style.modalConnectTitle}>
                         {receipt ? "Transaction successful" : "Transaction pending"}
@@ -387,10 +383,10 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                             <a 
                                 target="_blank" rel="noopener" className="btn btn-outline-error rounded-pill"
                                 href={
-                                    `https://${receipt?.to === process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_ETH ? "etherscan.io" : "bscscan.com"}/tx/${receipt?.transactionHash}`
+                                    `https://${(receipt?.to as string).toLowerCase() === process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_ETH ? "etherscan.io" : "bscscan.com"}/tx/${receipt?.transactionHash}`
                                 }>
                                     <div className={"d-flex align-items-center justify-content-center px-2"}>
-                                        {"View transaction on " + (receipt?.to === process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_ETH ? "Etherscan" : "BscScan")}
+                                        {"View transaction on " + ((receipt?.to as string).toLowerCase() === process.env.NEXT_PUBLIC_CAPS_TOKEN_ADDRESS_ETH ? "Etherscan" : "BscScan")}
                                     </div>
                             </a>
                         :
