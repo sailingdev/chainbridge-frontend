@@ -228,31 +228,38 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                             <div className={"px-3"}>Amount</div>
                             <div className={"row d-flex align-items-center px-2 pb-1 pb-md-0"}>
                                 <div className={"col-10"} onClick={() => maskedTextInput?.focus()}>
-                                    <span className={style.capsAmount}>
-                                        {formatCaps(capsToSwap) + " CAPS"}
-                                        <input
-                                            type="number"
-                                            value={capsToSwap}
-                                            onChange={(e) => {
-                                                Number(e.target.value) >= 0 && Number(e.target.value) <= 10000 ?
-                                                    setCapsToSwap(Number(e.target.value))
-                                                    :
-                                                    setCapsToSwap(maxCapsToSwap)
-                                            }}
-                                            ref={(input) => { maskedTextInput = input }}
-                                            className={style.maskedInput}
-                                            min={0}
-                                            max={maxCapsToSwap}
-                                            onFocus={(e) => {
-                                                setIsCapsInputFocused(true)
-                                                e.currentTarget.type = "text"
-                                                e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)
-                                                e.currentTarget.type = "number"
-                                            }}
-                                            onBlur={() => setIsCapsInputFocused(false)}
-                                        />
-                                    </span>
-                                    <div className={`${style.capsLine} ${!isCapsInputFocused ? 'invisible' : '' }`}><hr className={"m-0"}/></div>
+                                    <div>
+                                        <span className={style.capsAmount}>
+                                            {formatCaps(capsToSwap) + " CAPS"}
+                                            <input
+                                                type="number"
+                                                value={capsToSwap}
+                                                onChange={(e) => {
+                                                    Number(e.target.value) >= 0 && Number(e.target.value) <= 10000 ?
+                                                        setCapsToSwap(Number(e.target.value))
+                                                        :
+                                                        setCapsToSwap(maxCapsToSwap)
+                                                }}
+                                                ref={(input) => { maskedTextInput = input }}
+                                                className={style.maskedInput}
+                                                min={0}
+                                                max={maxCapsToSwap}
+                                                onFocus={(e) => {
+                                                    setIsCapsInputFocused(true)
+                                                    e.currentTarget.type = "text"
+                                                    e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)
+                                                    e.currentTarget.type = "number"
+                                                }}
+                                                onBlur={() => setIsCapsInputFocused(false)}
+                                            />
+                                        </span>
+                                    </div>
+                                    <div 
+                                        className={`opacity-1 m-0 ${!isCapsInputFocused ? 'invisible' : '' }`}
+                                        style={{background: 'linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500)'}}
+                                    >
+                                        <hr className={"m-0"}/>
+                                    </div>
                                 </div>
                                 <div className={"col-2"} onClick={() => {
                                     if (userWallet) {
