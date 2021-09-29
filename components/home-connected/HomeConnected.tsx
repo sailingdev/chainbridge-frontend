@@ -46,7 +46,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [networkAlreadyAdded, setNetworkAlreadyAdded] = useState(false)
     const userWalletChainType = userWallet ? userWallet.chainType : null
     const userWalletAddress = userWallet ? userWallet.address : null
-    const maxCapsToSwap = 10000
+    const maxCapsToSwap = 100000
     const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount && capsToSwap <= maxCapsToSwap
     let maskedTextInput: any = null;
     const updateProviderBalance = async () => {
@@ -235,7 +235,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                                 type="number"
                                                 value={capsToSwap}
                                                 onChange={(e) => {
-                                                    Number(e.target.value) >= 0 && Number(e.target.value) <= 10000 ?
+                                                    Number(e.target.value) >= 0 && Number(e.target.value) <= maxCapsToSwap ?
                                                         setCapsToSwap(Number(e.target.value))
                                                         :
                                                         setCapsToSwap(maxCapsToSwap)
