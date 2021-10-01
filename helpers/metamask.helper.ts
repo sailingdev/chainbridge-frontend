@@ -18,4 +18,26 @@ export const connect = async (): Promise<UserWallet> => {
     }
 }
 
+export const addSwitchBSCNetwork = async () => {
+    if (!(<any>window).ethereum) {
+        throw new Error('MetaMask provider not available');
+    }
+    await (<any>window).ethereum.request({ 
+        method: 'wallet_addEthereumChain',
+        params: [
+            {
+                "chainId": "0x38", //56 in decimal
+                "chainName": "Binance Smart Chain",
+                "rpcUrls": ["https://bsc-dataseed.binance.org/"],
+                "nativeCurrency": {
+                    "name": "BNB",
+                    "symbol": "BNB",
+                    "decimals": 18
+                },
+                "blockExplorerUrls": ["https://bscscan.com"]
+                }
+        ]
+    });
+}
+
 

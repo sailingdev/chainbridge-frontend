@@ -10,10 +10,11 @@ export interface GenericModalProps {
     isModalError: boolean;
     isClosable: boolean;
     onClose?: Function;
+    clickAwayClose?: boolean;
 }
 
 
-const GenericModal: React.FC<GenericModalProps> = ({ open, setOpen, isModalError, isClosable, onClose, children }) => {
+const GenericModal: React.FC<GenericModalProps> = ({ open, setOpen, isModalError, isClosable, onClose, clickAwayClose=true, children }) => {
     const handleClose = () => {
         if (setOpen) {
             setOpen(false);
@@ -26,10 +27,10 @@ const GenericModal: React.FC<GenericModalProps> = ({ open, setOpen, isModalError
         <>
             {open &&
                 <div className={style.wrapper}>
-                    <ClickAwayListener onClickAway={() => setOpen && setOpen(false)}>
+                    <ClickAwayListener onClickAway={() => clickAwayClose && handleClose()}>
                         <div className={style.alignBox}>
                             <div className={style.container + " " + (isModalError ? style.containerError : "")}>
-                                {isClosable && setOpen &&
+                                {isClosable &&
                                     <div className={"row d-flex justify-content-end"}>
                                         <div onClick={handleClose} className={style.closeButtonContainer}>
                                             <Close className={style.closeButton} />

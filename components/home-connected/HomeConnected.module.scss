@@ -65,6 +65,7 @@
 }
 
 .addNetworkButton{
+    cursor: pointer;
     background-color: #260094;
     opacity: 1;
     padding: 0px 10px;
@@ -78,7 +79,7 @@
 .amountContainer{
     width: 100%;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     border: solid 2px transparent;
     background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
                 linear-gradient(101deg,#004fff, #cb06ed, #ff0062, #ff8500 );
@@ -95,6 +96,20 @@
     }
 }
 
+.minMaxContainer{
+    padding-left: 1%;
+    color: rgba(156, 156, 186, 0.5);
+    width:100%;
+    font-size: 12px;
+    @media (min-width: 768px) {
+        width: 65%;
+        font-size: 14px;
+    }
+    @media (min-width: 992px) {
+        width: 50%;
+    }
+}
+
 .capsAmount{
     font-family: "Airbnb Cereal App Bold";
     font-size: 22px;
@@ -105,11 +120,6 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     border: solid 1px transparent;
-}
-
-.capsAmountFocused{
-    border-image:linear-gradient(90deg, #004fff, #cb06ed, #ff0062, #ff8500);
-    border-image-slice: 1;
 }
 
 .maxButton{
@@ -135,6 +145,10 @@
 
 .modalConnectTitle{
     font-size: 24px;
+}
+
+.modalConnectLabel{
+    font-size: 18px;
 }
 
 .connectButton{
