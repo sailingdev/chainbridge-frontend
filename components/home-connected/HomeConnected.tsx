@@ -46,8 +46,9 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
     const [networkAlreadyAdded, setNetworkAlreadyAdded] = useState(false)
     const userWalletChainType = userWallet ? userWallet.chainType : null
     const userWalletAddress = userWallet ? userWallet.address : null
+    const minCapsToSwap = 200
     const maxCapsToSwap = 100000
-    const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap > 0 && capsToSwap <= userWallet.capsAmount && capsToSwap <= maxCapsToSwap
+    const isAbleToSwap = capsToSwap && userWallet && userWallet.capsAmount && capsToSwap >= minCapsToSwap && capsToSwap <= userWallet.capsAmount && capsToSwap <= maxCapsToSwap
     let maskedTextInput: any = null;
     const updateProviderBalance = async () => {
         if (userWallet) {
@@ -146,8 +147,8 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
             if (typeof e === 'string') {
                 errorMessage = e;
             } else if (typeof e === 'object') {
-                if (e.message) {
-                    errorMessage = e.message;
+                if ((e as any).message) {
+                    errorMessage = (e as any).message;
                 } else {
                     errorMessage = JSON.stringify(e);
                 }
@@ -242,7 +243,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                                                 }}
                                                 ref={(input) => { maskedTextInput = input }}
                                                 className={style.maskedInput}
-                                                min={0}
+                                                min={minCapsToSwap}
                                                 max={maxCapsToSwap}
                                                 onFocus={(e) => {
                                                     setIsCapsInputFocused(true)
@@ -277,7 +278,7 @@ const HomeConnected: React.FC<HomeConnectedProps> = () => {
                             </div>
                         </div>
                         <div className={style.minMaxContainer}>
-                            {`${formatCaps(maxCapsToSwap)} CAPS max`}
+                            {`${formatCaps(minCapsToSwap)} CAPS min - ${formatCaps(maxCapsToSwap)} CAPS max`}
                         </div>
                     </div>
                     <div className={"pt-5"}>
